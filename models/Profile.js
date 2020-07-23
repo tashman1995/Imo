@@ -21,17 +21,17 @@ const ProfileSchema = new mongoose.Schema({
   },
   // What they shoot
   subjects: {
-    type: String,
+    type: [String],
     required: true,
   },
   bio: {
     type: String,
   },
-  gear: {
+  equipment: {
     type: [String],
   },
 
-  professionalExperience: [
+  profExp: [
     {
       title: {
         type: String,
@@ -40,9 +40,15 @@ const ProfileSchema = new mongoose.Schema({
       description: {
         type: String,
       },
-      date: {
+      from: {
         type: Date,
         required: true,
+      },
+      to: {
+        type: Date,
+      },
+      current: {
+        type: Boolean
       },
       paid: {
         type: Boolean,
@@ -73,6 +79,8 @@ const ProfileSchema = new mongoose.Schema({
       current: {
         type: Boolean,
         default: false,
+        required: true
+
       },
       description: {
         type: String,
