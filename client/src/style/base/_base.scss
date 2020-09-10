@@ -1,0 +1,63 @@
+// RESPONSIVE BREAKPOINTS
+$bp-largest: 75em; // 1200 / 16
+$bp-large: 62.5em; // 1000px
+$bp-medium: 50em; // 800px
+$bp-small: 37.5em; // 600px
+// GLOBAL RESET
+
+* {
+  margin: 0;
+  padding: 0;
+}
+
+*,
+::after,
+::before {
+  box-sizing: inherit;
+}
+
+html {
+  box-sizing: border-box;
+  font-size: 62.5%; //1rem is 10px
+
+  @media only screen and (max-width: $bp-largest) {
+    font-size: 50%;
+  }
+}
+
+body {
+  font-family: $font-family;
+  width: 100vw;
+  overflow-x: hidden;
+
+  // UL RESET
+  ul,
+  ul li,
+  ul ul li {
+    margin: 0;
+    padding: 0;
+    text-indent: 0;
+    list-style-type: none;
+  }
+}
+
+// Button Reset
+button {
+  display: inline-block;
+  border: none;
+  // padding: 1rem 2rem;
+  margin: 0;
+  text-decoration: none;
+  // background: #777777;
+  background-color: transparent;
+  // color: #ffffff;
+  font-size: 1rem;
+  cursor: pointer;
+  text-align: center;
+  transition: all 250ms ease-in-out;
+
+  -webkit-appearance: none;
+  -moz-appearance: none;
+}
+
+

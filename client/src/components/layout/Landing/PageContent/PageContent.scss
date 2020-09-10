@@ -1,0 +1,52 @@
+@import "../../../../style/main.scss";
+
+.main-content {
+  position: absolute;
+  top: 0;
+  width: 100%;
+  overflow: hidden;
+  min-height: 100vh;
+  z-index: 200;
+}
+
+.secondary-text {
+  @include center;
+  flex-direction: column;
+  z-index: 201;
+  margin-top: 49vh;
+
+  & p,
+  h2 {
+    z-index: 201;
+    width: 50vw;
+    text-align: center;
+  }
+
+  &__buttons {
+    z-index: 201;
+    display: flex;
+    width: 35vw;
+    justify-content: space-evenly;
+    margin-bottom: 2rem;
+  }
+
+  &__heading {
+    font-size: 2.8rem;
+    color: $color-black;
+    font-weight: 300;
+    line-height: 1.6;    
+  }
+}
+
+.title {
+  position: absolute;
+  top: 0;
+  width: 100vw;
+  height: 100vh;
+  overflow: hidden;
+  @include center;
+
+  &__image {
+    width: 5000vw;
+  }
+}

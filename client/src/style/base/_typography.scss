@@ -1,0 +1,52 @@
+
+$font-weight-heading: 800;
+
+$font-size-largest: 14rem;
+$font-size-large: 4rem;
+$font-size-medium: 3rem;
+$font-size-small: 1.6rem;
+$font-size-smaller: 1.3rem;
+
+.subtitle {
+  font-size: $font-size-medium;
+  color: $color-white;
+  font-weight: 300;
+  line-height: 1.6;
+
+  &--black {
+    color: $color-black;
+  }
+}
+
+.heading-primary {
+  font-size: 3.5rem;
+  font-weight: 200;
+
+
+}
+
+.heading-secondary {
+  font-size: 2rem;
+  font-weight: 500;
+  &--white {
+    color: $color-white;
+  }
+  &--black {
+    color: $color-black;
+  }
+}
+
+.heading-tertiary {
+ font-size: 1.8rem;
+ font-weight: 200;
+}
+
+.paragraph {
+  font-size: 1.6rem;
+  line-height: 1.4;
+  font-weight: 200;
+}
+.subtext {
+  font-size: 1.4rem;
+  font-weight: 200;
+}

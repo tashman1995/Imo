@@ -1,0 +1,52 @@
+@import "../../../style/main.scss";
+
+.image-slider {
+  width: 100%;
+  overflow: hidden;
+  @include center;
+  // flex-direction: column;
+
+  z-index: 203;
+
+  &__container {
+    width: 100%;
+    display: grid;
+    grid-template-columns: repeat(4, [col-start] min-content [col-end]);
+    grid-gap: 2vw;
+    padding: 2vw 2vw;
+    justify-content: center;
+    pointer-events: none;
+
+    & > * {
+      pointer-events: auto;
+    }
+
+    &:hover > .image-slider__image-container {
+      opacity: 0.5 !important;
+      transform: scale(.98) !important;
+      
+    }
+
+    &:hover > *:hover {
+      opacity: 1 !important;
+      transform: scale(1) !important;
+    }
+  }
+
+  &__image-container {
+    transition: all .2s;
+    width: 21vw;
+    height: 28vw;
+  }
+}
+
+// .infinite-scroll-component {
+//   // width: 100%;
+//   display: flex;
+//   flex-direction: column;
+//   align-items: center;
+
+//   &__outerdiv {
+//     width: 100%;
+//   }
+// }

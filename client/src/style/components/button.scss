@@ -1,0 +1,72 @@
+.btn {
+  &,
+  &:link,
+  &:visited {
+    cursor: pointer;
+    border-radius: $border-radius;
+    background-color: $color-primary;
+    padding: 1.6rem 2.8rem;
+    width: 20rem;
+    font-size: $font-size-small;
+    letter-spacing: 1px;
+    font-weight: 700;
+    color: $color-white;
+    text-align: center;
+    text-decoration: inherit;
+    border: none;
+
+    transition: all 150ms ease-in-out;
+
+    -webkit-box-shadow: 0px 0px 0px 0px rgba(0, 0, 0, 0);
+    -moz-box-shadow: 0px 0px 0px 0px rgba(0, 0, 0, 0);
+    box-shadow: 0px 0px 0px 0px rgba(0, 0, 0, 0);
+  }
+
+  &:hover,
+  &:focus {
+    border: none;
+    outline: none;
+    transform: scale(1.02) translateY(-2px);
+    -webkit-box-shadow: 0px 6px 8px -4px rgba(0, 0, 0, 0.5);
+    -moz-box-shadow: 0px 6px 8px -4px rgba(0, 0, 0, 0.5);
+    box-shadow: 0px 6px 8px -4px rgba(0, 0, 0, 0.5);
+  }
+
+  &:active,
+  &:focus {
+    border: none;
+    outline: none;
+    transform: translateY(-0.1rem);
+    -webkit-box-shadow: 0px 2px 8px -4px rgba(0, 0, 0, 0.5);
+    -moz-box-shadow: 0px 2px 8px -4px rgba(0, 0, 0, 0.5);
+    box-shadow: 0px 2px 8px -4px rgba(0, 0, 0, 0.5);
+  }
+
+  &--full-width {
+    width: 100%;
+  }
+
+  &--table {
+    background-color: $color-white;
+    font-size: 1.4rem;
+    color: rgba($color-black,.5);
+    padding: 1rem 1.2rem;
+    width: max-content;
+    border-radius: $border-radius;
+
+    &:hover, &:focus {
+      color: rgba($color-black,.8);
+      transform: translateY(0rem);
+      -webkit-box-shadow: 0px 0px 0px -0px rgba(0, 0, 0, 0);
+      -moz-box-shadow: 0px 0px 0px -0px rgba(0, 0, 0, 0);
+      box-shadow: 0px 0px 0px -0px rgba(0, 0, 0, 0);
+
+    }
+
+    & i {
+      margin-right: .5rem;
+    }
+    
+
+  }
+}

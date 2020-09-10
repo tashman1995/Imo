@@ -1,0 +1,32 @@
+@import "../../../../style/main.scss";
+.backdrop {
+  position: absolute;
+  top: 0;
+  z-index: 0;
+  width: 100vw;
+  height: 100vh;
+  overflow: hidden;
+  @include center;
+
+  &__image {
+    object-fit: cover;
+    width: 50%;
+    height: 50%;
+    filter: brightness(0.7);
+  }
+
+  &__covers {
+    position: absolute;
+    bottom: 0;
+    width: 100%;
+    height: 100vh;
+    display: flex;
+    transform: rotate(180deg) ;
+  }
+
+  &__cover {
+    background-color: $color-black;
+    height: 100%;
+    width: 100%;
+  }
+}

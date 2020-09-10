@@ -1,0 +1,107 @@
+@import "../../style/main.scss";
+@import "../../style/components/button.scss";
+
+
+.dash {
+  grid-template-rows: [row-start]min-content [row-middle] min-content [row-end];
+  grid-gap: 4rem;
+}
+
+.user-info {
+  background-color: $color-primary-light;
+  grid-column: center-start / col-start 5;
+  grid-row: row-start / row-end;
+  border-radius: $border-radius;
+  padding: 2rem;
+
+  &__into {
+    margin-top: 4rem;
+  }
+
+  &__table {
+    background-color: rgba($color-primary, 0.025);
+    width: 101%;
+  }
+}
+
+$horizontal-padding: 5rem;
+
+.user-education {
+  background-color: $color-primary-light;
+  grid-column: col-start 5 / center-end;
+  grid-row: row-start / row-middle;
+  border-radius: $border-radius;
+  overflow: hidden;
+
+
+  &__heading {
+    padding: 1.8rem $horizontal-padding;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+  }
+
+  &__table {
+    background-color: $color-primary-lighter;
+    padding: 2rem $horizontal-padding;
+    width: 100.1%;
+    border-radius: $border-radius;
+    border-collapse: collapse;
+
+    & tbody {
+        & tr {
+            &:nth-child(odd) {
+                background-color: $color-primary-lightest;
+            }
+        }
+    }
+
+    & tr {
+      padding: 1.5rem $horizontal-padding;
+
+      &:not(:last-of-type) {
+        border-bottom: 1px solid rgba($color-black, 0.045);
+      }
+    }
+
+    & th {
+      text-align: left;
+      font-size: 1.4rem;
+      font-weight: 500;
+      padding: 2rem 1rem;
+      opacity: 50%;
+      border-bottom: 1px solid rgba($color-black, 0.045);
+
+      &:first-of-type {
+        padding-left: $horizontal-padding;
+      }
+    }
+
+    & td {
+      text-align: left;
+      font-size: 1.4rem;
+      font-weight: 300;
+      padding: 1.5rem 1rem;
+
+      &:first-of-type {
+        font-weight: 500;
+        padding-left: $horizontal-padding;
+      }
+
+      &:last-of-type {
+          width: 15rem;
+          text-align: center;
+          padding-right:  $horizontal-padding;
+      }
+    }
+  }
+}
+
+.user-experience { 
+
+  background-color: $color-primary-light;
+  grid-column: col-start 5 / center-end;
+  grid-row: row-middle / row-end;
+  border-radius: $border-radius;
+  overflow: hidden;
+}
