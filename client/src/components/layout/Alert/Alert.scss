@@ -1,0 +1,11 @@
+@import "../../../style/main.scss";
+
+.alert {
+  position: absolute;
+  margin-top: 0.2rem;
+  font-size: $font-size-smaller;
+
+  &--danger {
+    color: $color-danger-dark;
+  }
+}

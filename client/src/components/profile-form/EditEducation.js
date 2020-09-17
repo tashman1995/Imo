@@ -1,16 +1,18 @@
-import React, { Fragment, useState } from "react";
-import { Link, withRouter } from "react-router-dom";
+import React, { Fragment, useState, useEffect } from "react";
 import PropTypes from "prop-types";
 import { connect } from "react-redux";
-import { animated, useTransition } from "react-spring";
-import { addEducation } from "../../actions/profile";
+import { editEducation, deleteEducation, getCurrentProfile } from "../../actions/profile";
 import "./profile-form.scss";
-import { Transition } from "react-spring/renderprops";
+import moment from "moment";
 
-const AddEducation = ({
-  addEducation,
+const EditEducation = ({
+  editEducation,
+  deleteEducation,
   history,
-  closeAddEduModal,
+  closeEditEduModal,
+  getCurrentProfile,
+  educationId,
+  profile: { profile, loading },
 }) => {
   const [formData, setFormData] = useState({
     title: "",
@@ -21,10 +23,49 @@ const AddEducation = ({
     description: "",
   });
 
-  const [toDateDisabled, toggleDisabled] = useState(false);
+  
+
+  useEffect(() => {
+    getCurrentProfile();
+    const editIndex = profile.education
+      .map((item) => item._id)
+      .indexOf(educationId);
+    console.log(editIndex);
+    setFormData({
+      title:
+        loading || !profile.education[editIndex].title
+          ? ""
+          : profile.education[editIndex].title,
+      location:
+        loading || !profile.education[editIndex].location
+          ? ""
+          : profile.education[editIndex].location,
+      from:
+        loading || !profile.education[editIndex].from
+          ? ""
+          : moment(profile.education[editIndex].from).format("yyyy-MM-DD"),
+
+      to:
+        loading || !profile.education[editIndex].to
+          ? ""
+          : moment(profile.education[editIndex].to).format("yyyy-MM-DD"),
+
+      current:
+        loading || !profile.education[editIndex].current
+          ? ""
+          : profile.education[editIndex].current,
+      description:
+        loading || !profile.education[editIndex].current
+          ? ""
+          : profile.education[editIndex].current,
+    });
+  }, [loading]);
 
   const { title, location, description, from, to, current } = formData;
 
+ 
+  const [toDateDisabled, toggleDisabled] = useState(current);
+ 
   const onChange = (e) =>
     setFormData({ ...formData, [e.target.name]: e.target.value });
 
@@ -34,14 +75,14 @@ const AddEducation = ({
         <div className="modal__container modal__container--50">
           <div className="modal__close">
             <button
-              onClick={closeAddEduModal}
+              onClick={closeEditEduModal}
               className="modal__close-icon fa fa-times"
               aria-hidden="true"
             ></button>
           </div>
           <div className="modal__headings">
             <h2 className="heading-secondary u-margin-bottom-xsmall">
-              Add Education
+              Edit Education
             </h2>
             <h3 className="heading-tertiary u-margin-bottom-xsmall">
               Add any school, course, etc that you have attended
@@ -52,8 +93,8 @@ const AddEducation = ({
           <form
             onSubmit={(e) => {
               e.preventDefault();
-              addEducation(formData, history);
-              closeAddEduModal();
+              editEducation(formData, history, educationId);
+              closeEditEduModal();
             }}
             className="input-form"
           >
@@ -95,7 +136,6 @@ const AddEducation = ({
                 <input
                   className="input-form__input"
                   type="date"
-                  placeholder="University or School name"
                   onChange={(e) => onChange(e)}
                   value={from}
                   name="from"
@@ -114,9 +154,8 @@ const AddEducation = ({
                 <input
                   className="input-form__input"
                   type="date"
-                  placeholder="University or School name"
                   onChange={(e) => onChange(e)}
-                  disabled={toDateDisabled ? "disabled" : ""}
+                  disabled={current ? true : ""}
                   value={to}
                   name="to"
                   required
@@ -138,7 +177,7 @@ const AddEducation = ({
                     checked={current}
                     onChange={(e) => {
                       setFormData({ ...formData, current: !current });
-                      toggleDisabled(!toDateDisabled);
+                      // toggleDisabled(current);
                     }}
                   />
                   <span className="checkbox__custom checkbox-custom"></span>
@@ -161,7 +200,14 @@ const AddEducation = ({
                 required
               ></textarea>
             </div>
+            <div className="input-form__row">
             <input type="submit" className="btn btn--full-width" />
+            <button type="button" onClick={() => {
+              deleteEducation(educationId);
+              closeEditEduModal();
+            } } className="btn btn--delete input-form__delete-btn" >Delete</button>
+            </div>
+            
           </form>
         </div>
       </div>
@@ -170,8 +216,17 @@ const AddEducation = ({
   );
 };
 
-AddEducation.propTypes = {
-  addEducation: PropTypes.func.isRequired,
+EditEducation.propTypes = {
+  editEducation: PropTypes.func.isRequired,
+  deleteEducation: PropTypes.func.isRequired,
+  getCurrentProfile: PropTypes.func.isRequired,
+  profile: PropTypes.object.isRequired,
 };
 
-export default connect(null, { addEducation })(AddEducation);
+const mapStateToProps = (state) => ({
+  profile: state.profile,
+});
+
+export default connect(mapStateToProps, { editEducation ,deleteEducation,  getCurrentProfile })(
+  EditEducation
+);

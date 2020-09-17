@@ -3,7 +3,8 @@ import { Link, Redirect } from "react-router-dom";
 import { connect } from "react-redux";
 import PropTypes from "prop-types";
 import { login } from "../../actions/auth";
-import NavBar from '../layout/Navbar'
+import Alert from "../layout/Alert";
+
 
 import "./auth.scss";
 import Navbar from "../layout/Navbar";
@@ -46,8 +47,9 @@ const Login = ({ login, isAuthenticated }) => {
                   onChange={(e) => onChange(e)}
                   value={email}
                   name="email"
-                  required
+                  // required
                 />
+                <Alert param="email"/>
               </div>
               <div className="auth-form__group u-margin-bottom-medium">
                 <label  className="auth-form__label" htmlFor="password">Password</label>
@@ -59,8 +61,9 @@ const Login = ({ login, isAuthenticated }) => {
                   minLength="6"
                   onChange={(e) => onChange(e)}
                   value={password}
-                  required
+                  // required
                 />
+                  <Alert param="password"/>
               </div>
               <input type="submit" className="btn btn--full-width u-margin-bottom-medium" value="Login" />
               <p className="auth-form__paragraph">Don't have an account?                 <Link to={"/register"} className="auth-form__paragraph--link">

@@ -1,12 +1,14 @@
 import React, { Fragment, useState } from "react";
 import { connect } from "react-redux";
 import { Link, Redirect } from "react-router-dom";
-import { setAlert } from "../../actions/alert";
+import { setAlert, clearAlerts } from "../../actions/alert";
 import { register } from "../../actions/auth";
-import Navbar from '../layout/Navbar'
+import Alert from "../layout/Alert";
+import Navbar from "../layout/Navbar";
 import PropTypes from "prop-types";
+import { useEffect } from "react";
 
-const Register = ({ setAlert, register, isAuthenticated }) => {
+const Register = ({ setAlert, clearAlerts, register, isAuthenticated }) => {
   const [formData, setFormData] = useState({
     name: "",
     email: "",
@@ -14,6 +16,7 @@ const Register = ({ setAlert, register, isAuthenticated }) => {
     password2: "",
   });
 
+  
   const { name, email, password, password2 } = formData;
 
   const onChange = (e) =>
@@ -21,13 +24,19 @@ const Register = ({ setAlert, register, isAuthenticated }) => {
 
   const onSubmit = async (e) => {
     e.preventDefault();
-    if (password !== password2) {
-      // This passes that message to actions, which generates ID and dispatches the alert
-      setAlert("Passwords do not match", "danger");
-    } else {
-      register({ name, email, password });
-    }
+    // if (password !== password2) {
+    //   // This passes that message to actions, which generates ID and dispatches the alert
+    //   setAlert("Passwords do not match", "danger", "password");
+    // } else {
+    //   register({ name, email, password, password2 });
+    // }
+    register({ name, email, password, password2 });
   };
+
+  // useEffect(() => {
+  //   console.log('useeffect')
+  //   clearAlerts()
+  // }, [])
 
   // Redirect if logged in
   if (isAuthenticated) {
@@ -36,7 +45,7 @@ const Register = ({ setAlert, register, isAuthenticated }) => {
 
   return (
     <Fragment>
-      <Navbar stage="2" noLinks={true}/>
+      <Navbar stage="2" noLinks={true} />
       <div className="login">
         <div className="login__left">
           <div className="login__form">
@@ -57,6 +66,7 @@ const Register = ({ setAlert, register, isAuthenticated }) => {
                   value={name}
                   // required
                 />
+                <Alert param="name" />
               </div>
               <div className="auth-form__group u-margin-bottom-medium">
                 <label className="auth-form__label" htmlFor="email">
@@ -69,8 +79,10 @@ const Register = ({ setAlert, register, isAuthenticated }) => {
                   onChange={(e) => onChange(e)}
                   value={email}
                   name="email"
-                  required
+
+                  // required
                 />
+                <Alert param="email" />
               </div>
 
               <div className="auth-form__group u-margin-bottom-medium">
@@ -87,6 +99,7 @@ const Register = ({ setAlert, register, isAuthenticated }) => {
                   value={password}
                   // required
                 />
+                <Alert param="password" />
               </div>
               <div className="auth-form__group u-margin-bottom-medium">
                 <label className="auth-form__label" htmlFor="password">
@@ -102,6 +115,7 @@ const Register = ({ setAlert, register, isAuthenticated }) => {
                   value={password2}
                   // required
                 />
+                <Alert param="password2" />
               </div>
               <input
                 type="submit"
@@ -144,4 +158,3 @@ const mapStateToProps = (state) => ({
 });
 
 export default connect(mapStateToProps, { setAlert, register })(Register);
-

@@ -148,29 +148,6 @@ const Landing = ({ isAuthenticated }) => {
     ref: fadeInAndUpRef2,
   });
 
-  // const fadeInRef = useRef();
-  // const fadeIn = useSpring({
-  //   from: {
-  //     opacity: "0",
-  //   },
-  //   to: {
-  //     opacity: "1",
-  //   },
-  //   ref: fadeInRef,
-  // });
-
-  // const slideDownRef = useRef();
-  // const slideDown = useSpring({
-  //   from: {
-  //     opacity: "0",
-  //     transform: "translateY(100%)",
-  //   },
-  //   to: {
-  //     opacity: "1",
-  //     transform: "translateY(0%)",
-  //   },
-  //   ref: slideDownRef,
-  // });
   const imageGridAnimRef = useRef();
   const [images] = useState(imagesArr);
   const imageGridAnim = useTransition(images, (image) => image.url, {

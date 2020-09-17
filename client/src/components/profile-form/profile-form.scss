@@ -3,20 +3,22 @@
 
 .modal {
   
-  position: absolute;
-  top: 0;
-  width: 100vw;
-  height: 100vh;
+  // position: absolute;
+  // top: 0;
+  // width: 100vw;
+  // height: 100vh;
 
-  @include center;
+  
+
+  // @include center;
 
   &__backdrop {
     position: absolute;
     top: 0;
     width: 100vw;
     height: 100vh;
-    -webkit-backdrop-filter: blur(10px);
-    backdrop-filter: blur(10px);
+    // -webkit-backdrop-filter: blur(10px);
+    // backdrop-filter: blur(10px);
     background-color: rgba($color: $color-black, $alpha: 0.4);
     z-index: 1000;
   }
@@ -31,7 +33,7 @@
     
 
     &--50 {
-      width: 50%;
+      width: 50vw;
     }
   }
 
@@ -117,6 +119,8 @@
       opacity: 50%;
     }
 
+ 
+
     &--text-area {
         background-color: $color-primary-lightest;
         border-radius: $border-radius;
@@ -143,6 +147,10 @@
         text-decoration: underline;
       }
     }
+  }
+
+  &__delete-btn {
+    margin-left: 2rem;
   }
 }
 

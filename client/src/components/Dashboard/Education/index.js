@@ -1,14 +1,18 @@
-import React, { Fragment } from "react";
+import React, { Fragment, useState } from "react";
 import PropTypes from "prop-types";
 import Moment from "react-moment";
 import { connect } from "react-redux";
 import { deleteEducation } from "../../../actions/profile";
+import EditEducation from "../../profile-form/EditEducation";
+import { animated, useTransition } from "react-spring";
+import { CenterModal } from "react-spring-modal";
 
 const Education = ({ education, deleteEducation, openAddEduModal }) => {
+
   const educations = education.map((edu) => (
     <tr key={edu._id}>
       <td>{edu.title}</td>
-      <td>{edu.location}n</td>
+      <td>{edu.location}</td>
       <td>
         <Moment format="YYYY/MM">{edu.from}</Moment>
       </td>
@@ -17,11 +21,30 @@ const Education = ({ education, deleteEducation, openAddEduModal }) => {
         {edu.to === null ? " Now" : <Moment format="YYYY/MM">{edu.to}</Moment>}
       </td>
       <td>
-        <button className="btn btn--table">Edit</button>
+        <button className="btn btn--table" onClick={() => openEditEduModal(edu._id)}>Edit</button>
         {/* <button onClick={() => deleteEducation(edu.id)}>Delete</button> */}
       </td>
     </tr>
   ));
+
+  const openEditEduModal = (id) => {
+    setEditEducationId(id);
+    setEditEduOpen(true);
+  };
+
+  const [editEduOpen, setEditEduOpen] = useState(false);
+  const [editEducationId, setEditEducationId] = useState('');
+
+  const closeEditEduModal = () => {
+    setEditEduOpen(false);
+  };
+
+  const fade = useTransition(editEduOpen, null, {
+    from: { opacity: 0 },
+    enter: { opacity: 1 },
+    leave: { opacity: 0 },
+  });
+
   return (
     <Fragment>
       <div className="user-education">
@@ -42,11 +65,23 @@ const Education = ({ education, deleteEducation, openAddEduModal }) => {
               <th></th>
             </tr>
           </thead>
-          <tbody>
-           {educations}
-          </tbody>
+          <tbody>{educations}</tbody>
         </table>
       </div>
+
+      <CenterModal
+        isOpen={editEduOpen}
+        onRequestClose={() => setEditEduOpen(false)}
+      >
+        {fade.map(
+          ({ item, key, props }) =>
+            item && (
+              <animated.div key={key} style={props}>
+                <EditEducation educationId = {editEducationId} closeEditEduModal={closeEditEduModal} />
+              </animated.div>
+            )
+        )}
+      </CenterModal>
     </Fragment>
   );
 };

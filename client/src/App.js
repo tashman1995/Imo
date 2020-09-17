@@ -11,6 +11,7 @@ import EditProfile from "./components/profile-form/EditProfile";
 import AddEducation from "./components/profile-form/AddEducation";
 import AddExperience from "./components/profile-form/AddExperience";
 import PrivateRoute from "./components/routing/PrivateRoute";
+import { setAlert, clearAlerts } from "./actions/alert";
 
 import { loadUser } from "./actions/auth";
 import setAuthToken from "./utils/setAuthToken";
@@ -29,6 +30,7 @@ if (localStorage.token) {
 const App = () => {
   // Empty set of brackets ensures this only loads once
   useEffect(() => {
+    clearAlerts()
     store.dispatch(loadUser());
   }, []);
 
@@ -39,7 +41,7 @@ const App = () => {
           {/* <Navbar /> */}
           <Route exact path="/" component={Landing} />
           <section className="container">
-            <Alert />
+            
             <Switch>
               <Route exact path="/register" component={Register} />
               <Route exact path="/login" component={Login} />
@@ -63,7 +65,7 @@ const App = () => {
                 exact
                 path="/add-education"
                 component={AddEducation} */}
-              />
+              {/* /> */}
             </Switch>
           </section>
         </Fragment>

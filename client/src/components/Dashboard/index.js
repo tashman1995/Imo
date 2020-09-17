@@ -8,7 +8,10 @@ import Navbar from "../layout/Navbar";
 import DashboardActions from "./DashboardActions";
 import Experience from "./Experience";
 import Education from "./Education";
+import { animated, useTransition } from "react-spring";
 import AddEducation from "../profile-form/AddEducation";
+import { CenterModal } from "react-spring-modal";
+import "react-spring-modal/dist/index.css";
 import "./Dashboard.scss";
 
 const Dashboard = ({
@@ -23,7 +26,6 @@ const Dashboard = ({
 
   // Add Education Modal
   const [addEduOpen, setEduOpen] = useState(false);
-  const outside = useRef();
 
   const openAddEduModal = () => {
     setEduOpen(true);
@@ -32,18 +34,35 @@ const Dashboard = ({
     setEduOpen(false);
   };
 
+  const fade = useTransition(addEduOpen, null, {
+    from: { opacity: 0 },
+    enter: { opacity: 1 },
+    leave: { opacity: 0 },
+  });
+
   return loading && profile === null ? (
     <Spinner />
   ) : (
-    <Fragment ref={outside}>
+    <Fragment>
       <Navbar stage="2" />
       <Fragment>
         <div className="u-grid dash">
           {profile !== null ? (
             <Fragment>
-              {addEduOpen && (
-                <AddEducation closeAddEduModal={closeAddEduModal} />
-              )}
+              <CenterModal
+                isOpen={addEduOpen}
+                onRequestClose={() => setEduOpen(false)}
+              >
+                {fade.map(
+                  ({ item, key, props }) =>
+                    item && (
+                      <animated.div key={key} style={props}>
+                        <AddEducation closeAddEduModal={closeAddEduModal} />
+                      </animated.div>
+                    )
+                )}
+              </CenterModal>
+        
 
               <div className="user-info">
                 <div className="user-info__intro">

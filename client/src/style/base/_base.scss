@@ -58,6 +58,11 @@ button {
 
   -webkit-appearance: none;
   -moz-appearance: none;
+
+  &:focus {
+    border: none;
+    outline: none;
+  }
 }
 
 

@@ -51,7 +51,7 @@ router.post(
         // Imitating error format provided by express validator
         return res
           .status(400)
-          .json({ errors: [{ msg: "Invalid Credentials" }] });
+          .json({ errors: [{ msg: "Invalid Credentials", param: "password" }] });
       }
 
       // Ensure password matches, password is plain text password inserted by user, user.password is from DB and is decrypted by bcrypt
@@ -60,7 +60,7 @@ router.post(
       if (!isMatch) {
         return res
           .status(400)
-          .json({ errors: [{ msg: "Invalid Credentials" }] });
+          .json({ errors: [{ msg: "Invalid Credentials", param: "password" }] });
       }
 
       const payload = {

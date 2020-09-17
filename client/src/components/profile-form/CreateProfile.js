@@ -46,6 +46,10 @@ const CreateProfile = ({ createProfile, history }) => {
   };
   return (
     <Fragment>
+      <div className="modal">
+
+      </div>
+      
       <h1 className="large text-primary">Create Your Profile</h1>
       <h1 className="large text-primary">Create Your Profile</h1>
       <h1 className="large text-primary">Create Your Profile</h1>

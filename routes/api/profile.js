@@ -180,11 +180,12 @@ router.put(
     [
       check("title", "Title is required").not().isEmpty(),
       check("from", "From Date is required").not().isEmpty(),
+      
       check("current", "Experience Status Required").not().isEmpty(),
     ],
   ],
   async (req, res) => {
-    console.log("run");
+    
     const errors = validationResult(req);
     if (!errors.isEmpty()) {
       return res.status(400).json({ errors: errors.array() });
@@ -244,6 +245,11 @@ router.put(
       check("title", "Title is required").not().isEmpty(),
       check("location", "Location is required").not().isEmpty(),
       check("from", "From Date is required").not().isEmpty(),
+      check("to").custom((to, { req }) => {
+        if (req.body.from >= to) {
+          throw new Error("Start date of project must be before end date");
+        }
+      }),
       check("current", "Education status required").not().isEmpty(),
     ],
   ],
@@ -266,8 +272,52 @@ router.put(
 
     try {
       const profile = await Profile.findOne({ user: req.user.id });
+      // CREATE
       profile.education.unshift(newEdu);
       await profile.save();
+      res.json(profile);
+    } catch (err) {
+      console.error(err.message);
+      res.status(500).send("Server Error");
+    }
+  }
+);
+
+// @route PUT api/profile/education/:edu_id
+// @desc edit education from profile
+// @access Private
+router.put(
+  "/education/:edu_id",
+  auth,
+  [
+    check("title", "Title is required").not().isEmpty(),
+    check("location", "Location is required").not().isEmpty(),
+    check("from", "From Date is required").not().isEmpty(),
+    check("current", "Education status required").not().isEmpty(),
+  ],
+  async (req, res) => {
+    const { title, location, from, to, current, description } = req.body;
+    const educationFields = {};
+    if (title) educationFields.title = title;
+    if (location) educationFields.location = location;
+    if (from) educationFields.from = from;
+    if (to) educationFields.to = to;
+    if (current) educationFields.current = current;
+    if (description) educationFields.description = description;
+    try {
+      const profile = await Profile.findOne({ user: req.user.id });
+      // Get remove index, map through aducation getting the id's of each experiene, then selecting the index of the id that matches the id from the request
+      const editIndex = profile.education
+        .map((item) => item.id)
+        .indexOf(req.params.edu_id);
+      const editedEducation = Object.assign(
+        profile.education[editIndex],
+        educationFields
+      );
+      profile.education[editIndex] = editedEducation;
+
+      await profile.save();
+
       res.json(profile);
     } catch (err) {
       console.error(err.message);
