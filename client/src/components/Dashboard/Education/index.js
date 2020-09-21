@@ -10,7 +10,7 @@ import { CenterModal } from "react-spring-modal";
 const Education = ({ education, deleteEducation, openAddEduModal }) => {
 
   const educations = education.map((edu) => (
-    <tr key={edu._id}>
+    <tr className="user-education__name" key={edu._id}>
       <td>{edu.title}</td>
       <td>{edu.location}</td>
       <td>
@@ -18,7 +18,7 @@ const Education = ({ education, deleteEducation, openAddEduModal }) => {
       </td>
       <td>
         {" "}
-        {edu.to === null ? " Now" : <Moment format="YYYY/MM">{edu.to}</Moment>}
+        {edu.to === null ? "Current" : <Moment format="YYYY/MM">{edu.to}</Moment>}
       </td>
       <td>
         <button className="btn btn--table" onClick={() => openEditEduModal(edu._id)}>Edit</button>
@@ -43,6 +43,12 @@ const Education = ({ education, deleteEducation, openAddEduModal }) => {
     from: { opacity: 0 },
     enter: { opacity: 1 },
     leave: { opacity: 0 },
+  });
+
+  const educatu = useTransition(educations, education => education._id, {
+    from: { opacity: 0, height: "0px" },
+    enter: { opacity: 0,height: "100%" },
+    leave: { opacity: 0,height: "0px" },
   });
 
   return (

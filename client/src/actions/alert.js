@@ -23,9 +23,7 @@ export const setAlert = (
 };
 
 export const clearAlerts = () => (dispatch) => {
-  console.log('alerts removed')
   dispatch({
-    
     type: REMOVE_ALL_ALERTS,
   });
 };

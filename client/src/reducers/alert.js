@@ -10,6 +10,7 @@ export default function(state = initialState, action) {
             return state.filter(alert => alert.id !== payload);
         case REMOVE_ALL_ALERTS:
             return state = [];
+        
 
         default:
             return state;

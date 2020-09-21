@@ -1,14 +1,13 @@
 import React, { Fragment, useState } from "react";
 import { connect } from "react-redux";
 import { Link, Redirect } from "react-router-dom";
-import { setAlert, clearAlerts } from "../../actions/alert";
+import {  clearAlerts } from "../../actions/alert";
 import { register } from "../../actions/auth";
 import Alert from "../layout/Alert";
 import Navbar from "../layout/Navbar";
 import PropTypes from "prop-types";
-import { useEffect } from "react";
 
-const Register = ({ setAlert, clearAlerts, register, isAuthenticated }) => {
+const Register = ({  clearAlerts, register, isAuthenticated }) => {
   const [formData, setFormData] = useState({
     name: "",
     email: "",
@@ -16,6 +15,8 @@ const Register = ({ setAlert, clearAlerts, register, isAuthenticated }) => {
     password2: "",
   });
 
+
+  clearAlerts()
   
   const { name, email, password, password2 } = formData;
 
@@ -24,19 +25,9 @@ const Register = ({ setAlert, clearAlerts, register, isAuthenticated }) => {
 
   const onSubmit = async (e) => {
     e.preventDefault();
-    // if (password !== password2) {
-    //   // This passes that message to actions, which generates ID and dispatches the alert
-    //   setAlert("Passwords do not match", "danger", "password");
-    // } else {
-    //   register({ name, email, password, password2 });
-    // }
+
     register({ name, email, password, password2 });
   };
-
-  // useEffect(() => {
-  //   console.log('useeffect')
-  //   clearAlerts()
-  // }, [])
 
   // Redirect if logged in
   if (isAuthenticated) {
@@ -148,7 +139,7 @@ const Register = ({ setAlert, clearAlerts, register, isAuthenticated }) => {
 };
 
 Register.propTypes = {
-  setAlert: PropTypes.func.isRequired,
+  clearAlerts: PropTypes.func.isRequired,
   register: PropTypes.func.isRequired,
   isAuthenticated: PropTypes.bool,
 };
@@ -157,4 +148,4 @@ const mapStateToProps = (state) => ({
   isAuthenticated: state.auth.isAuthenticated,
 });
 
-export default connect(mapStateToProps, { setAlert, register })(Register);
+export default connect(mapStateToProps, { clearAlerts, register })(Register);

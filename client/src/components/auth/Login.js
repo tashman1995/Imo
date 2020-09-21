@@ -3,19 +3,21 @@ import { Link, Redirect } from "react-router-dom";
 import { connect } from "react-redux";
 import PropTypes from "prop-types";
 import { login } from "../../actions/auth";
+import { clearAlerts } from "../../actions/alert";
 import Alert from "../layout/Alert";
-
 
 import "./auth.scss";
 import Navbar from "../layout/Navbar";
 
-const Login = ({ login, isAuthenticated }) => {
+const Login = ({ login, isAuthenticated, clearAlerts }) => {
   const [formData, setFormData] = useState({
     email: "",
     password: "",
   });
 
   const { email, password } = formData;
+
+  clearAlerts();
 
   const onChange = (e) =>
     setFormData({ ...formData, [e.target.name]: e.target.value });
@@ -32,16 +34,20 @@ const Login = ({ login, isAuthenticated }) => {
 
   return (
     <Fragment>
-      <Navbar stage="2" noLinks={true}/>
+      <Navbar stage="2" noLinks={true} />
       <div className="login">
         <div className="login__left">
           <div className="login__form">
             <form className="auth-form" onSubmit={(e) => onSubmit(e)}>
-              <h1 className="auth-form__heading u-margin-bottom-medium">Login</h1>
+              <h1 className="auth-form__heading u-margin-bottom-medium">
+                Login
+              </h1>
               <div className="auth-form__group u-margin-bottom-medium">
-              <label className="auth-form__label" htmlFor="email">Email</label>
+                <label className="auth-form__label" htmlFor="email">
+                  Email
+                </label>
                 <input
-                className="auth-form__input"
+                  className="auth-form__input"
                   type="email"
                   placeholder="Email Address"
                   onChange={(e) => onChange(e)}
@@ -49,12 +55,14 @@ const Login = ({ login, isAuthenticated }) => {
                   name="email"
                   // required
                 />
-                <Alert param="email"/>
+                <Alert param="email" />
               </div>
               <div className="auth-form__group u-margin-bottom-medium">
-                <label  className="auth-form__label" htmlFor="password">Password</label>
+                <label className="auth-form__label" htmlFor="password">
+                  Password
+                </label>
                 <input
-                className="auth-form__input"
+                  className="auth-form__input"
                   type="password"
                   placeholder="Password"
                   name="password"
@@ -63,19 +71,30 @@ const Login = ({ login, isAuthenticated }) => {
                   value={password}
                   // required
                 />
-                  <Alert param="password"/>
+                <Alert param="password" />
               </div>
-              <input type="submit" className="btn btn--full-width u-margin-bottom-medium" value="Login" />
-              <p className="auth-form__paragraph">Don't have an account?                 <Link to={"/register"} className="auth-form__paragraph--link">
+              <input
+                type="submit"
+                className="btn btn--full-width u-margin-bottom-medium"
+                value="Login"
+              />
+              <p className="auth-form__paragraph">
+                Don't have an account?{" "}
+                <Link to={"/register"} className="auth-form__paragraph--link">
                   Sign Up Here
-                </Link></p>
+                </Link>
+              </p>
             </form>
           </div>
         </div>
         <div className="login__right">
           <div className="login__carousel">
             <div className="carousel">
-              <img src="/imgs/slider12.jpg" alt="" className="carousel__image"/>
+              <img
+                src="/imgs/slider12.jpg"
+                alt=""
+                className="carousel__image"
+              />
             </div>
           </div>
         </div>
@@ -85,6 +104,7 @@ const Login = ({ login, isAuthenticated }) => {
 };
 
 Login.propTypes = {
+  clearAlerts: PropTypes.func.isRequired,
   login: PropTypes.func.isRequired,
   isAuthenticated: PropTypes.bool,
 };
@@ -93,6 +113,4 @@ const mapStateToProps = (state) => ({
   isAuthenticated: state.auth.isAuthenticated,
 });
 
-export default connect(mapStateToProps, { login })(Login);
-
-
+export default connect(mapStateToProps, { clearAlerts, login })(Login);

@@ -171,7 +171,7 @@ router.delete("/", auth, async (req, res) => {
 });
 
 // @route PUT api/profile/profexp
-// @desc Add profile education
+// @desc Add profile experience
 // @access Private
 router.put(
   "/profexp",
@@ -180,12 +180,11 @@ router.put(
     [
       check("title", "Title is required").not().isEmpty(),
       check("from", "From Date is required").not().isEmpty(),
-      
+
       check("current", "Experience Status Required").not().isEmpty(),
     ],
   ],
   async (req, res) => {
-    
     const errors = validationResult(req);
     if (!errors.isEmpty()) {
       return res.status(400).json({ errors: errors.array() });
@@ -246,11 +245,27 @@ router.put(
       check("location", "Location is required").not().isEmpty(),
       check("from", "From Date is required").not().isEmpty(),
       check("to").custom((to, { req }) => {
-        if (req.body.from >= to) {
-          throw new Error("Start date of project must be before end date");
+        if (!req.body.current) {
+          if (req.body.from && req.body.from >= to) {
+            throw new Error("End date must be after start date");
+          } else if (to === "") {
+            throw new Error("End date required");
+          } else {
+            return true;
+          }
+        } else {
+          return true;
         }
       }),
       check("current", "Education status required").not().isEmpty(),
+      check("description", "Description is required")
+        .not()
+        .isEmpty()
+        .custom((description) => {
+          if (description.length < 20) {
+            throw new Error("Description must be over 20 characters long");
+          } else return true;
+        }),
     ],
   ],
   async (req, res) => {

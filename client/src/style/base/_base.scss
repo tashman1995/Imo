@@ -65,4 +65,13 @@ button {
   }
 }
 
+input[type="date"], input[type="time"] {
+  font-family: $font-family;
+}
+
+.ModalBackdrop {
+  z-index: 1001;
+  
+}
+
 

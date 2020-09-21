@@ -3,6 +3,7 @@ import { Link } from "react-router-dom";
 import PropTypes from "prop-types";
 import { connect } from "react-redux";
 import { getCurrentProfile, deleteAccount } from "../../actions/profile";
+import { openAddEduModal, closeAddEduModal } from "../../actions/modal";
 import Spinner from "../reausable/Loading";
 import Navbar from "../layout/Navbar";
 import DashboardActions from "./DashboardActions";
@@ -19,26 +20,30 @@ const Dashboard = ({
   deleteAccount,
   auth: { user },
   profile: { profile, loading },
+  modal: {addEduModal},
+  openAddEduModal,
+  closeAddEduModal
 }) => {
   useEffect(() => {
     getCurrentProfile();
   }, []);
 
   // Add Education Modal
-  const [addEduOpen, setEduOpen] = useState(false);
+  // const [addEduOpen, setEduOpen] = useState(false);
 
-  const openAddEduModal = () => {
-    setEduOpen(true);
-  };
-  const closeAddEduModal = () => {
-    setEduOpen(false);
-  };
+  // const openAddEduModal = () => {
+  //   setEduOpen(true);
+  // };
+  // const closeAddEduModal = () => {
+  //   setEduOpen(false);
+  // };
 
-  const fade = useTransition(addEduOpen, null, {
+  const fade = useTransition(openAddEduModal, null, {
     from: { opacity: 0 },
     enter: { opacity: 1 },
     leave: { opacity: 0 },
   });
+
 
   return loading && profile === null ? (
     <Spinner />
@@ -50,17 +55,22 @@ const Dashboard = ({
           {profile !== null ? (
             <Fragment>
               <CenterModal
-                isOpen={addEduOpen}
-                onRequestClose={() => setEduOpen(false)}
+                isOpen={addEduModal}
+                onRequestClose={closeAddEduModal}
               >
                 {fade.map(
                   ({ item, key, props }) =>
                     item && (
-                      <animated.div key={key} style={props}>
-                        <AddEducation closeAddEduModal={closeAddEduModal} />
+                      <animated.div 
+                        key={key}
+                         style={props}
+                         >
+                        <AddEducation 
+                        closeAddEduModal={closeAddEduModal} 
+                        />
                       </animated.div>
-                    )
-                )}
+                     ) 
+                )} 
               </CenterModal>
         
 
@@ -86,6 +96,7 @@ const Dashboard = ({
               <Education
                 education={profile.education}
                 openAddEduModal={openAddEduModal}
+               
               />
               <Experience experience={profile.profExp} />
             </Fragment>
@@ -163,16 +174,20 @@ const Dashboard = ({
 Dashboard.propTypes = {
   getCurrentProfile: PropTypes.func.isRequired,
   deleteAccount: PropTypes.func.isRequired,
+  openAddEduModal: PropTypes.func.isRequired,
+  closeAddEduModal: PropTypes.func.isRequired,
   auth: PropTypes.object.isRequired,
   profile: PropTypes.object.isRequired,
+  modal: PropTypes.object.isRequired,
 };
 
 const mapStateToProps = (state) => ({
   auth: state.auth,
   profile: state.profile,
+  modal: state.modal
 });
 
-export default connect(mapStateToProps, { getCurrentProfile, deleteAccount })(
+export default connect(mapStateToProps, { getCurrentProfile, deleteAccount, openAddEduModal, closeAddEduModal })(
   Dashboard
 );
 

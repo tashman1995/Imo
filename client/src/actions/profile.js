@@ -7,6 +7,7 @@ import {
   UPDATE_PROFILE,
   CLEAR_PROFILE,
   ACCOUNT_DELETED,
+  CLOSE_ADD_EDU_MODAL,
 } from "./types";
 
 // Get current users profile
@@ -51,9 +52,10 @@ export const createProfile = (formData, history, edit = false) => async (
   } catch (err) {
     const errors = err.response.data.errors;
 
-
     if (errors) {
-      errors.forEach((error) => dispatch(setAlert(error.msg, "danger", error.param)));
+      errors.forEach((error) =>
+        dispatch(setAlert(error.msg, "danger", error.param))
+      );
     }
     dispatch({
       type: PROFILE_ERROR,
@@ -84,11 +86,16 @@ export const addExperience = (formData, history, edit = false) => async (
     if (!edit) {
       history.push("/dashboard");
     }
+    dispatch({
+      type: CLOSE_ADD_EDU_MODAL,
+    });
   } catch (err) {
     const errors = err.response.data.errors;
 
     if (errors) {
-      errors.forEach((error) => dispatch(setAlert(error.msg, "danger")));
+      errors.forEach((error) =>
+        dispatch(setAlert(error.msg, "danger", error.param))
+      );
     }
     dispatch({
       type: PROFILE_ERROR,
@@ -114,37 +121,7 @@ export const deleteExperience = (id) => async (dispatch) => {
     });
   }
 };
-// // Add or edit Experience
-// export const addExperience = (formData, history) => async (dispatch) => {
-//   try {
-//     const config = {
-//       headers: {
-//         "Content-Type": "application/json",
-//       },
-//     };
 
-//     const res = await axios.put("/api/profile/profexp", formData, config);
-
-//     dispatch({
-//       type: UPDATE_PROFILE,
-//       payload: res.data,
-//     });
-
-//     dispatch(setAlert("Experience Added", "success"));
-
-//     history.push("/dashboard");
-//   } catch (err) {
-//     const errors = err.response.data.errors;
-
-//     if (errors) {
-//       errors.forEach((error) => dispatch(setAlert(error.msg, "danger")));
-//     }
-//     dispatch({
-//       type: PROFILE_ERROR,
-//       payload: { msg: err.response.statusText, status: err.response.status },
-//     });
-//   }
-// };
 
 // Add Education
 export const addEducation = (formData, history) => async (dispatch) => {
@@ -162,12 +139,18 @@ export const addEducation = (formData, history) => async (dispatch) => {
       payload: res.data,
     });
 
+    dispatch({
+      type: CLOSE_ADD_EDU_MODAL,
+    });
+
     dispatch(setAlert("Education Added", "success"));
   } catch (err) {
     const errors = err.response.data.errors;
 
     if (errors) {
-      errors.forEach((error) => dispatch(setAlert(error.msg, "danger")));
+      errors.forEach((error) =>
+        dispatch(setAlert(error.msg, "danger", error.param))
+      );
     }
     dispatch({
       type: PROFILE_ERROR,
@@ -176,19 +159,20 @@ export const addEducation = (formData, history) => async (dispatch) => {
   }
 };
 
-
-
 // Edit Education
 export const editEducation = (formData, history, id) => async (dispatch) => {
-  try {    
-
+  try {
     const config = {
       headers: {
         "Content-Type": "application/json",
       },
     };
 
-    const res = await axios.put(`/api/profile/education/${id}`, formData, config);
+    const res = await axios.put(
+      `/api/profile/education/${id}`,
+      formData,
+      config
+    );
     dispatch({
       type: UPDATE_PROFILE,
       payload: res.data,
@@ -237,3 +221,37 @@ export const deleteAccount = (id) => async (dispatch) => {
     }
   }
 };
+
+
+
+// // Add or edit Experience
+// export const addExperience = (formData, history) => async (dispatch) => {
+//   try {
+//     const config = {
+//       headers: {
+//         "Content-Type": "application/json",
+//       },
+//     };
+
+//     const res = await axios.put("/api/profile/profexp", formData, config);
+
+//     dispatch({
+//       type: UPDATE_PROFILE,
+//       payload: res.data,
+//     });
+
+//     dispatch(setAlert("Experience Added", "success"));
+
+//     history.push("/dashboard");
+//   } catch (err) {
+//     const errors = err.response.data.errors;
+
+//     if (errors) {
+//       errors.forEach((error) => dispatch(setAlert(error.msg, "danger")));
+//     }
+//     dispatch({
+//       type: PROFILE_ERROR,
+//       payload: { msg: err.response.statusText, status: err.response.status },
+//     });
+//   }
+// };

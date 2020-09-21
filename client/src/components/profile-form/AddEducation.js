@@ -1,16 +1,19 @@
 import React, { Fragment, useState } from "react";
-import { Link, withRouter } from "react-router-dom";
 import PropTypes from "prop-types";
 import { connect } from "react-redux";
-import { animated, useTransition } from "react-spring";
 import { addEducation } from "../../actions/profile";
 import "./profile-form.scss";
-import { Transition } from "react-spring/renderprops";
+import Alert from "../layout/Alert";
+import {  clearAlerts } from "../../actions/alert";
+import { useEffect } from "react";
+
 
 const AddEducation = ({
   addEducation,
   history,
   closeAddEduModal,
+  clearAlerts,
+  alerts
 }) => {
   const [formData, setFormData] = useState({
     title: "",
@@ -27,6 +30,10 @@ const AddEducation = ({
 
   const onChange = (e) =>
     setFormData({ ...formData, [e.target.name]: e.target.value });
+
+  useEffect(() => {
+    clearAlerts()
+  }, [])
 
   return (
     <Fragment>
@@ -52,8 +59,11 @@ const AddEducation = ({
           <form
             onSubmit={(e) => {
               e.preventDefault();
-              addEducation(formData, history);
-              closeAddEduModal();
+              clearAlerts()
+              addEducation(formData, history)
+              console.log(alerts)
+              
+              
             }}
             className="input-form"
           >
@@ -69,8 +79,9 @@ const AddEducation = ({
                   onChange={(e) => onChange(e)}
                   value={title}
                   name="title"
-                  required
+                  // required
                 />
+                <Alert param="title" />
               </div>
               <div className="input-form__group u-margin-bottom-medium">
                 <label className="input-form__label" htmlFor="location">
@@ -83,8 +94,9 @@ const AddEducation = ({
                   onChange={(e) => onChange(e)}
                   value={location}
                   name="location"
-                  required
+                  // required
                 />
+                <Alert param="location" />
               </div>
             </div>
             <div className="input-form__row">
@@ -99,8 +111,9 @@ const AddEducation = ({
                   onChange={(e) => onChange(e)}
                   value={from}
                   name="from"
-                  required
+                  // required
                 />
+                <Alert param="from" />
               </div>
 
               <div
@@ -119,8 +132,9 @@ const AddEducation = ({
                   disabled={toDateDisabled ? "disabled" : ""}
                   value={to}
                   name="to"
-                  required
+                  // required
                 />
+                <Alert param="to" />
               </div>
 
               <div className="input-form__group input-form__group--checkbox u-margin-bottom-medium checkbox">
@@ -158,20 +172,27 @@ const AddEducation = ({
                 name="description"
                 rows="6"
                 cols="50"
-                required
+                // required
               ></textarea>
+              <Alert param="description" />
             </div>
             <input type="submit" className="btn btn--full-width" />
           </form>
         </div>
       </div>
-      {/* <div className="modal__backdrop" onClick={closeAddEduModal}></div> */}
     </Fragment>
   );
 };
 
 AddEducation.propTypes = {
+  clearAlerts: PropTypes.func.isRequired,
+  alerts: PropTypes.array.isRequired,
   addEducation: PropTypes.func.isRequired,
+
 };
 
-export default connect(null, { addEducation })(AddEducation);
+const mapStateToProps = (state) => ({
+  alerts: state.alert,
+});
+
+export default connect(mapStateToProps, { addEducation, clearAlerts })(AddEducation);
