@@ -1,0 +1,44 @@
+@import "../../../style/main.scss";
+
+.user-info {
+  background-color: $color-primary-light;
+  grid-column: center-start / col-start 5;
+  grid-row: row-start / row-end;
+  border-radius: $border-radius;
+  // padding: 3rem;
+
+  &__list {
+    background-color: $color-primary-lighter;
+    border-radius: $border-radius;
+    overflow: hidden;
+    margin: 0rem 5rem;
+
+    & > li {
+      padding: 1rem 2rem;
+
+      // &:not(:last-child){
+      //     margin-bottom: 1rem;
+      // }
+
+      &:nth-child(odd) {
+        background-color: $color-primary-lightest;
+      }
+    }
+  }
+
+  &__bio-header {
+    display: flex;
+    justify-content: space-between;
+  }
+
+  &__bio-icon {
+    cursor: pointer;
+    margin-top: 1rem;
+    transition: all .2s;
+    &::before {
+      height: 100%;
+      display: flex;
+      align-items: center;
+    }
+  }
+}

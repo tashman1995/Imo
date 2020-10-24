@@ -1,50 +1,92 @@
-import React, { Fragment } from "react";
+import React, { Fragment, useState } from "react";
 import PropTypes from "prop-types";
 import Moment from "react-moment";
 import { connect } from "react-redux";
 import { deleteExperience } from "../../../actions/profile";
+import { openEditExpModal, closeEditExpModal } from "../../../actions/modal";
+import EditExperience from "../../profile-form/EditExperience";
+import { animated, useTransition } from "react-spring";
+import { CenterModal } from "react-spring-modal";
 
-const Experience = ({ experience, deleteExperience }) => {
+const Experience = ({
+  experience,
+  deleteExperience,
+  openAddExpModal,
+  openEditExpModal,
+  closeEditExpModal,
+  modal: { editExpModal },
+}) => {
   const experiences = experience.map((exp) => (
-    <tr key={exp._id}>
-      <td>{exp.title}</td>
+    <tr className="dashboard-table__name" key={exp._id}>
+      <td className="paragraph">{exp.title}</td>
 
-      <td>
+      <td className="paragraph">
         <Moment format="YYYY/MM">{exp.from}</Moment>
       </td>
-      <td>
+      <td className="paragraph">
         {" "}
         {exp.to === null ? " Now" : <Moment format="YYYY/MM">{exp.to}</Moment>}
       </td>
-      <td>
-        <button className="btn btn--table">Edit</button>
+      <td className="paragraph">{exp.paid === false ? "Unpaid" : "Paid"}</td>
+      <td className="paragraph">
+        <button
+          className="btn btn--table"
+          onClick={() => {
+            setEditExperienceId(exp._id);
+            openEditExpModal();
+          }}
+        >
+          Edit
+        </button>
       </td>
     </tr>
   ));
 
+  const [editExperienceId, setEditExperienceId] = useState("");
+
+  const fade = useTransition(openEditExpModal, null, {
+    from: { opacity: 0 },
+    enter: { opacity: 1 },
+    leave: { opacity: 0 },
+  });
+
   return (
     <Fragment>
-      <div className="user-experience">
-        <div className="user-education__heading">
-          <h2 className="heading-secondary">Experience</h2>
-          <button className="btn btn--table">
+      <section className="user-experience dashboard-table">
+        <div className="dashboard-table__heading">
+          <h2 className="heading-secondary">Professional Experience</h2>
+          <button className="btn btn--table" onClick={openAddExpModal}>
             <i className="fa fa-plus" aria-hidden="true"></i>Add New{" "}
           </button>
         </div>
 
-        <table className="user-education__table">
+        <table className="dashboard-table__table">
           <thead>
             <tr>
-              <th>Title</th>
-              <th>Start Date</th>
-              <th>End Date</th>
-              <th>Payment</th>
-              <th></th>
+              <th className="heading-tertiary">Title</th>
+              <th className="heading-tertiary">Start Date</th>
+              <th className="heading-tertiary">End Date</th>
+              <th className="heading-tertiary">Payment</th>
+              <th className="heading-tertiary"></th>
             </tr>
           </thead>
           <tbody>{experiences}</tbody>
         </table>
-      </div>
+      </section>
+
+      <CenterModal isOpen={editExpModal} onRequestClose={closeEditExpModal}>
+        {fade.map(
+          ({ item, key, props }) =>
+            item && (
+              <animated.div key={key} style={props}>
+                <EditExperience
+                  experienceId={editExperienceId}
+                  closeEditExpModal={closeEditExpModal}
+                />
+              </animated.div>
+            )
+        )}
+      </CenterModal>
     </Fragment>
   );
 };
@@ -52,6 +94,16 @@ const Experience = ({ experience, deleteExperience }) => {
 Experience.propTypes = {
   experience: PropTypes.array.isRequired,
   deleteExperience: PropTypes.func.isRequired,
+  openEditExpModal: PropTypes.func.isRequired,
+  closeEditExpModal: PropTypes.func.isRequired,
 };
 
-export default connect(null, { deleteExperience })(Experience);
+const mapStateToProps = (state) => ({
+  modal: state.modal,
+});
+
+export default connect(mapStateToProps, {
+  deleteExperience,
+  openEditExpModal,
+  closeEditExpModal,
+})(Experience);

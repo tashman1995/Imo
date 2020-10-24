@@ -45,11 +45,11 @@ const Register = ({  clearAlerts, register, isAuthenticated }) => {
                 Sign Up
               </h1>
               <div className="auth-form__group u-margin-bottom-medium">
-                <label className="auth-form__label" htmlFor="email">
+                <label className="form-label" htmlFor="email">
                   Name
                 </label>
                 <input
-                  className="auth-form__input"
+                  className="auth-form__input text-input"
                   type="text"
                   placeholder="Name"
                   name="name"
@@ -60,11 +60,11 @@ const Register = ({  clearAlerts, register, isAuthenticated }) => {
                 <Alert param="name" />
               </div>
               <div className="auth-form__group u-margin-bottom-medium">
-                <label className="auth-form__label" htmlFor="email">
+                <label className="form-label" htmlFor="email">
                   Email
                 </label>
                 <input
-                  className="auth-form__input"
+                  className="auth-form__input text-input"
                   type="email"
                   placeholder="Email Address"
                   onChange={(e) => onChange(e)}
@@ -77,11 +77,11 @@ const Register = ({  clearAlerts, register, isAuthenticated }) => {
               </div>
 
               <div className="auth-form__group u-margin-bottom-medium">
-                <label className="auth-form__label" htmlFor="password">
+                <label className="form-label" htmlFor="password">
                   Password
                 </label>
                 <input
-                  className="auth-form__input"
+                  className="auth-form__input text-input"
                   type="password"
                   placeholder="Password"
                   name="password"
@@ -93,11 +93,11 @@ const Register = ({  clearAlerts, register, isAuthenticated }) => {
                 <Alert param="password" />
               </div>
               <div className="auth-form__group u-margin-bottom-medium">
-                <label className="auth-form__label" htmlFor="password">
+                <label className="form-label" htmlFor="password">
                   Password Confirmation
                 </label>
                 <input
-                  className="auth-form__input"
+                  className="auth-form__input text-input"
                   type="password"
                   placeholder="Confirm Password"
                   name="password2"

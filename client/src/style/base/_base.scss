@@ -18,7 +18,8 @@ $bp-small: 37.5em; // 600px
 
 html {
   box-sizing: border-box;
-  font-size: 62.5%; //1rem is 10px
+  // font-size: 62.5%; //1rem is 10px
+  font-size: 56%; //Making Everything Smaller, design preference
 
   @media only screen and (max-width: $bp-largest) {
     font-size: 50%;
@@ -45,13 +46,11 @@ body {
 button {
   display: inline-block;
   border: none;
-  // padding: 1rem 2rem;
+
   margin: 0;
   text-decoration: none;
-  // background: #777777;
   background-color: transparent;
-  // color: #ffffff;
-  font-size: 1rem;
+
   cursor: pointer;
   text-align: center;
   transition: all 250ms ease-in-out;
@@ -69,8 +68,14 @@ input[type="date"], input[type="time"] {
   font-family: $font-family;
 }
 
+a {
+  color: inherit; /* blue colors for links too */
+  text-decoration: inherit; /* no underline */
+}
+
 .ModalBackdrop {
   z-index: 1001;
+  
   
 }
 

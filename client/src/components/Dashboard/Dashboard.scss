@@ -1,38 +1,30 @@
 @import "../../style/main.scss";
 @import "../../style/components/button.scss";
 
-
 .dash {
   grid-template-rows: [row-start]min-content [row-middle] min-content [row-end];
   grid-gap: 4rem;
-}
 
-.user-info {
-  background-color: $color-primary-light;
-  grid-column: center-start / col-start 5;
-  grid-row: row-start / row-end;
-  border-radius: $border-radius;
-  padding: 2rem;
-
-  &__into {
-    margin-top: 4rem;
-  }
-
-  &__table {
-    background-color: rgba($color-primary, 0.025);
-    width: 101%;
+  &__right {
+    grid-column: col-start 5 / center-end;
   }
 }
-
-$horizontal-padding: 5rem;
 
 .user-education {
-  background-color: $color-primary-light;
+  margin-bottom: 4rem;
+}
+
+.user-experience {
   grid-column: col-start 5 / center-end;
-  grid-row: row-start / row-middle;
+  grid-row: row-middle / row-end;
+}
+
+$horizontal-padding: 4.8rem;
+
+.dashboard-table {
+  background-color: $color-primary-light;
   border-radius: $border-radius;
   overflow: hidden;
-
 
   &__heading {
     padding: 1.8rem $horizontal-padding;
@@ -49,11 +41,11 @@ $horizontal-padding: 5rem;
     border-collapse: collapse;
 
     & tbody {
-        & tr {
-            &:nth-child(odd) {
-                background-color: $color-primary-lightest;
-            }
+      & tr {
+        &:nth-child(odd) {
+          background-color: $color-primary-lightest;
         }
+      }
     }
 
     & tr {
@@ -66,8 +58,6 @@ $horizontal-padding: 5rem;
 
     & th {
       text-align: left;
-      font-size: 1.4rem;
-      font-weight: 500;
       padding: 2rem 1rem;
       opacity: 50%;
       border-bottom: 1px solid rgba($color-black, 0.045);
@@ -79,9 +69,12 @@ $horizontal-padding: 5rem;
 
     & td {
       text-align: left;
-      font-size: 1.4rem;
-      font-weight: 300;
       padding: 1.5rem 1rem;
+
+      & .dashboard-table__bio {
+        width: min-content;
+        text-align: left;
+      }
 
       &:first-of-type {
         font-weight: 500;
@@ -89,19 +82,38 @@ $horizontal-padding: 5rem;
       }
 
       &:last-of-type {
+        &:not(.dashboard-table__bio) {
           width: 15rem;
           text-align: center;
-          padding-right:  $horizontal-padding;
+          padding-right: $horizontal-padding;
+        }
       }
     }
   }
-}
 
-.user-experience { 
+  &__profile-title {
+    display: inline;
 
-  background-color: $color-primary-light;
-  grid-column: col-start 5 / center-end;
-  grid-row: row-middle / row-end;
-  border-radius: $border-radius;
-  overflow: hidden;
+    &--bio {
+      display: block;
+      padding-top: 1rem;
+    }
+  }
+
+  &__profile-data {
+    margin-left: 1rem;
+    display: inline;
+    transition: all 0.2s ease-out;
+
+    &--bio {
+      display: block;
+      margin-left: 0;
+      margin-top: 1rem;
+      transition: max-height 0.3s cubic-bezier(1, 0, 1, 0);
+      height: auto;
+      max-height: 18rem;
+      overflow-y: scroll;
+      transition: all 0.2s;
+    }
+  }
 }

@@ -1,16 +1,30 @@
-import React, { useEffect, useState, useRef, Fragment } from "react";
-import { Link } from "react-router-dom";
+import React, { useEffect, Fragment } from "react";
 import PropTypes from "prop-types";
 import { connect } from "react-redux";
 import { getCurrentProfile, deleteAccount } from "../../actions/profile";
-import { openAddEduModal, closeAddEduModal } from "../../actions/modal";
+import {
+  openAddEduModal,
+  closeAddEduModal,
+  openAddExpModal,
+  closeAddExpModal,
+  openAddProfileModal,
+  closeAddProfileModal,
+  openEditProfileModal,
+  closeEditProfileModal,
+  openEditSocialMediaModal,
+  closeEditSocialMediaModal,
+} from "../../actions/modal";
 import Spinner from "../reausable/Loading";
 import Navbar from "../layout/Navbar";
-import DashboardActions from "./DashboardActions";
 import Experience from "./Experience";
 import Education from "./Education";
+import UserInfo from "./UserInfo";
 import { animated, useTransition } from "react-spring";
 import AddEducation from "../profile-form/AddEducation";
+import AddExperience from "../profile-form/AddExperience";
+import CreateProfile from "../profile-form/CreateProfile";
+import EditProfile from "../profile-form/EditProfile";
+import EditSocialMedia from "../profile-form/EditSocialMedia";
 import { CenterModal } from "react-spring-modal";
 import "react-spring-modal/dist/index.css";
 import "./Dashboard.scss";
@@ -20,30 +34,41 @@ const Dashboard = ({
   deleteAccount,
   auth: { user },
   profile: { profile, loading },
-  modal: {addEduModal},
+  modal: {
+    addEduModal,
+    addExpModal,
+    addProfileModal,
+    editProfileModal,
+    editSocialMediaModal,
+  },
   openAddEduModal,
-  closeAddEduModal
+  closeAddEduModal,
+  openAddExpModal,
+  closeAddExpModal,
+  openAddProfileModal,
+  closeAddProfileModal,
+  openEditProfileModal,
+  closeEditProfileModal,
+  openEditSocialMediaModal,
+  closeEditSocialMediaModal,
 }) => {
   useEffect(() => {
     getCurrentProfile();
-  }, []);
+  }, [getCurrentProfile]);
 
-  // Add Education Modal
-  // const [addEduOpen, setEduOpen] = useState(false);
-
-  // const openAddEduModal = () => {
-  //   setEduOpen(true);
-  // };
-  // const closeAddEduModal = () => {
-  //   setEduOpen(false);
-  // };
-
-  const fade = useTransition(openAddEduModal, null, {
+  const transitionConfig = {
     from: { opacity: 0 },
     enter: { opacity: 1 },
     leave: { opacity: 0 },
-  });
+  };
 
+  const fadeEducation = useTransition(openAddEduModal, null, transitionConfig);
+  const fadeExperience = useTransition(openAddExpModal, null, transitionConfig);
+  const fadeProfile = useTransition(
+    openAddProfileModal,
+    null,
+    transitionConfig
+  );
 
   return loading && profile === null ? (
     <Spinner />
@@ -51,117 +76,128 @@ const Dashboard = ({
     <Fragment>
       <Navbar stage="2" />
       <Fragment>
+        {/*  */}
+        {/* MODALS */}
+        {/*  */}
+
+        {/* Add Profile Modal */}
+        <CenterModal
+          isOpen={addProfileModal}
+          onRequestClose={closeAddProfileModal}>
+          {fadeProfile.map(
+            ({ item, key, props }) =>
+              item && (
+                <animated.div key={key} style={props}>
+                  <CreateProfile closeAddProfileModal={closeAddProfileModal} />
+                </animated.div>
+              )
+          )}
+        </CenterModal>
+
+        {/* Add Education Modal */}
+        <CenterModal isOpen={addEduModal} onRequestClose={closeAddEduModal}>
+          {fadeEducation.map(
+            ({ item, key, props }) =>
+              item && (
+                <animated.div key={key} style={props}>
+                  <AddEducation closeAddEduModal={closeAddEduModal} />
+                </animated.div>
+              )
+          )}
+        </CenterModal>
+
+        {/* Add Experience Modal */}
+        <CenterModal isOpen={addExpModal} onRequestClose={closeAddExpModal}>
+          {fadeExperience.map(
+            ({ item, key, props }) =>
+              item && (
+                <animated.div key={key} style={props}>
+                  <AddExperience closeAddExpModal={closeAddExpModal} />
+                </animated.div>
+              )
+          )}
+        </CenterModal>
+
+        {/* Edit Profile Modal */}
+        <CenterModal
+          isOpen={editProfileModal}
+          onRequestClose={closeEditProfileModal}>
+          {fadeProfile.map(
+            ({ item, key, props }) =>
+              item && (
+                <animated.div key={key} style={props}>
+                  <EditProfile closeEditProfileModal={closeEditProfileModal} />
+                </animated.div>
+              )
+          )}
+        </CenterModal>
+
+        {/* Edit Social Media Modal */}
+        <CenterModal
+          isOpen={editSocialMediaModal}
+          onRequestClose={closeEditSocialMediaModal}>
+          {fadeProfile.map(
+            ({ item, key, props }) =>
+              item && (
+                <animated.div key={key} style={props}>
+                  <EditSocialMedia
+                    closeEditSocialMediaModal={closeEditSocialMediaModal}
+                  />
+                </animated.div>
+              )
+          )}
+        </CenterModal>
+
+        {/*  */}
+        {/* PAGE CONTENT */}
+        {/*  */}
+
         <div className="u-grid dash">
           {profile !== null ? (
-            <Fragment>
-              <CenterModal
-                isOpen={addEduModal}
-                onRequestClose={closeAddEduModal}
-              >
-                {fade.map(
-                  ({ item, key, props }) =>
-                    item && (
-                      <animated.div 
-                        key={key}
-                         style={props}
-                         >
-                        <AddEducation 
-                        closeAddEduModal={closeAddEduModal} 
-                        />
-                      </animated.div>
-                     ) 
-                )} 
-              </CenterModal>
-        
+            ////////////////////////////////////
+            // User has a profile
+            ////////////////////////////////////
 
-              <div className="user-info">
-                <div className="user-info__intro">
-                  <h1 className="heading-primary">
-                    Welcome {user && user.name}
-                  </h1>
-                  {profile === null && (
-                    <Fragment>
-                      <h2 className="heading-secondary">
-                        It doesn't look like you've set up your profile yet
-                      </h2>
-                      <Link to="/create-profile">Create Profile</Link>
-                    </Fragment>
-                  )}
-                </div>
-                <div className="user-info__table">
-                  Name:
-                  {user && user.name}
-                </div>
-              </div>
-              <Education
-                education={profile.education}
-                openAddEduModal={openAddEduModal}
-               
+            <Fragment>
+              <UserInfo
+                user={user}
               />
-              <Experience experience={profile.profExp} />
+              <div className="dash__right">
+                <Education
+                  education={profile.education}
+                  openAddEduModal={openAddEduModal}
+                />
+                <Experience
+                  experience={profile.experience}
+                  openAddExpModal={openAddExpModal}
+                />
+              </div>
             </Fragment>
           ) : (
+            ////////////////////////////////////
+            // No Profile Present
+            ////////////////////////////////////
+
             <Fragment>
-              <div className="user-info">
-                <div className="user-info__intro">
-                  <h1 className="heading-primary">
-                    Welcome {user && user.name}
-                  </h1>
-                  {profile === null && (
-                    <Fragment>
-                      <h2 className="heading-secondary">
-                        It doesn't look like you've set up your profile yet
-                      </h2>
-                      <Link to="/create-profile">Create Profile</Link>
-                    </Fragment>
-                  )}
-                </div>
-                <div className="user-info__table">
-                  Name:
-                  {user && user.name}
-                </div>
-              </div>
-              <div className="user-experience">
-                <div className="user-education__heading">
-                  <h2 className="heading-secondary">Experience</h2>
-                  <button className="btn btn--table">
-                    <i className="fa fa-plus" aria-hidden="true"></i>Add New{" "}
-                  </button>
-                </div>
+              {/* Add Profile Modal */}
+              <CenterModal
+                isOpen={addProfileModal}
+                onRequestClose={closeAddProfileModal}>
+                {fadeProfile.map(
+                  ({ item, key, props }) =>
+                    item && (
+                      <animated.div key={key} style={props}>
+                        <CreateProfile
+                          closeAddProfileModal={closeAddProfileModal}
+                        />
+                      </animated.div>
+                    )
+                )}
+              </CenterModal>
+              <UserInfo user={user} openAddProfileModal={openAddProfileModal} />
 
-                <table className="user-education__table">
-                  <thead>
-                    <tr>
-                      <th>Title</th>
-                      <th>Start Date</th>
-                      <th>End Date</th>
-                      <th>Payment</th>
-                      <th></th>
-                    </tr>
-                  </thead>
-                  <tbody></tbody>
-                </table>
-              </div>
-              <div className="user-education">
-                <div className="user-education__heading">
-                  <h2 className="heading-secondary">Education</h2>
-                  <button className="btn btn--table">
-                    <i class="fa fa-plus" aria-hidden="true"></i>Add New{" "}
-                  </button>
-                </div>
-
-                <table className="user-education__table">
-                  <thead>
-                    <tr>
-                      <th>Course</th>
-                      <th>Location</th>
-                      <th>Start Date</th>
-                      <th>End Date</th>
-                      <th></th>
-                    </tr>
-                  </thead>
-                  <tbody></tbody>
-                </table>
+              <div className="dash__right">
+       
               </div>
             </Fragment>
           )}
@@ -176,6 +212,14 @@ Dashboard.propTypes = {
   deleteAccount: PropTypes.func.isRequired,
   openAddEduModal: PropTypes.func.isRequired,
   closeAddEduModal: PropTypes.func.isRequired,
+  openAddExpModal: PropTypes.func.isRequired,
+  closeAddExpModal: PropTypes.func.isRequired,
+  openAddProfileModal: PropTypes.func.isRequired,
+  closeAddProfileModal: PropTypes.func.isRequired,
+  openEditProfileModal: PropTypes.func.isRequired,
+  closeEditProfileModal: PropTypes.func.isRequired,
+  openEditSocialMediaModal: PropTypes.func.isRequired,
+  closeEditSocialMediaModal: PropTypes.func.isRequired,
   auth: PropTypes.object.isRequired,
   profile: PropTypes.object.isRequired,
   modal: PropTypes.object.isRequired,
@@ -184,58 +228,20 @@ Dashboard.propTypes = {
 const mapStateToProps = (state) => ({
   auth: state.auth,
   profile: state.profile,
-  modal: state.modal
+  modal: state.modal,
 });
 
-export default connect(mapStateToProps, { getCurrentProfile, deleteAccount, openAddEduModal, closeAddEduModal })(
-  Dashboard
-);
-
-{
-  /* <Spinner />
-) : (
-  <Fragment>
-    <Navbar stage="2" />
-    <Fragment>
-      <div className="u-grid dash">
-        <div className="user-info">
-          <div className="user-info__intro">
-            <h1 className="heading-primary">Welcome {user && user.name}</h1>
-            {profile === null && (
-              <Fragment>
-              <h2 className="heading-secondary">
-                It doesn't look like you've set up your profile yet
-              </h2>
-              <Link to="/create-profile">Create Profile</Link>
-              </Fragment>
-
-            )}
-          </div>
-          <div className="user-info__table">
-            Name:
-            {user && user.name}
-          </div>
-        </div>
-        <Education education={profile.education} />
-        <div className="user-experience">
-          <h2 className="heading-secondary">Professional Experience</h2>
-        </div>
-
-        {profile !== null ? (
-          <Fragment>
-            <DashboardActions />
-            <Experience experience={profile.profExp} />
-            <Education education={profile.education} />
-            <button onClick={() => deleteAccount()}>Delete Account</button>
-          </Fragment>
-        ) : (
-          <Fragment>
-            <p>You have not yet setup a profile, please add some info</p>
-          </Fragment>
-        )}
-      </div>
-    </Fragment>
-  </Fragment>
-);
-}; */
-}
+export default connect(mapStateToProps, {
+  getCurrentProfile,
+  deleteAccount,
+  openAddEduModal,
+  closeAddEduModal,
+  openAddExpModal,
+  closeAddExpModal,
+  openAddProfileModal,
+  closeAddProfileModal,
+  openEditProfileModal,
+  closeEditProfileModal,
+  openEditSocialMediaModal,
+  closeEditSocialMediaModal,
+})(Dashboard);

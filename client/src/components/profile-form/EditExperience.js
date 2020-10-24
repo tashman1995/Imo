@@ -1,16 +1,24 @@
 import React, { Fragment, useState, useEffect } from "react";
 import PropTypes from "prop-types";
-import { withRouter } from "react-router-dom";
 import { connect } from "react-redux";
-import { addExperience } from "../../actions/profile";
+import {
+  editExperience,
+  deleteExperience,
+  getCurrentProfile,
+} from "../../actions/profile";
 import "./profile-form.scss";
+import moment from "moment";
 import Alert from "../layout/Alert";
 import { clearAlerts } from "../../actions/alert";
 
-const AddExperience = ({
-  addExperience,
+const EditExperience = ({
+  editExperience,
+  deleteExperience,
   history,
-  closeAddExpModal,
+  closeEditExpModal,
+  getCurrentProfile,
+  experienceId,
+  profile: { profile, loading },
   clearAlerts,
 }) => {
   const [formData, setFormData] = useState({
@@ -22,9 +30,46 @@ const AddExperience = ({
     paid: false,
   });
 
-  const [toDateDisabled, toggleDisabled] = useState(false);
+  useEffect(() => {
+    getCurrentProfile();
+    const editIndex = profile.experience
+      .map((item) => item._id)
+      .indexOf(experienceId);
+
+    setFormData({
+      title:
+        loading || !profile.experience[editIndex].title
+          ? ""
+          : profile.experience[editIndex].title,
+
+      from:
+        loading || !profile.experience[editIndex].from
+          ? ""
+          : moment(profile.experience[editIndex].from).format("yyyy-MM-DD"),
+
+      to:
+        loading || !profile.experience[editIndex].to
+          ? ""
+          : moment(profile.experience[editIndex].to).format("yyyy-MM-DD"),
+
+      current:
+        loading || !profile.experience[editIndex].current
+          ? ""
+          : profile.experience[editIndex].current,
+      paid:
+        loading || !profile.experience[editIndex].paid
+          ? false
+          : profile.experience[editIndex].paid,
+      description:
+        loading || !profile.experience[editIndex].description
+          ? ""
+          : profile.experience[editIndex].description,
+    });
+  }, [loading, getCurrentProfile, experienceId]);
 
   const { title, description, from, to, current, paid } = formData;
+
+  const [toDateDisabled, toggleDisabled] = useState(false);
 
   const onChange = (e) =>
     setFormData({ ...formData, [e.target.name]: e.target.value });
@@ -39,13 +84,13 @@ const AddExperience = ({
         <div className="modal__container modal__container--50">
           <div className="modal__close">
             <button
-              onClick={closeAddExpModal}
+              onClick={closeEditExpModal}
               className="modal__close-icon fa fa-times"
               aria-hidden="true"></button>
           </div>
           <div className="modal__headings">
             <h2 className="heading-secondary u-margin-bottom-smallest">
-              Add Experience
+              Edit Experience
             </h2>
             <h3 className="paragraph u-margin-bottom-smallest">
               Add professional experience you've gained
@@ -57,7 +102,7 @@ const AddExperience = ({
             onSubmit={(e) => {
               e.preventDefault();
               clearAlerts();
-              addExperience(formData, history);
+              editExperience(formData, history, experienceId);
             }}
             className="input-form">
             <div className="input-form__row">
@@ -68,7 +113,7 @@ const AddExperience = ({
                 <input
                   className="input-form__input text-input"
                   type="text"
-                  placeholder="Experience Title"
+                  placeholder="Course Name"
                   onChange={(e) => onChange(e)}
                   value={title}
                   name="title"
@@ -89,7 +134,9 @@ const AddExperience = ({
                     id="paid"
                     value={paid}
                     checked={paid}
-                    onChange={(e) => setFormData({ ...formData, paid: !paid })}
+                    onChange={(e) => {
+                      setFormData({ ...formData, paid: !paid });
+                    }}
                   />
                   <span className="checkbox__custom checkbox-custom"></span>
                 </label>
@@ -113,16 +160,16 @@ const AddExperience = ({
 
               <div
                 className={`input-form__group u-margin-bottom-medium ${
-                  toDateDisabled && "input-form__group--disabled"
+                  current && "input-form__group--disabled"
                 }`}>
-                <label className="form-label form-label--no-wrap" htmlFor="email">
+                <label className="form-label form-label--no-wrap" htmlFor="to">
                   End Date
                 </label>
                 <input
                   className="input-form__input text-input"
                   type="date"
                   onChange={(e) => onChange(e)}
-                  disabled={toDateDisabled ? "disabled" : ""}
+                  disabled={current ? true : ""}
                   value={to}
                   name="to"
                   // required
@@ -158,7 +205,7 @@ const AddExperience = ({
               </label>
               <textarea
                 className="input-form__input text-input input-form__input input-form__input--text-area"
-                placeholder="Describe your Experience"
+                placeholder="Add some more detail about your studies"
                 onChange={(e) => onChange(e)}
                 value={description}
                 name="description"
@@ -168,7 +215,18 @@ const AddExperience = ({
               ></textarea>
               <Alert param="description" />
             </div>
-            <input type="submit" className="btn btn--full-width" />
+            <div className="input-form__row">
+              <input type="submit" className="btn btn--full-width" />
+              <button
+                type="button"
+                onClick={() => {
+                  deleteExperience(experienceId);
+                  closeEditExpModal();
+                }}
+                className="btn btn--delete input-form__delete-btn">
+                Delete
+              </button>
+            </div>
           </form>
         </div>
       </div>
@@ -176,16 +234,23 @@ const AddExperience = ({
   );
 };
 
-AddExperience.propTypes = {
-  addExperience: PropTypes.func.isRequired,
+EditExperience.propTypes = {
+  editExperience: PropTypes.func.isRequired,
+  deleteExperience: PropTypes.func.isRequired,
+  getCurrentProfile: PropTypes.func.isRequired,
+  profile: PropTypes.object.isRequired,
   clearAlerts: PropTypes.func.isRequired,
   alerts: PropTypes.array.isRequired,
 };
 
 const mapStateToProps = (state) => ({
+  profile: state.profile,
   alerts: state.alert,
 });
 
-export default connect(mapStateToProps, { addExperience, clearAlerts })(
-  withRouter(AddExperience)
-);
+export default connect(mapStateToProps, {
+  editExperience,
+  deleteExperience,
+  getCurrentProfile,
+  clearAlerts,
+})(EditExperience);

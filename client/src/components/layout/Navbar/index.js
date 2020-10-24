@@ -16,6 +16,16 @@ const Navbar = ({
   const authLinks = (
     <ul className="nav__links">
       <li className="nav__link">
+        <Link className="nav__link-text" to="/posts">
+          Browse
+        </Link>
+      </li>
+      <li className="nav__link">
+        <Link className="nav__link-text" to="/profiles">
+          Profiles
+        </Link>
+      </li>
+      <li className="nav__link">
         <Link className="nav__link-text" to="/dashboard">
           Dashboard
         </Link>
@@ -33,6 +43,11 @@ const Navbar = ({
       <li className="nav__link">
         <Link to="#!" className="nav__link-text ">
           Browse
+        </Link>
+      </li>
+      <li className="nav__link">
+        <Link className="nav__link-text" to="/profiles">
+          Profiles
         </Link>
       </li>
       <li className="nav__link">

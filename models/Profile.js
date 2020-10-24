@@ -31,7 +31,7 @@ const ProfileSchema = new mongoose.Schema({
     type: [String],
   },
 
-  profExp: [
+  experience: [
     {
       title: {
         type: String,
@@ -39,6 +39,7 @@ const ProfileSchema = new mongoose.Schema({
       },
       description: {
         type: String,
+        required: true,
       },
       from: {
         type: Date,
@@ -46,6 +47,7 @@ const ProfileSchema = new mongoose.Schema({
       },
       to: {
         type: Date,
+
       },
       current: {
         type: Boolean

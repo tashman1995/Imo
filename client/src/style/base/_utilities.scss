@@ -18,8 +18,20 @@
   margin-bottom: 1.5rem !important;
 }
 
-.u-margin-bottom-xsmall {
-  margin-bottom: .8rem !important;
+.u-margin-bottom-smaller {
+  margin-bottom: 1.2rem !important;
+}
+
+.u-margin-bottom-smallest {
+  margin-bottom: 0.8rem !important;
+}
+
+.u-margin-bottom-tiny {
+  margin-bottom: 0.4rem !important;
+}
+
+.u-font-size-larger {
+  font-size: large !important;
 }
 
 .preload * {
@@ -33,14 +45,24 @@
   opacity: 0.7 !important;
 }
 
-
 .u-grid {
-    margin-top: 9rem;
+  margin-top: 9rem;
   // GRID SETUP
   display: grid;
-  grid-template-columns: [full-start] minmax(6rem, 1fr) [center-start] repeat(
+  grid-template-columns:
+    [full-start] minmax(6rem, 1fr) [center-start] repeat(
       8,
       [col-start] minmax(min-content, 16rem) [col-end]
-    ) [center-end] minmax(6rem, 1fr) [full-end];
-  grid-column-gap:4rem;
+    )
+    [center-end] minmax(6rem, 1fr) [full-end];
+  grid-column-gap: 4rem;
+}
+
+.u-rotate-180 {
+  transform: rotate(180deg);
+}
+
+.u-height-0 {
+  max-height: 0 !important;
+  transition: max-height 0.35s cubic-bezier(0, 1, 0, 1);
 }

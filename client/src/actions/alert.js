@@ -1,11 +1,10 @@
 import { v4 as uuid } from "uuid";
-import { SET_ALERT, REMOVE_ALERT, REMOVE_ALL_ALERTS } from "./types";
+import { SET_ALERT, REMOVE_ALL_ALERTS } from "./types";
 
 export const setAlert = (
   msg,
   alertType,
-  param = "general",
-  timeout = 10000
+  param = "general"
 ) => (dispatch) => {
   // Generate random id
   const id = uuid();

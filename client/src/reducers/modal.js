@@ -1,14 +1,36 @@
-import {OPEN_ADD_EDU_MODAL, CLOSE_ADD_EDU_MODAL} from "../actions/types";
+import {
+  OPEN_ADD_EDU_MODAL,
+  CLOSE_ADD_EDU_MODAL,
+  OPEN_EDIT_EDU_MODAL,
+  CLOSE_EDIT_EDU_MODAL,
+  OPEN_ADD_EXP_MODAL,
+  CLOSE_ADD_EXP_MODAL,
+  OPEN_EDIT_EXP_MODAL,
+  CLOSE_EDIT_EXP_MODAL,
+  OPEN_ADD_PROFILE_MODAL,
+  CLOSE_ADD_PROFILE_MODAL,
+  OPEN_EDIT_PROFILE_MODAL,
+  CLOSE_EDIT_PROFILE_MODAL,
+  OPEN_EDIT_SOCIALMEDIA_MODAL,
+  CLOSE_EDIT_SOCIALMEDIA_MODAL,
+} from "../actions/types";
 
 const initialState = {
   addEduModal: false,
-  loading: true
+  editEduModal: false,
+  addExpModal: false,
+  editExpModal: false,
+  addProfileModal: false,
+  editProfileModal: false,
+  editSocialMediaModal: false,
+  loading: true,
 };
 
 export default function (state = initialState, action) {
-  const { type, payload } = action;
+  const { type } = action;
 
   switch (type) {
+    // Education Modals
     case CLOSE_ADD_EDU_MODAL:
       return {
         addEduModal: false,
@@ -19,7 +41,73 @@ export default function (state = initialState, action) {
         addEduModal: true,
         loading: false,
       };
-     
+    case CLOSE_EDIT_EDU_MODAL:
+      return {
+        editEduModal: false,
+        loading: false,
+      };
+    case OPEN_EDIT_EDU_MODAL:
+      return {
+        editEduModal: true,
+        loading: false,
+      };
+
+    // Experience Modals
+    case CLOSE_ADD_EXP_MODAL:
+      return {
+        addExpModal: false,
+        loading: false,
+      };
+    case OPEN_ADD_EXP_MODAL:
+      return {
+        addExpModal: true,
+        loading: false,
+      };
+    case CLOSE_EDIT_EXP_MODAL:
+      return {
+        editExpModal: false,
+        loading: false,
+      };
+    case OPEN_EDIT_EXP_MODAL:
+      return {
+        editExpModal: true,
+        loading: false,
+      };
+
+    // Profile Modals
+    case CLOSE_ADD_PROFILE_MODAL:
+      return {
+        addProfileModal: false,
+        loading: false,
+      };
+    case OPEN_ADD_PROFILE_MODAL:
+      return {
+        addProfileModal: true,
+        loading: false,
+      };
+    case CLOSE_EDIT_PROFILE_MODAL:
+      return {
+        editProfileModal: false,
+        loading: false,
+      };
+    case OPEN_EDIT_PROFILE_MODAL:
+      return {
+        editProfileModal: true,
+        loading: false,
+      };
+
+    // Social Media Modal
+    case CLOSE_EDIT_SOCIALMEDIA_MODAL:
+      return {
+        editSocialMediaModal: false,
+        loading: false,
+      };
+    case OPEN_EDIT_SOCIALMEDIA_MODAL:
+      return {
+        editSocialMediaModal: true,
+        loading: false,
+      };
+
 
     default:
       return state;

@@ -10,7 +10,7 @@
     height: 100vh;
     // -webkit-backdrop-filter: blur(10px);
     // backdrop-filter: blur(10px);
-    background-color: rgba($color: $color-black, $alpha: 0.4);
+    background-color: rgba($color: $color-black, $alpha: 0.7);
     z-index: 1000;
   }
 
@@ -26,6 +26,10 @@
     &--50 {
       width: 50vw;
     }
+
+    &--70 {
+      width: 70vw;
+    }
   }
 
   &__headings {
@@ -37,13 +41,13 @@
       position: absolute;
       right: 3rem;
       top: 3rem;
-      transform: scale(2.2);
+      transform: scale(1.5);
       opacity: .5;
       transition: all .5s;
 
       &:hover {
           opacity: 1;
-          transform: scale(2.2) translateY(-.5px);
+          transform: scale(1.5) translateY(-.5px);
       }
   }
 
@@ -87,7 +91,7 @@
     }
 
     &--checkbox {
-      flex: 0 0 14rem;
+      flex: 0 0 17rem;
     }
 
   
@@ -97,8 +101,6 @@
     width: 100%;
     border: none;
     border-bottom: 2px solid rgba($color-black, 0.1);
-    font-size: $font-size-small;
-    line-height: 1.8;
     background-color: inherit;
 
     &:focus {
@@ -117,9 +119,14 @@
         border-radius: $border-radius;
         padding: 2rem;
         font: inherit;
-        font-size: $font-size-small;
+        font-size: $font-size-smaller;
         margin-top: 1.2rem;
         resize: none;
+    }
+
+    &--dropdown {
+      padding: .6rem 0rem;
+     
     }
   }
 
@@ -194,7 +201,7 @@
       border: 2px solid $color-white;
       background-color: $color-white;
       border-radius: 50%;
-      border: 2px solid #ffffff;
+      
 
       &::after {
         -webkit-transform: rotate(45deg) scale(1);

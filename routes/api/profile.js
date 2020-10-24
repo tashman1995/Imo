@@ -35,9 +35,13 @@ router.post(
   [
     auth,
     [
-      check("status", "Status is required").not().isEmpty(),
+      check("status").custom((status) => {
+        if (status === "") {
+          throw new Error("Please select a valid status");
+        } else return true;
+      }),
       check("location", "Location is required").not().isEmpty(),
-      check("subjects", "Subjects aree required").not().isEmpty(),
+      check("subjects", "Subjects are required").not().isEmpty(),
     ],
   ],
   async (req, res) => {
@@ -52,7 +56,6 @@ router.post(
       subjects,
       bio,
       equipment,
-      receivedEducation,
       youtube,
       twitter,
       instagram,
@@ -61,25 +64,30 @@ router.post(
       behance,
     } = req.body;
 
+    console.log(equipment);
+
     // Build profile object
     const profileFields = {};
     profileFields.user = req.user.id;
-    if (website) profileFields.website = website;
-    if (location) profileFields.location = location;
-    if (status) profileFields.status = status;
-    if (subjects) {
-      console.log(subjects);
-      profileFields.subjects = subjects
-        .split(",")
-        .map((subject) => subject.trim());
-    }
-    if (bio) profileFields.bio = bio;
-    if (receivedEducation) profileFields.receivedEducation = receivedEducation;
-    if (equipment) {
-      profileFields.equipment = equipment
-        .split(",")
-        .map((singleEquip) => singleEquip.trim());
-    }
+    website ? (profileFields.website = website) : (profileFields.website = "");
+    location
+      ? (profileFields.location = location)
+      : (profileFields.location = "");
+    status != 0 ? (profileFields.status = status) : (profileFields.status = "");
+    subjects
+      ? (profileFields.subjects = subjects
+          .split(",")
+          .map((subject) => subject.trim()))
+      : (profileFields.subjects = "");
+
+    equipment.length != ""
+      ? (profileFields.equipment = equipment
+          .split(",")
+          .map((equip) => equip.trim()))
+      : (profileFields.equipment = "");
+
+    bio ? (profileFields.bio = bio) : (profileFields.bio = "");
+
     // Build social object, have to initialise first to stop social.something is undefined error
     profileFields.social = {};
     if (youtube) profileFields.social.youtube = youtube;
@@ -170,11 +178,11 @@ router.delete("/", auth, async (req, res) => {
   }
 });
 
-// @route PUT api/profile/profexp
+// @route PUT api/profile/experience
 // @desc Add profile experience
 // @access Private
 router.put(
-  "/profexp",
+  "/experience",
   [
     auth,
     [
@@ -182,6 +190,29 @@ router.put(
       check("from", "From Date is required").not().isEmpty(),
 
       check("current", "Experience Status Required").not().isEmpty(),
+      check("to").custom((to, { req }) => {
+        if (!req.body.current) {
+          if (req.body.from && req.body.from >= to) {
+            throw new Error("End date must be after start date");
+          } else if (to === "") {
+            throw new Error("End date required");
+          } else if (new Date(to).getTime() >= new Date().getTime()) {
+            throw new Error("End date cannot be in the future");
+          } else {
+            return true;
+          }
+        } else {
+          return true;
+        }
+      }),
+      check("description", "Description is required")
+        .not()
+        .isEmpty()
+        .custom((description) => {
+          if (description.length < 20) {
+            throw new Error("Description must be over 20 characters long");
+          } else return true;
+        }),
     ],
   ],
   async (req, res) => {
@@ -190,7 +221,7 @@ router.put(
       return res.status(400).json({ errors: errors.array() });
     }
 
-    const { title, description, from, to, paid } = req.body;
+    const { title, description, from, to, current, paid } = req.body;
 
     const newExp = {
       title,
@@ -198,11 +229,13 @@ router.put(
       from,
       to,
       paid,
+      current,
     };
 
     try {
+      console.log("try");
       const profile = await Profile.findOne({ user: req.user.id });
-      profile.profExp.unshift(newExp);
+      profile.experience.unshift(newExp);
       await profile.save();
       res.json(profile);
     } catch (err) {
@@ -212,17 +245,95 @@ router.put(
   }
 );
 
-// @route DELETE api/profile/profExp/:exp_id
+// @route PUT api/profile/experience/:edu_id
+// @desc edit education from profile
+// @access Private
+
+router.put(
+  "/experience/:exp_id",
+  auth,
+  [
+    check("title", "Title is required").not().isEmpty(),
+    check("from", "From Date is required").not().isEmpty(),
+    check("to").custom((to, { req }) => {
+      if (!req.body.current) {
+        if (req.body.from && req.body.from >= to) {
+          throw new Error("End date must be after start date");
+        } else if (to === "") {
+          throw new Error("End date required");
+        } else if (new Date(to).getTime() >= new Date().getTime()) {
+          throw new Error("End date cannot be in the future");
+        } else {
+          return true;
+        }
+      } else {
+        return true;
+      }
+    }),
+    check("description", "Description is required")
+      .not()
+      .isEmpty()
+      .custom((description) => {
+        if (description.length < 20) {
+          throw new Error("Description must be over 20 characters long");
+        } else return true;
+      }),
+  ],
+  async (req, res) => {
+    const errors = validationResult(req);
+    if (!errors.isEmpty()) {
+      return res.status(400).json({ errors: errors.array() });
+    }
+
+    const { title, paid, from, to, current, description } = req.body;
+    const experienceFields = {};
+    experienceFields.title = title;
+    experienceFields.paid = paid;
+    experienceFields.from = from;
+    experienceFields.to = to;
+    if (current) {
+      experienceFields.current = current;
+    } else experienceFields.current = false;
+
+    if (experienceFields.current) {
+      experienceFields.to = "";
+    }
+
+    experienceFields.description = description;
+
+    try {
+      const profile = await Profile.findOne({ user: req.user.id });
+      // Get remove index, map through eperience getting the id's of each experiene, then selecting the index of the id that matches the id from the request
+
+      const editIndex = profile.experience
+        .map((item) => item.id)
+        .indexOf(req.params.exp_id);
+
+      console.log( req.params);
+
+      profile.experience[editIndex] = experienceFields;
+
+      await profile.save();
+
+      res.json(profile);
+    } catch (err) {
+      console.error(err.message);
+      res.status(500).send("Server Error");
+    }
+  }
+);
+
+// @route DELETE api/profile/experience/:exp_id
 // @desc Delete experience from profile
 // @access Private
-router.delete("/profExp/:exp_id", auth, async (req, res) => {
+router.delete("/experience/:exp_id", auth, async (req, res) => {
   try {
     const profile = await Profile.findOne({ user: req.user.id });
     // Get remove index, map through experiences getting the id's of each experiene, then selecting the index of the id that matches the id from the request
-    const removeIndex = profile.profExp
+    const removeIndex = profile.experience
       .map((item) => item.id)
       .indexOf(req.params.exp_id);
-    profile.profExp.splice(removeIndex, 1);
+    profile.experience.splice(removeIndex, 1);
 
     await profile.save();
 
@@ -250,6 +361,8 @@ router.put(
             throw new Error("End date must be after start date");
           } else if (to === "") {
             throw new Error("End date required");
+          } else if (new Date(to).getTime() >= new Date().getTime()) {
+            throw new Error("End date cannot be in the future");
           } else {
             return true;
           }
@@ -257,7 +370,7 @@ router.put(
           return true;
         }
       }),
-      check("current", "Education status required").not().isEmpty(),
+      // check("current", "Education status required").not().isEmpty(),
       check("description", "Description is required")
         .not()
         .isEmpty()
@@ -301,6 +414,7 @@ router.put(
 // @route PUT api/profile/education/:edu_id
 // @desc edit education from profile
 // @access Private
+
 router.put(
   "/education/:edu_id",
   auth,
@@ -308,28 +422,64 @@ router.put(
     check("title", "Title is required").not().isEmpty(),
     check("location", "Location is required").not().isEmpty(),
     check("from", "From Date is required").not().isEmpty(),
-    check("current", "Education status required").not().isEmpty(),
+    check("to").custom((to, { req }) => {
+      if (!req.body.current) {
+        if (req.body.from && req.body.from >= to) {
+          throw new Error("End date must be after start date");
+        } else if (to === "") {
+          throw new Error("End date required");
+        } else if (new Date(to).getTime() >= new Date().getTime()) {
+          throw new Error("End date cannot be in the future");
+        } else {
+          return true;
+        }
+      } else {
+        return true;
+      }
+    }),
+    check("description", "Description is required")
+      .not()
+      .isEmpty()
+      .custom((description) => {
+        if (description.length < 20) {
+          throw new Error("Description must be over 20 characters long");
+        } else return true;
+      }),
   ],
   async (req, res) => {
+    const errors = validationResult(req);
+    if (!errors.isEmpty()) {
+      return res.status(400).json({ errors: errors.array() });
+    }
+
     const { title, location, from, to, current, description } = req.body;
     const educationFields = {};
-    if (title) educationFields.title = title;
-    if (location) educationFields.location = location;
-    if (from) educationFields.from = from;
-    if (to) educationFields.to = to;
-    if (current) educationFields.current = current;
-    if (description) educationFields.description = description;
+    educationFields.title = title;
+    educationFields.location = location;
+    educationFields.from = from;
+    educationFields.to = to;
+    if (current) {
+      educationFields.current = current;
+    } else educationFields.current = false;
+
+    educationFields.description = description;
+
+    console.log("current", current);
+
+    if (educationFields.current) {
+      educationFields.to = "";
+    }
+
     try {
       const profile = await Profile.findOne({ user: req.user.id });
-      // Get remove index, map through aducation getting the id's of each experiene, then selecting the index of the id that matches the id from the request
+      // Get remove index, map through education getting the id's of each education, then selecting the index of the id that matches the id from the request
       const editIndex = profile.education
         .map((item) => item.id)
         .indexOf(req.params.edu_id);
-      const editedEducation = Object.assign(
-        profile.education[editIndex],
-        educationFields
-      );
-      profile.education[editIndex] = editedEducation;
+
+        console.log(req.params);
+
+      profile.education[editIndex] = educationFields;
 
       await profile.save();
 

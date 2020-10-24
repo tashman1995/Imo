@@ -47,7 +47,7 @@ const Login = ({ login, isAuthenticated, clearAlerts }) => {
                   Email
                 </label>
                 <input
-                  className="auth-form__input"
+                  className="auth-form__input text-input"
                   type="email"
                   placeholder="Email Address"
                   onChange={(e) => onChange(e)}
@@ -58,11 +58,11 @@ const Login = ({ login, isAuthenticated, clearAlerts }) => {
                 <Alert param="email" />
               </div>
               <div className="auth-form__group u-margin-bottom-medium">
-                <label className="auth-form__label" htmlFor="password">
+                <label className="form-label" htmlFor="password">
                   Password
                 </label>
                 <input
-                  className="auth-form__input"
+                  className="auth-form__input text-input"
                   type="password"
                   placeholder="Password"
                   name="password"
@@ -78,7 +78,7 @@ const Login = ({ login, isAuthenticated, clearAlerts }) => {
                 className="btn btn--full-width u-margin-bottom-medium"
                 value="Login"
               />
-              <p className="auth-form__paragraph">
+              <p className="sub-paragraph">
                 Don't have an account?{" "}
                 <Link to={"/register"} className="auth-form__paragraph--link">
                   Sign Up Here

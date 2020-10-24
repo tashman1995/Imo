@@ -1,19 +1,17 @@
-import React, { Fragment, useState } from "react";
+import React, { Fragment, useState, useEffect } from "react";
 import PropTypes from "prop-types";
+import { withRouter } from "react-router-dom";
 import { connect } from "react-redux";
 import { addEducation } from "../../actions/profile";
 import "./profile-form.scss";
 import Alert from "../layout/Alert";
-import {  clearAlerts } from "../../actions/alert";
-import { useEffect } from "react";
-
+import { clearAlerts } from "../../actions/alert";
 
 const AddEducation = ({
   addEducation,
   history,
   closeAddEduModal,
   clearAlerts,
-  alerts
 }) => {
   const [formData, setFormData] = useState({
     title: "",
@@ -32,8 +30,8 @@ const AddEducation = ({
     setFormData({ ...formData, [e.target.name]: e.target.value });
 
   useEffect(() => {
-    clearAlerts()
-  }, [])
+    clearAlerts();
+  }, [clearAlerts]);
 
   return (
     <Fragment>
@@ -43,37 +41,31 @@ const AddEducation = ({
             <button
               onClick={closeAddEduModal}
               className="modal__close-icon fa fa-times"
-              aria-hidden="true"
-            ></button>
+              aria-hidden="true"></button>
           </div>
           <div className="modal__headings">
-            <h2 className="heading-secondary u-margin-bottom-xsmall">
+            <h2 className="heading-secondary u-margin-bottom-smallest">
               Add Education
             </h2>
-            <h3 className="heading-tertiary u-margin-bottom-xsmall">
+            <h3 className="paragraph u-margin-bottom-smallest">
               Add any school, course, etc that you have attended
             </h3>
-            <p className="subtext">* = required field</p>
           </div>
 
           <form
             onSubmit={(e) => {
               e.preventDefault();
-              clearAlerts()
-              addEducation(formData, history)
-              console.log(alerts)
-              
-              
+              clearAlerts();
+              addEducation(formData, history);
             }}
-            className="input-form"
-          >
+            className="input-form">
             <div className="input-form__row">
               <div className="input-form__group u-margin-bottom-medium">
-                <label className="input-form__label" htmlFor="title">
+                <label className="form-label" htmlFor="title">
                   Course Title
                 </label>
                 <input
-                  className="input-form__input"
+                  className="input-form__input text-input"
                   type="text"
                   placeholder="Course Name"
                   onChange={(e) => onChange(e)}
@@ -84,11 +76,11 @@ const AddEducation = ({
                 <Alert param="title" />
               </div>
               <div className="input-form__group u-margin-bottom-medium">
-                <label className="input-form__label" htmlFor="location">
+                <label className="form-label" htmlFor="location">
                   University or School Attended
                 </label>
                 <input
-                  className="input-form__input"
+                  className="input-form__input text-input"
                   type="text"
                   placeholder="University or School Name"
                   onChange={(e) => onChange(e)}
@@ -101,13 +93,12 @@ const AddEducation = ({
             </div>
             <div className="input-form__row">
               <div className="input-form__group input-form__group--start-date u-margin-bottom-medium">
-                <label className="input-form__label" htmlFor="from">
+                <label className="form-label" htmlFor="from">
                   Start Date
                 </label>
                 <input
-                  className="input-form__input"
+                  className="input-form__input text-input"
                   type="date"
-                  placeholder="University or School name"
                   onChange={(e) => onChange(e)}
                   value={from}
                   name="from"
@@ -119,15 +110,15 @@ const AddEducation = ({
               <div
                 className={`input-form__group u-margin-bottom-medium ${
                   toDateDisabled && "input-form__group--disabled"
-                }`}
-              >
-                <label className="input-form__label" htmlFor="email">
+                }`}>
+                <label
+                  className="form-label  form-label--no-wrap"
+                  htmlFor="email">
                   End Date
                 </label>
                 <input
-                  className="input-form__input"
+                  className="input-form__input text-input"
                   type="date"
-                  placeholder="University or School name"
                   onChange={(e) => onChange(e)}
                   disabled={toDateDisabled ? "disabled" : ""}
                   value={to}
@@ -138,11 +129,10 @@ const AddEducation = ({
               </div>
 
               <div className="input-form__group input-form__group--checkbox u-margin-bottom-medium checkbox">
-                <div className="input-form__label">Current?</div>
+                <div className="form-label">Current?</div>
                 <label
                   htmlFor="current"
-                  className="checkbox-label checkbox__label"
-                >
+                  className="checkbox-label checkbox__label">
                   <input
                     className="checkbox__input"
                     type="checkbox"
@@ -161,16 +151,16 @@ const AddEducation = ({
             </div>
 
             <div className="input-form__group u-margin-bottom-medium ">
-              <label className="input-form__label" htmlFor="email">
+              <label className="form-label" htmlFor="email">
                 Description
               </label>
               <textarea
-                className="input-form__input input-form__input--text-area"
-                placeholder="University or School name"
+                className="text-input input-form__input input-form__input--text-area"
+                placeholder="Add some more detail about your studies"
                 onChange={(e) => onChange(e)}
                 value={description}
                 name="description"
-                rows="6"
+                rows="5"
                 cols="50"
                 // required
               ></textarea>
@@ -188,11 +178,12 @@ AddEducation.propTypes = {
   clearAlerts: PropTypes.func.isRequired,
   alerts: PropTypes.array.isRequired,
   addEducation: PropTypes.func.isRequired,
-
 };
 
 const mapStateToProps = (state) => ({
   alerts: state.alert,
 });
 
-export default connect(mapStateToProps, { addEducation, clearAlerts })(AddEducation);
+export default connect(mapStateToProps, { addEducation, clearAlerts })(
+  withRouter(AddEducation)
+);
