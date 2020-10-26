@@ -2,6 +2,8 @@ const express = require("express");
 const router = express.Router();
 const auth = require("../../middleware/auth");
 const { check, validationResult } = require("express-validator");
+const multer = require("multer");
+const upload = multer({ dest: "uploads/" });
 
 const Post = require("../../models/Post");
 // const Profile = require("../../models/Profile");
@@ -13,7 +15,11 @@ const User = require("../../models/Users");
 // @access Private
 router.post(
   "/",
-  [auth, [check("text", "Description is required").not().isEmpty()]],
+  [
+    auth,
+    [check("caption", "Description is required").not().isEmpty()],
+    upload.single("image"),
+  ],
   async (req, res) => {
     const errors = validationResult(req);
     if (!errors.isEmpty()) {
@@ -24,8 +30,10 @@ router.post(
       // -password means user is fetched without password property
       const user = await User.findById(req.user.id).select("-password");
 
+      console.log(req.body);
+
       const newPost = new Post({
-        text: req.body.text,
+        text: req.body.caption,
         name: user.name,
         avatar: user.avatar,
         user: req.user.id,
