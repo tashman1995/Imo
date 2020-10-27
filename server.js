@@ -1,12 +1,18 @@
 const express = require("express");
 const connectDB = require("./config/db");
 const app = express();
+const dotenv = require("dotenv").config();
 
 // CONNECT DB
 connectDB();
 
 // INIT MIDDLEWARE
-app.use(express.json({ extended: false }));
+// app.use(express.json({ extended: false }));
+// Allow larger images
+app.use(express.json({ limit: "50mb" }));
+app.use(
+  express.urlencoded({ limit: "50mb", extended: true, parameterLimit: 50000 })
+);
 
 app.get("/", (req, res) => res.send("API Running"));
 

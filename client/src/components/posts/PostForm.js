@@ -5,16 +5,25 @@ import { addPost } from "../../actions/post";
 
 const PostForm = ({ addPost }) => {
   const [caption, setCaption] = useState("");
+  const [fileInputState, setFileInputState] = useState("");
   const [image, setImage] = useState("");
 
-  // const postDetails = () => {
-  //     const formData = new FormData()
-  //     formData.append("file", image)
-  //     formData.append("upload_preset", "imoSocialMedia")
-  //     formData.append("cloud_name", "doyhcbl8x")
-  //     fetch("	https://api.cloudinary.com/v1_1/doyhcbl8x/image/upload");
+  const handleFileInputChange = (e) => {
+    const file = e.target.files[0];
+    previewFile(file);
+  };
 
-  // }
+  const previewFile = (file) => {
+    // Use file reader from built in JS Api
+    const reader = new FileReader();
+    // Convert image to string
+    reader.readAsDataURL(file);
+    reader.onloadend = () => {
+      setImage(reader.result);
+    };
+  };
+
+
 
   return (
     <div className="post-form">
@@ -32,7 +41,8 @@ const PostForm = ({ addPost }) => {
           type="file"
           name="image"
           id=""
-          onChange={(e) => setImage(e.target.files[0])}
+          // value={image}
+          onChange={handleFileInputChange}
         />
         <textarea
           name="text"
@@ -44,6 +54,7 @@ const PostForm = ({ addPost }) => {
           required></textarea>
         <input type="submit" className="btn btn-dark my-1" value="Submit" />
       </form>
+      {image && <img src={image} style={{ height: "300px" }} />}
     </div>
   );
 };

@@ -2,24 +2,17 @@ const express = require("express");
 const router = express.Router();
 const auth = require("../../middleware/auth");
 const { check, validationResult } = require("express-validator");
-const multer = require("multer");
-const upload = multer({ dest: "uploads/" });
+const { cloudinary } = require("../../client/src/api/cloudinary");
 
 const Post = require("../../models/Post");
-// const Profile = require("../../models/Profile");
 const User = require("../../models/Users");
-// const { post } = require("request");
 
 // @route POST api/posts
 // @desc Create a post
 // @access Private
 router.post(
   "/",
-  [
-    auth,
-    [check("caption", "Description is required").not().isEmpty()],
-    upload.single("image"),
-  ],
+  [auth, [check("caption", "Captopion is required").not().isEmpty()]],
   async (req, res) => {
     const errors = validationResult(req);
     if (!errors.isEmpty()) {
@@ -30,11 +23,51 @@ router.post(
       // -password means user is fetched without password property
       const user = await User.findById(req.user.id).select("-password");
 
-      console.log(req.body);
+      // Crop landscape to fixed lanscape format and portrait to fixed postrait format
+      // const croppedImageFileStr = cloudinary.image(req.body.image, {
+      //   transformation: [
+      //     { if: "ar_gt_1:1" },
+      //     // Landscape
+      //     { width: 1080, height: 864, crop: "fill" },
+      //     // Postrait
+      //     { if: "else", width: 1080, height: 1350, crop: "fill" },
+      //    ,
+      //   ],
+      // });
+
+      //    console.log(croppedImageFileStr);
+
+      const uploadedResponse = await cloudinary.uploader.upload(req.body.image, {
+        upload_preset: "imoSocialMedia",
+        responsive_breakpoints: {
+          create_derived: true,
+          bytes_step: 20000,
+          min_width: 200,
+          max_width: 1080,
+          max_images: 4,
+        },
+        transformation: [
+          { if: "ar_gt_1:1" },
+          // Landscape
+          { width: 1080, height: 770, crop: "fill" },
+          // Portrait
+          { if: "else", width: 1080, height: 1350, crop: "fill" },
+         ,
+        ],
+      });
+
+     console.log('uploaded response',uploadedResponse);
+
+      /////////////////////////////////////////////
+      // TO DO ADD RESPONSIVE IMAGE LOADING
+      /////////////////////////////////////////////
+
+    
 
       const newPost = new Post({
         text: req.body.caption,
         name: user.name,
+        image: uploadedResponse.url,
         avatar: user.avatar,
         user: req.user.id,
       });
@@ -147,7 +180,6 @@ router.put("/unlike/:id", auth, async (req, res) => {
       post.likes.filter((like) => like.user.toString() === req.user.id)
         .length === 0
     ) {
-      console.log("present");
       return res.status(400).json({ msg: "Post has not yet been liked" });
     }
     const removeIndex = post.likes
@@ -223,7 +255,7 @@ router.delete("/comment/:id/:comment_id", auth, async (req, res) => {
     }
 
     // Get remove index
-    // console.log(req.params.user_id)
+
     const removeIndex = post.comments
       .map((comment) => comment.id.toString())
       .indexOf(req.params.comment_id);
