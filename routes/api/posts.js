@@ -23,19 +23,6 @@ router.post(
       // -password means user is fetched without password property
       const user = await User.findById(req.user.id).select("-password");
 
-      // Crop landscape to fixed lanscape format and portrait to fixed postrait format
-      // const croppedImageFileStr = cloudinary.image(req.body.image, {
-      //   transformation: [
-      //     { if: "ar_gt_1:1" },
-      //     // Landscape
-      //     { width: 1080, height: 864, crop: "fill" },
-      //     // Postrait
-      //     { if: "else", width: 1080, height: 1350, crop: "fill" },
-      //    ,
-      //   ],
-      // });
-
-      //    console.log(croppedImageFileStr);
 
       const uploadedResponse = await cloudinary.uploader.upload(req.body.image, {
         upload_preset: "imoSocialMedia",

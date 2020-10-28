@@ -14,6 +14,11 @@ const PostSchema = new Schema({
     type: Array,
     required: true
   },
+  height: {
+    type: Number,
+    required: true,
+    default: 1350
+  },
   name: {
     type: String,
   },

@@ -1,112 +1,78 @@
-import React, { Fragment, useEffect, useState } from "react";
+import React, { Fragment, useEffect, useState, useRef } from "react";
 import PropTypes from "prop-types";
 import { connect } from "react-redux";
 import PostItem from "./PostItem";
+import PostElement from "./PostElement";
 import PostForm from "./PostForm";
+import Loading from "../reausable/Loading";
 import { getPosts } from "../../actions/post";
+import {
+  SpringGrid,
+  measureItems,
+  layout,
+  makeResponsive,
+} from "react-stonecutter";
 import "./Posts.scss";
 
-// Grid
-import { Grid, Slug, Fade } from "mauerwerk";
-import lodash from "lodash";
-import PostsHeader from "./PostsHeader";
-import Icon from "@ant-design/icons";
-import data from "./data";
-
-const Cell = ({ toggle,text, name, description, css, maximized, image  }) => (
-  <div
-    className="cell"
-    style={{ backgroundImage: css, cursor: !maximized ? "pointer" : "auto" }}
-    onClick={!maximized ? toggle : undefined}>
-    <Fade show={maximized} delay={maximized ? 400 : 0}>
-      <div className="details">
-        <Slug delay={600}>
-          <div className="circle" style={{ background: css }} />
-          <div className="close">
-            {/* <Icon type="close" style={{ cursor: "pointer" }} onClick={toggle} /> */}
-          </div>
-          <h1>{name}</h1>
-          <p>{description}</p>
-        </Slug>
-      </div>
-    </Fade>
-    <Fade
-      show={!maximized}
-      from={{ opacity: 0, transform: "translate3d(0,140px,0)" }}
-      enter={{ opacity: 1, transform: "translate3d(0,0px,0)" }}
-      leave={{ opacity: 0, transform: "translate3d(0,-50px,0)" }}
-      delay={maximized ? 0 : 400}>
-      <div className="default">
-        <img className="cell__image" src={image[0]} alt=""/>
-      </div>
-    </Fade>
-  </div>
-);
+// const Grid = makeResponsive(SpringGrid, {
+//   maxWidth: 800,
+//   minPadding: 100,
+// });
 
 const Posts = ({ getPosts, post: { posts } }) => {
   useEffect(() => {
     getPosts();
   }, [getPosts]);
 
-  const [postsState, setPostsState] = useState(posts);
-  const [columns, setColumnsState] = useState(4);
-  const [margin, setMarginState] = useState(20);
-  const [filter, setFilter] = useState("");
-  const [height, setHeightState] = useState(true);
+  // const handleStateChange = () => {
+  //   setLoading(!imagesLoaded(gallery.current));
+  // };
 
-  const search = (e) => setFilter(e.target.value);
-  const shuffle = () => setPostsState(lodash.shuffle(posts));
-  const setColumns = (e) => setColumnsState(parseInt(e.key));
-  const setMargin = (e) => setMarginState(parseInt(e.key));
-  const setHeight = (e) => setHeightState(e);
+  // const imagesLoaded = (parentNode) => {
+  //   const imgElements = parentNode.querySelectorAll("img");
+  //   console.log(imgElements);
+  //   for (const img of imgElements) {
+  //     if (!img.complete) {
+  //       return false;
+  //     }
+  //   }
+  //   return true;
+  // };
 
-  console.log(postsState)
+  const [loading, setLoading] = useState(true);
 
+  const gallery = useRef();
+  console.log("gallery:", gallery.current);
+
+  posts.forEach((post) => {
+    console.log(post);
+  });
   return (
     <Fragment>
-      <div className="main">
-        <PostsHeader
-          search={search}
-          shuffle={shuffle}
-          setColumns={setColumns}
-          setMargin={setMargin}
-          setHeight={setHeight}
-        />
-        <Grid
-          className="grid"
-          // Arbitrary data, should contain keys, possibly heights, etc.
-          data={posts}
-          // Key accessor, instructs grid on how to fet individual keys from the data set
-          keys={(d) => d._id}
-          // Can be a fixed value or an individual data accessor
-          // heights={height ? (d) => d.height : 200}
-          heights={400}
-          // Number of columns
-          columns={columns}
-          // Space between elements
-          margin={margin}
-          // Removes the possibility to scroll away from a maximized element
-          lockScroll={false}
-          // Delay when active elements (blown up) are minimized again
-          closeDelay={400}>
-          {(postsState, maximized, toggle) => (
-            <Cell {...postsState} style="border-radius: 1.2rem"  maximized={maximized} toggle={toggle} />
-          )}
-        </Grid>
+      {/* {loading && <Loading />} */}
+
+      <div ref={gallery} className="">
+        <SpringGrid
+          component="ul"
+          columns={5}
+          columnWidth={150}
+          gutterWidth={50}
+          gutterHeight={50}
+          layout={layout.pinterest}
+          duration={800}
+          easing="ease-out">
+          <li key="A" className="post" itemHeight={150}>
+            A
+          </li>
+          <li key="B" className="post" itemHeight={120}>
+            B
+          </li>
+          <li key="C" className="post" itemHeight={170}>
+            C
+          </li>
+        </SpringGrid>
       </div>
     </Fragment>
-    // <Fragment>
-    //   <h1 className="large text-primary">Posts</h1>
-    //   <p className="lead">
-    //     <i className="fas fa-user" /> Welcome to the community
-    //   </p>
-    //   <PostForm />
-    //   <div className="posts">
-    //     {posts.map((post) => (
-    //       <PostItem key={post._id} post={post} />
-    //     ))}
-    //   </div>
-    // </Fragment>
   );
 };
 

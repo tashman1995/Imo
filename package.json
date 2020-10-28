@@ -31,6 +31,7 @@
     "node-sass": "^4.14.1",
     "react-spring": "^8.0.27",
     "react-spring-modal": "^1.0.8",
+    "react-stonecutter": "^0.3.10",
     "request": "^2.88.2",
     "styled-components": "^5.2.0"
   },
