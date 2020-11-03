@@ -1,6 +1,5 @@
 import React, { Fragment, useState, useEffect } from "react";
 import { Link } from "react-router-dom";
-import PropTypes from "prop-types";
 import { CenterModal } from "react-spring-modal";
 import { animated, useTransition } from "react-spring";
 import "react-spring-modal/dist/index.css";

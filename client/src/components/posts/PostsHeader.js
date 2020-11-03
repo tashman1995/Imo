@@ -1,60 +1,46 @@
-import React from "react";
-import { Button, Input, Dropdown, Menu, Switch } from "antd";
-import Icon from "@ant-design/icons";
-import "./Posts.scss";
+import React, {  useState } from "react";
+import PropTypes from "prop-types";
+import { connect } from "react-redux";
 
-export default function ({
-  shuffle,
-  search,
-  setColumns,
-  setMargin,
-  setHeight,
-  columns,
-  margin,
-}) {
+import Select from '../layout/Select';
+const PostsHeader = (props) => {
+ const [formData, setFormData] = useState({
+   search: ""
+ });
+
+   const { search } = formData;
+
+  const onChange = (e) =>
+    setFormData({ ...formData, [e.target.name]: e.target.value });
+
   return (
-    <div className="header">
-      <Button type="primary" onClick={shuffle}>
-        Shuffle
-      </Button>
-      <Input
-        style={{ marginLeft: 15, minWidth: 130, maxWidth: 300 }}
-        suffix={<Icon type="search" style={{ color: "rgba(0,0,0,.25)" }} />}
-        placeholder="input search text"
-        onChange={search}
+    <div className="post-header">
+      <h1 className="heading-primary">Posts</h1>
+      <Select
+        label="Tag Selector"
+        placeholder="Select an Option"
+        options={["2 Columns", "3 Columns", "4 Columns", "5 Columns"]}
       />
-      <Dropdown
-        trigger={["click"]}
-        overlay={
-          <Menu onClick={setColumns}>
-            <Menu.Item key="1">1</Menu.Item>
-            <Menu.Item key="2">2</Menu.Item>
-            <Menu.Item key="3">3</Menu.Item>
-            <Menu.Item key="4">4</Menu.Item>
-            <Menu.Item key="5">5</Menu.Item>
-            <Menu.Item key="6">6</Menu.Item>
-          </Menu>
-        }>
-        <Button style={{ marginLeft: 15, minWidth: 130 }}>
-          {columns} Columns <Icon type="down" />
-        </Button>
-      </Dropdown>
-      <Dropdown
-        trigger={["click"]}
-        overlay={
-          <Menu onClick={setMargin}>
-            <Menu.Item key="0">0</Menu.Item>
-            <Menu.Item key="20">20</Menu.Item>
-            <Menu.Item key="40">40</Menu.Item>
-            <Menu.Item key="70">70</Menu.Item>
-          </Menu>
-        }>
-        <Button style={{ marginLeft: 15, minWidth: 130 }}>
-          {margin} px margin <Icon type="down" />
-        </Button>
-      </Dropdown>
-      <span style={{ marginLeft: 15 }}>Individual height</span>
-      <Switch style={{ marginLeft: 15 }} defaultChecked onChange={setHeight} />
+      <form
+        onSubmit={(e) => {
+          e.preventDefault();
+          searchPosts(formData);
+        }}>
+        <input
+          type="text"
+          name="search"
+          value={search}
+          placeholder="Search Posts"
+          onChange={(e) => onChange(e)}
+        />
+        <input type="submit" />
+      </form>
     </div>
   );
-}
+};
+
+PostsHeader.propTypes = {
+  searchPosts: PropTypes.func.isRequired,
+};
+
+export default connect(null, {searchPosts})(PostsHeader);

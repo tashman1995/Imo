@@ -7,7 +7,6 @@ import { getProfileById } from "../../actions/profile";
 import ProfileTop from "./ProfileTop";
 import ProfileExperience from "./ProfileExperience";
 import ProfileEducation from "./ProfileEducation";
-import ProfileAbout from "./ProfileAbout";
 import "./Profile.scss";
 
 const Profile = ({

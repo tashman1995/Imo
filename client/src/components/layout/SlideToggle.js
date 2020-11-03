@@ -1,5 +1,4 @@
-import React, { useRef, useState } from "react";
-import ReactDOM from "react-dom";
+import React, { useRef } from "react";
 import { bool, node } from "prop-types";
 import { useTransition, animated } from "react-spring";
 import styled from "styled-components";

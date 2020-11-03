@@ -21,8 +21,12 @@ html {
   // font-size: 62.5%; //1rem is 10px
   font-size: 56%; //Making Everything Smaller, design preference
 
+  // Scrollbar shift solution
+ 
+
   @media only screen and (max-width: $bp-largest) {
     font-size: 50%;
+  
   }
 }
 
@@ -64,7 +68,8 @@ button {
   }
 }
 
-input[type="date"], input[type="time"] {
+input[type="date"],
+input[type="time"] {
   font-family: $font-family;
 }
 
@@ -75,8 +80,4 @@ a {
 
 .ModalBackdrop {
   z-index: 1001;
-  
-  
 }
-
-

@@ -102,6 +102,26 @@ router.get("/:id", auth, async (req, res) => {
   }
 });
 
+// @route GET api/posts/search/:term
+// @desc GET post by ID
+// @access Private
+router.get("/search/:term", auth, async (req, res) => {
+  try {
+    const posts = await Post.findById(req.params.id);
+    if (!post) {
+      res.status(404).json({ msg: "Post not found" });
+    }
+    res.json(post);
+  } catch (err) {
+    // Checking Error type, if err.kind is ObjectId it meand an ID was present but it wasnt in the form expected
+    if (err.kind == "ObjectId") {
+      return res.status(400).json({ msg: "Post not found" });
+    }
+    console.error(err.message);
+    res.status(500).send("Server Error");
+  }
+});
+
 // @route DELETE api/posts/:id
 // @desc Delete Post by ID
 // @access Private

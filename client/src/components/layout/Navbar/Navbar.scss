@@ -6,8 +6,10 @@
     top: 0;
     transition: top .6s;
     overflow: hidden;
-    width: 100%;
+    // Solves scrollbar shift issue
+    width: calc(100% + 100vw - 100%);
     z-index: 1000;
+   
   
     // GRID SETUP
     

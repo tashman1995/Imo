@@ -1,77 +1,138 @@
-import React, { Fragment, useEffect, useState, useRef } from "react";
+import React, { useState, useEffect, Fragment } from "react";
 import PropTypes from "prop-types";
 import { connect } from "react-redux";
-import PostItem from "./PostItem";
-import PostElement from "./PostElement";
-import PostForm from "./PostForm";
-import Loading from "../reausable/Loading";
 import { getPosts } from "../../actions/post";
-import {
-  SpringGrid,
-  measureItems,
-  layout,
-  makeResponsive,
-} from "react-stonecutter";
+import Navbar from "../../components/layout/Navbar";
+import PostsHeader from "./PostsHeader";
+import Grid from "../layout/Grid";
 import "./Posts.scss";
 
-// const Grid = makeResponsive(SpringGrid, {
-//   maxWidth: 800,
-//   minPadding: 100,
-// });
+const Posts = ({ getPosts, post: { posts, loading } }) => {
+  // Initialise State
+  const [scaleFactor, setScaleFactor] = useState(3.5);
+  const [columns, setColumns] = useState(5);
+  const [scaleConstant, setConstant] = useState(0.001);
+  const [orderedPosts, setOrderedPosts] = useState(posts);
+  // 2 columns 0.000270
+  //3 columns 0.000238
+  // 4 columns 0.000168
+  // 5 columns 0.000145
 
-const Posts = ({ getPosts, post: { posts } }) => {
+  const constants = {
+    1: 0.0004,
+    2: 0.00027,
+    3: 0.000238,
+    4: 0.000168,
+    5: 0.000125,
+  };
+
+  //GET POSTS
   useEffect(() => {
     getPosts();
   }, [getPosts]);
 
-  // const handleStateChange = () => {
-  //   setLoading(!imagesLoaded(gallery.current));
-  // };
+  // MANAGE SCALING
+  const manageScaling = () => {
+    console.log(window.innerWidth);
 
-  // const imagesLoaded = (parentNode) => {
-  //   const imgElements = parentNode.querySelectorAll("img");
-  //   console.log(imgElements);
-  //   for (const img of imgElements) {
-  //     if (!img.complete) {
-  //       return false;
-  //     }
-  //   }
-  //   return true;
-  // };
+    if (window.innerWidth <= 1800) {
+      if (window.innerWidth <= 900) {
+        console.log("900 - 1800");
+        setConstant(constants[columns]);
+        // Set scale factor
+        setScaleFactor(1 / (window.innerWidth * scaleConstant * .7));
+        // Handle scale factor on  Window resiizing
+        window.addEventListener("resize", () =>
+          setScaleFactor(1 / (window.innerWidth * scaleConstant * .7))
+        );
+      } else {
+        console.log("900 - 1800");
+        setConstant(constants[columns]);
+        // Set scale factor
+        setScaleFactor(1 / (window.innerWidth * scaleConstant));
+        // Handle scale factor on  Window resiizing
+        window.addEventListener("resize", () =>
+          setScaleFactor(1 / (window.innerWidth * scaleConstant))
+        );
+      }
+    } else if (window.innerWidth >= 1800) {
+      console.log("larger than 1800");
+      // Set scale factor
 
-  const [loading, setLoading] = useState(true);
+      setScaleFactor(columns > 3 ? 0.82 * columns : 2);
+      // Handle scale factor on  Window resiizing
+    }
+  };
 
-  const gallery = useRef();
-  console.log("gallery:", gallery.current);
+  // ON RERENDER
+  useEffect(() => {
+    // Set shown post array to equal posts
+    setOrderedPosts(posts);
+    manageScaling();
 
-  posts.forEach((post) => {
-    console.log(post);
+    window.addEventListener("resize", () => manageScaling());
+
+    return () => {
+      window.removeEventListener("resize", () => manageScaling());
+    };
   });
+
+  // SHUFFLE ITEMS
+  const shuffle = (array) => {
+    var m = array.length,
+      t,
+      i;
+
+    while (m) {
+      i = Math.floor(Math.random() * m--);
+      t = array[m];
+      array[m] = array[i];
+      array[i] = t;
+    }
+
+    return array;
+  };
+  const handleShuffle = (array) => {
+    const shuffledArray = shuffle(array);
+    setOrderedPosts([...shuffledArray]);
+  };
+
+  // const gridRef = useRef(null);
+  // console.log(gridRef.current)
+
   return (
     <Fragment>
-      {/* {loading && <Loading />} */}
+      <Navbar stage="2" />
 
-      <div ref={gallery} className="">
-        <SpringGrid
-          component="ul"
-          columns={5}
-          columnWidth={150}
-          gutterWidth={50}
-          gutterHeight={50}
-          layout={layout.pinterest}
-          duration={800}
-          easing="ease-out">
-          <li key="A" className="post" itemHeight={150}>
-            A
-          </li>
-          <li key="B" className="post" itemHeight={120}>
-            B
-          </li>
-          <li key="C" className="post" itemHeight={170}>
-            C
-          </li>
-        </SpringGrid>
+      <div className="posts">
+        <div className="u-grid">
+          <PostsHeader />
+        </div>
+
+        <button onClick={() => handleShuffle(orderedPosts)}>Click</button>
+
+        <Grid
+          className="posts__grid"
+          columnWidth={1080 / scaleFactor}
+          columns={columns}
+          scaleFactor={scaleFactor}>
+          {orderedPosts.map((post) => {
+            return (
+              <li
+                key={post._id}
+                className="posts__item"
+                itemHeight={post.height / scaleFactor}
+                style={{
+                  width: 1080 / scaleFactor,
+                  height: post.height / scaleFactor,
+                }}>
+                <img src={post.image[0]} className="posts__image" alt="" />
+              </li>
+            );
+          })}
+        </Grid>
       </div>
+      {/* )} */}
     </Fragment>
   );
 };
