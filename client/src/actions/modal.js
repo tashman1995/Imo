@@ -6,6 +6,7 @@ import {
    OPEN_ADD_PROFILE_MODAL, CLOSE_ADD_PROFILE_MODAL,
    OPEN_EDIT_PROFILE_MODAL, CLOSE_EDIT_PROFILE_MODAL,
    OPEN_EDIT_SOCIALMEDIA_MODAL, CLOSE_EDIT_SOCIALMEDIA_MODAL,
+   OPEN_NEW_POST_MODAL, CLOSE_NEW_POST_MODAL,
   } from "../actions/types";
 
 ////////////////////////////////////////////////////////////
@@ -13,7 +14,7 @@ import {
 ////////////////////////////////////////////////////////////
 
 // Open add Edu modal
-export const openAddEducationModal = () => dispatch => {
+export const openAddEduModal = () => dispatch => {
     dispatch({
         type: OPEN_ADD_EDU_MODAL
     })
@@ -21,22 +22,23 @@ export const openAddEducationModal = () => dispatch => {
 
 
 // Close add Edu modal
-export const closeAddEducationModal = () => dispatch => {
+export const closeAddEduModal = () => dispatch => {
     dispatch({
         type: CLOSE_ADD_EDU_MODAL
     })
 }
 
 // Open edit Edu modal
-export const openEditEducationModal = () => dispatch => {
+export const openEditEduModal = (id) => dispatch => {
     dispatch({
-        type: OPEN_EDIT_EDU_MODAL
+        type: OPEN_EDIT_EDU_MODAL,
+        payload: id
     })
 }
 
 
 // Close edit Edu modal
-export const closeEditEducationModal = () => dispatch => {
+export const closeEditEduModal = () => dispatch => {
     dispatch({
         type: CLOSE_EDIT_EDU_MODAL
     })
@@ -48,7 +50,7 @@ export const closeEditEducationModal = () => dispatch => {
 ////////////////////////////////////////////////////////////
 
 // Open add Experience modal
-export const openAddExperienceModal = () => dispatch => {
+export const openAddExpModal = () => dispatch => {
     dispatch({
         type: OPEN_ADD_EXP_MODAL
     })
@@ -56,22 +58,23 @@ export const openAddExperienceModal = () => dispatch => {
 
 
 // Close add Experience modal
-export const closeAddExperienceModal = () => dispatch => {
+export const closeAddExpModal = () => dispatch => {
     dispatch({
         type: CLOSE_ADD_EXP_MODAL
     })
 }
 
 // Open edit Experience modal
-export const openEditExperienceModal = () => dispatch => {
+export const openEditExpModal = (id) => dispatch => {
     dispatch({
-        type: OPEN_EDIT_EXP_MODAL
+        type: OPEN_EDIT_EXP_MODAL,
+        payload: id
     })
 }
 
 
 // Close edit experience modal
-export const closeEditExperienceModal = () => dispatch => {
+export const closeEditExpModal = () => dispatch => {
     dispatch({
         type: CLOSE_EDIT_EXP_MODAL
     })
@@ -128,4 +131,22 @@ export const closeEditSocialMediaModal = () => dispatch => {
     dispatch({
         type: CLOSE_EDIT_SOCIALMEDIA_MODAL
     })
+}
+////////////////////////////////////////////////////////////
+//  Add new post Modal
+////////////////////////////////////////////////////////////
+
+// Open edit Social Media modal
+export const openAddNewPostModal = () => dispatch => {
+    dispatch({
+        type: OPEN_NEW_POST_MODAL
+    })
+}
+
+
+// Close edit Social Media modal
+export const closeAddNewPostModal = () => dispatch => {
+    dispatch({
+      type: CLOSE_NEW_POST_MODAL,
+    });
 }

@@ -20,6 +20,7 @@ const EditEducation = ({
   profile: { profile, loading },
   clearAlerts,
 }) => {
+
   const [formData, setFormData] = useState({
     title: "",
     location: "",
@@ -34,6 +35,7 @@ const EditEducation = ({
     const editIndex = profile.education
       .map((item) => item._id)
       .indexOf(educationId);
+     
     setFormData({
       title:
         loading || !profile.education[editIndex].title
@@ -62,7 +64,7 @@ const EditEducation = ({
           ? ""
           : profile.education[editIndex].description,
     });
-  }, [loading, educationId, getCurrentProfile]);
+  }, []);
 
   const { title, location, description, from, to, current } = formData;
 

@@ -5,21 +5,21 @@ import "react-spring-modal/dist/index.css";
 import AddExperience from "../profile-form/AddExperience";
 import Modal from "./Modal";
 import {
-  closeAddExperienceModal,
-  openAddExperienceModal,
+  closeAddExpModal,
+  openAddExpModal,
 } from "../../actions/modal";
 
 const AddExperienceModal = ({
-  modal: { addExperienceModal },
-  openAddExperienceModal,
-  closeAddExperienceModal,
+  modal: { addExpModal },
+  openAddExpModal,
+  closeAddExpModal,
 }) => {
   return (
     <Modal
-      openModal={openAddExperienceModal}
-      modal={addExperienceModal}
-      closeModal={closeAddExperienceModal}>
-      <AddExperience closeAddExperienceModal={closeAddExperienceModal} />
+      openModal={openAddExpModal}
+      modal={addExpModal}
+      closeModal={closeAddExpModal}>
+      <AddExperience closeAddExpModal={closeAddExpModal} />
     </Modal>
   );
 };
@@ -29,11 +29,11 @@ const mapStateToProps = (state) => ({
 });
 
 AddExperienceModal.propTypes = {
-  openAddExperienceModal: PropTypes.func.isRequired,
-  closeAddExperienceModal: PropTypes.func.isRequired,
+  openAddExpModal: PropTypes.func.isRequired,
+  closeAddExpModal: PropTypes.func.isRequired,
 };
 
 export default connect(mapStateToProps, {
-  openAddExperienceModal,
-  closeAddExperienceModal,
+  openAddExpModal,
+  closeAddExpModal,
 })(AddExperienceModal);

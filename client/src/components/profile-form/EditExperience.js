@@ -30,12 +30,16 @@ const EditExperience = ({
     paid: false,
   });
 
+ 
+
   useEffect(() => {
     getCurrentProfile();
     const editIndex = profile.experience
       .map((item) => item._id)
       .indexOf(experienceId);
 
+      console.log('editindex', editIndex)
+  
     setFormData({
       title:
         loading || !profile.experience[editIndex].title
@@ -65,7 +69,7 @@ const EditExperience = ({
           ? ""
           : profile.experience[editIndex].description,
     });
-  }, [loading, getCurrentProfile, experienceId]);
+  }, []);
 
   const { title, description, from, to, current, paid } = formData;
 

@@ -3,9 +3,10 @@ import PropTypes from "prop-types";
 import { connect } from "react-redux";
 import { searchPosts } from "../../actions/post";
 import {  animated, useSpring } from "react-spring";
+import {openAddNewPostModal} from "../../actions/modal"
 
 import Select from "../layout/Select";
-const PostsHeader = ({ searchPosts, setColumns, shuffle }) => {
+const PostsHeader = ({ searchPosts, setColumns, shuffle, openAddNewPostModal }) => {
   const [searchTerm, setSearchTerm] = useState("");
 
   const onChange = (e) => {
@@ -39,7 +40,7 @@ const PostsHeader = ({ searchPosts, setColumns, shuffle }) => {
             shuffle();
             e.target.blur();
           }}>
-          Add Post &nbsp; <i class="fas fa-plus"></i>
+          Add Post &nbsp; <i className="fas fa-plus"></i>
         </button>
         <button
           className="post-header__btn"
@@ -97,6 +98,7 @@ const PostsHeader = ({ searchPosts, setColumns, shuffle }) => {
 
 PostsHeader.propTypes = {
   searchPosts: PropTypes.func.isRequired,
+  openAddNewPostModal: PropTypes.func.isRequired,
 };
 
-export default connect(null, { searchPosts })(PostsHeader);
+export default connect(null, { searchPosts, openAddNewPostModal })(PostsHeader);

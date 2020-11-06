@@ -6,6 +6,7 @@ import Navbar from "../../components/layout/Navbar";
 import PostsHeader from "./PostsHeader";
 import PostElement from "./PostElement";
 import Grid from "../layout/Grid";
+import AddNewPostModal from '../Modals/AddNewPostModal'
 
 import "./Posts.scss";
 
@@ -166,6 +167,7 @@ const Posts = ({ getPosts, post: { posts, loading } }) => {
         </Grid>
       </div>
       {/* )} */}
+      <AddNewPostModal />
     </Fragment>
   );
 };

@@ -23,11 +23,13 @@ const initialState = {
   addProfileModal: false,
   editProfileModal: false,
   editSocialMediaModal: false,
+  tempEducationId: null,
+  tempExperienceId: null,
   loading: true,
 };
 
 export default function (state = initialState, action) {
-  const { type } = action;
+  const { type, payload } = action;
 
   switch (type) {
     // Education Modals
@@ -44,11 +46,13 @@ export default function (state = initialState, action) {
     case CLOSE_EDIT_EDU_MODAL:
       return {
         editEduModal: false,
+        tempEducationId: null,
         loading: false,
       };
     case OPEN_EDIT_EDU_MODAL:
       return {
         editEduModal: true,
+        tempEducationId: payload,
         loading: false,
       };
 
@@ -66,11 +70,13 @@ export default function (state = initialState, action) {
     case CLOSE_EDIT_EXP_MODAL:
       return {
         editExpModal: false,
+        tempExperienceId: null,
         loading: false,
       };
     case OPEN_EDIT_EXP_MODAL:
       return {
         editExpModal: true,
+        tempExperienceId: payload,
         loading: false,
       };
 

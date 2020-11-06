@@ -3,17 +3,14 @@ import PropTypes from "prop-types";
 import Moment from "react-moment";
 import { connect } from "react-redux";
 import { deleteEducation } from "../../../actions/profile";
-import { openEditEduModal, closeEditEduModal } from "../../../actions/modal";
-import EditEducation from "../../profile-form/EditEducation";
-import { animated, useTransition } from "react-spring";
-import { CenterModal } from "react-spring-modal";
+import { openEditEduModal} from "../../../actions/modal";
+
 
 const Education = ({
   education,
   openAddEduModal,
   openEditEduModal,
-  closeEditEduModal,
-  modal: { editEduModal },
+ 
 }) => {
   const educations = education.map((edu) => (
     <tr className="dashboard-table__name" key={edu._id}>
@@ -34,8 +31,7 @@ const Education = ({
         <button
           className="btn btn--table"
           onClick={() => {
-            setEditEducationId(edu._id);
-            openEditEduModal();
+            openEditEduModal(edu._id);
           }}
         >
           Edit
@@ -44,23 +40,8 @@ const Education = ({
     </tr>
   ));
 
-  // const openEditEduModal = (id) => {
-  //   setEditEducationId(id);
-  //   setEditEduOpen(true);
-  // };
 
-  // const [editEduOpen, setEditEduOpen] = useState(false);
-  const [editEducationId, setEditEducationId] = useState("");
 
-  // const closeEditEduModal = () => {
-  //   setEditEduOpen(false);
-  // };
-
-  const fade = useTransition(openEditEduModal, null, {
-    from: { opacity: 0 },
-    enter: { opacity: 1 },
-    leave: { opacity: 0 },
-  });
 
   return (
     <Fragment>
@@ -86,19 +67,7 @@ const Education = ({
         </table>
       </section>
 
-      {/* <CenterModal isOpen={editEduModal} onRequestClose={closeEditEduModal}>
-        {fade.map(
-          ({ item, key, props }) =>
-            item && (
-              <animated.div key={key} style={props}>
-                <EditEducation
-                  educationId={editEducationId}
-                  closeEditEduModal={closeEditEduModal}
-                />
-              </animated.div>
-            )
-        )}
-      </CenterModal> */}
+  
     </Fragment>
   );
 };
@@ -107,15 +76,12 @@ Education.propTypes = {
   education: PropTypes.array.isRequired,
   deleteEducation: PropTypes.func.isRequired,
   openEditEduModal: PropTypes.func.isRequired,
-  closeEditEduModal: PropTypes.func.isRequired,
+  
 };
 
-const mapStateToProps = (state) => ({
-  modal: state.modal,
-});
 
-export default connect(mapStateToProps, {
+export default connect(null, {
   deleteEducation,
   openEditEduModal,
-  closeEditEduModal,
+  
 })(Education);

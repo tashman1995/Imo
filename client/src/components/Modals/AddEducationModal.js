@@ -4,19 +4,19 @@ import { connect } from "react-redux";
 import "react-spring-modal/dist/index.css";
 import AddEducation from "../profile-form/AddEducation";
 import Modal from "./Modal";
-import { closeAddEducationModal, openAddEducationModal } from "../../actions/modal";
+import { closeAddEduModal, openAddEduModal } from "../../actions/modal";
 
 const AddEducationModal = ({
-  modal: { addEducationModal },
-  openAddEducationModal,
-  closeAddEducationModal,
+  modal: { addEduModal },
+  openAddEduModal,
+  closeAddEduModal,
 }) => {
   return (
     <Modal
-      openModal={openAddEducationModal}
-      modal={addEducationModal}
-      closeModal={closeAddEducationModal}>
-      <AddEducation closeAddEducationModal={closeAddEducationModal} />
+      openModal={openAddEduModal}
+      modal={addEduModal}
+      closeModal={closeAddEduModal}>
+      <AddEducation closeAddEduModal={closeAddEduModal} />
     </Modal>
   );
 };
@@ -26,11 +26,11 @@ const mapStateToProps = (state) => ({
 });
 
 AddEducationModal.propTypes = {
-  openAddEducationModal: PropTypes.func.isRequired,
-  closeAddEducationModal: PropTypes.func.isRequired,
+  openAddEduModal: PropTypes.func.isRequired,
+  closeAddEduModal: PropTypes.func.isRequired,
 };
 
 export default connect(mapStateToProps, {
-  openAddEducationModal,
-  closeAddEducationModal,
+  openAddEduModal,
+  closeAddEduModal,
 })(AddEducationModal);

@@ -153,7 +153,6 @@ const EditSocialMedia = ({
                 />
                 <Alert param="behance" />
               </div>
-
               <div className="input-form__group">
                 <label className="form-label">
                   Link us to your LinkedIn profile
@@ -161,13 +160,14 @@ const EditSocialMedia = ({
                 <input
                   className="input-form__input text-input"
                   type="text"
-                  placeholder="LinkedIn URL"
+                  placeholder="LinkdIn URL"
                   name="linkedin"
                   value={linkedin}
                   onChange={(e) => onChange(e)}
                 />
                 <Alert param="linkedin" />
               </div>
+
             </div>
 
             <input type="submit" className="btn btn--full-width" />

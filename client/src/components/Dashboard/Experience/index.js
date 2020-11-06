@@ -10,11 +10,8 @@ import { CenterModal } from "react-spring-modal";
 
 const Experience = ({
   experience,
-  deleteExperience,
   openAddExpModal,
   openEditExpModal,
-  closeEditExpModal,
-  modal: { editExpModal },
 }) => {
   const experiences = experience.map((exp) => (
     <tr className="dashboard-table__name" key={exp._id}>
@@ -32,8 +29,7 @@ const Experience = ({
         <button
           className="btn btn--table"
           onClick={() => {
-            setEditExperienceId(exp._id);
-            openEditExpModal();
+            openEditExpModal(exp._id);
           }}
         >
           Edit
@@ -42,13 +38,7 @@ const Experience = ({
     </tr>
   ));
 
-  const [editExperienceId, setEditExperienceId] = useState("");
 
-  const fade = useTransition(openEditExpModal, null, {
-    from: { opacity: 0 },
-    enter: { opacity: 1 },
-    leave: { opacity: 0 },
-  });
 
   return (
     <Fragment>
