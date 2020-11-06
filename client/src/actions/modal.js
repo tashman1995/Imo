@@ -13,7 +13,7 @@ import {
 ////////////////////////////////////////////////////////////
 
 // Open add Edu modal
-export const openAddEduModal = () => dispatch => {
+export const openAddEducationModal = () => dispatch => {
     dispatch({
         type: OPEN_ADD_EDU_MODAL
     })
@@ -21,14 +21,14 @@ export const openAddEduModal = () => dispatch => {
 
 
 // Close add Edu modal
-export const closeAddEduModal = () => dispatch => {
+export const closeAddEducationModal = () => dispatch => {
     dispatch({
         type: CLOSE_ADD_EDU_MODAL
     })
 }
 
 // Open edit Edu modal
-export const openEditEduModal = () => dispatch => {
+export const openEditEducationModal = () => dispatch => {
     dispatch({
         type: OPEN_EDIT_EDU_MODAL
     })
@@ -36,7 +36,7 @@ export const openEditEduModal = () => dispatch => {
 
 
 // Close edit Edu modal
-export const closeEditEduModal = () => dispatch => {
+export const closeEditEducationModal = () => dispatch => {
     dispatch({
         type: CLOSE_EDIT_EDU_MODAL
     })
@@ -48,7 +48,7 @@ export const closeEditEduModal = () => dispatch => {
 ////////////////////////////////////////////////////////////
 
 // Open add Experience modal
-export const openAddExpModal = () => dispatch => {
+export const openAddExperienceModal = () => dispatch => {
     dispatch({
         type: OPEN_ADD_EXP_MODAL
     })
@@ -56,14 +56,14 @@ export const openAddExpModal = () => dispatch => {
 
 
 // Close add Experience modal
-export const closeAddExpModal = () => dispatch => {
+export const closeAddExperienceModal = () => dispatch => {
     dispatch({
         type: CLOSE_ADD_EXP_MODAL
     })
 }
 
 // Open edit Experience modal
-export const openEditExpModal = () => dispatch => {
+export const openEditExperienceModal = () => dispatch => {
     dispatch({
         type: OPEN_EDIT_EXP_MODAL
     })
@@ -71,7 +71,7 @@ export const openEditExpModal = () => dispatch => {
 
 
 // Close edit experience modal
-export const closeEditExpModal = () => dispatch => {
+export const closeEditExperienceModal = () => dispatch => {
     dispatch({
         type: CLOSE_EDIT_EXP_MODAL
     })

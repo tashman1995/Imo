@@ -23,33 +23,33 @@ router.post(
       // -password means user is fetched without password property
       const user = await User.findById(req.user.id).select("-password");
 
+      const uploadedResponse = await cloudinary.uploader.upload(
+        req.body.image,
+        {
+          upload_preset: "imoSocialMedia",
+          responsive_breakpoints: {
+            create_derived: true,
+            bytes_step: 20000,
+            min_width: 200,
+            max_width: 1080,
+            max_images: 4,
+          },
+          transformation: [
+            { if: "ar_gt_1:1" },
+            // Landscape
+            { width: 1080, height: 770, crop: "fill" },
+            // Portrait
+            { if: "else", width: 1080, height: 1350, crop: "fill" },
+            ,
+          ],
+        }
+      );
 
-      const uploadedResponse = await cloudinary.uploader.upload(req.body.image, {
-        upload_preset: "imoSocialMedia",
-        responsive_breakpoints: {
-          create_derived: true,
-          bytes_step: 20000,
-          min_width: 200,
-          max_width: 1080,
-          max_images: 4,
-        },
-        transformation: [
-          { if: "ar_gt_1:1" },
-          // Landscape
-          { width: 1080, height: 770, crop: "fill" },
-          // Portrait
-          { if: "else", width: 1080, height: 1350, crop: "fill" },
-         ,
-        ],
-      });
-
-     console.log('uploaded response',uploadedResponse);
+      console.log("uploaded response", uploadedResponse);
 
       /////////////////////////////////////////////
       // TO DO ADD RESPONSIVE IMAGE LOADING
       /////////////////////////////////////////////
-
-    
 
       const newPost = new Post({
         text: req.body.caption,
@@ -103,21 +103,26 @@ router.get("/:id", auth, async (req, res) => {
 });
 
 // @route GET api/posts/search/:term
-// @desc GET post by ID
-// @access Private
-router.get("/search/:term", auth, async (req, res) => {
+// @desc GET post by search term
+// @access Public
+
+const escapeRegex = (text) => {
+  return text.replace(/[-[\]{}()*+?.,\\^$|#\s]/g, "\\$&");
+};
+
+router.get("/search/:term", async (req, res) => {  
   try {
-    const posts = await Post.findById(req.params.id);
-    if (!post) {
-      res.status(404).json({ msg: "Post not found" });
+    
+    if (req.params.term) {
+      const regex = new RegExp(escapeRegex(req.params.term), "gi");   
+      const posts = await Post.find({ text: regex }).sort({ date: -1 });
+      res.json(posts);
+    } else {
+      const posts = await Post.find().sort({ date: -1 });
+      res.json(posts);
     }
-    res.json(post);
+
   } catch (err) {
-    // Checking Error type, if err.kind is ObjectId it meand an ID was present but it wasnt in the form expected
-    if (err.kind == "ObjectId") {
-      return res.status(400).json({ msg: "Post not found" });
-    }
-    console.error(err.message);
     res.status(500).send("Server Error");
   }
 });

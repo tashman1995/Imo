@@ -1,15 +1,56 @@
-
+@import "../../../style/main.scss";
 .options {
   background-color: #fff;
-  width: 20rem;
+
   position: relative;
+  border-radius: $border-radius/2;
+  transition: all 0.2s;
+
+  &:focus,
+  &:hover {
+    outline: none;
+    border: none;
+  }
+
+  &:focus,
+  &:focus-within {
+    -webkit-box-shadow: 0px 2px 3px 0px rgba(0, 0, 0, 0.35);
+    -moz-box-shadow: 0px 2px 3px 0px rgba(0, 0, 0, 0.35);
+    box-shadow: 0px 2px 3px 0px rgba(0, 0, 0, 0.35);
+  }     
+
+  &__selected {
+    cursor: pointer;
+    padding: 0.8rem 1.2rem;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+  }
 
   &__dropdown {
-    
+    border-radius: $border-radius/2;
+    background-color: $color-primary-lighter;
     position: absolute;
     top: 0;
   }
 
+  &__item {
+    padding: 0.8rem 1.2rem;
+    transition: all 0.2s ease-out;
+    font-size: $font-size-smaller;
 
-  
+    cursor: pointer;
+
+    &:hover {
+      padding-left: 1.6rem;
+    }
+
+    &:nth-child(odd) {
+      background-color: $color-primary-lightest;
+    }
+  }
+
+  &__chevron {
+    transition: all 0.2s;
+  }
 }

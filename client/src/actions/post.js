@@ -7,8 +7,10 @@ import {
   DELETE_POST,
   ADD_POST,
   GET_POST,
+  GET_SEARCH_POSTS,
   ADD_COMMENT,
   REMOVE_COMMENT,
+
 } from "./types";
 
 // Get posts
@@ -27,10 +29,31 @@ export const getPosts = () => async (dispatch) => {
     });
   }
 };
+
+// Get post
+export const getPost = (id) => async (dispatch) => {
+  try {
+    const res = await axios.get(`/api/posts/${id}`);
+
+    dispatch({
+      type: GET_POST,
+      payload: res.data,
+    });
+  } catch (err) {
+    dispatch({
+      type: POST_ERROR,
+      payload: { msg: err.response.statusText, status: err.response.status },
+    });
+  }
+};
+
 // Search posts
 export const searchPosts = (term) => async (dispatch) => {
   try {
-    const res = await axios.get(`/api/search/${term}`);
+    let res;
+    (term) ?  res = await axios.get(`/api/posts/search/${term}`)
+    :  res = await axios.get("/api/posts");
+    
 
     dispatch({
       type: GET_SEARCH_POSTS,
@@ -116,22 +139,7 @@ export const addPost = (formData) => async (dispatch) => {
   }
 };
 
-// Get post
-export const getPost = (id) => async (dispatch) => {
-  try {
-    const res = await axios.get(`/api/posts/${id}`);
 
-    dispatch({
-      type: GET_POST,
-      payload: res.data,
-    });
-  } catch (err) {
-    dispatch({
-      type: POST_ERROR,
-      payload: { msg: err.response.statusText, status: err.response.status },
-    });
-  }
-};
 
 // Add comment
 export const addComment = (postId, formData) => async (dispatch) => {

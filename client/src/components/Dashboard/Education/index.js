@@ -86,7 +86,7 @@ const Education = ({
         </table>
       </section>
 
-      <CenterModal isOpen={editEduModal} onRequestClose={closeEditEduModal}>
+      {/* <CenterModal isOpen={editEduModal} onRequestClose={closeEditEduModal}>
         {fade.map(
           ({ item, key, props }) =>
             item && (
@@ -98,7 +98,7 @@ const Education = ({
               </animated.div>
             )
         )}
-      </CenterModal>
+      </CenterModal> */}
     </Fragment>
   );
 };

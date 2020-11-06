@@ -1,18 +1,45 @@
-import React, { useState, useRef } from "react";
-import { useTransition, animated } from "react-spring";
+import React, { useState, useRef, useEffect } from "react";
+import { useTransition, animated, useSpring } from "react-spring";
 import useComponentSize from "@rehooks/component-size";
 import "./Select.scss";
 
-const menuItems = ["Home", "Profile", "Order History", "Sign out"];
-
-const Select = ({ options }) => {
+const Select = ({
+  options,
+  initiallySelectedOption,
+  width = "15rem",
+  setFunction,
+}) => {
   const [menuOpen, set] = useState(false);
   const ref = useRef(null);
   const { height } = useComponentSize(ref);
+  const selectedRef = useRef(null);
+  const selectedSize = useComponentSize(selectedRef);
+  const outerElement = useRef();
 
-  const [selectedValue, setSelectedValue] = useState(options[0]);
+  const [selectedValue, setSelectedValue] = useState(
+    options[initiallySelectedOption].name
+  );
 
-  const handleBtnClick = () => set(!menuOpen);
+  // Handling menu option click
+
+  const handleBtnClick = (item) => {
+    set(!menuOpen);
+    setSelectedValue(item.name);
+    setFunction(item.value);
+    outerElement.current.blur();
+  };
+
+  // Text slide in transition
+
+  const { transform, opacity } = useSpring({
+    from: { opacity: 0, transform: "translate3d(20px,0,0)" },
+    to: {
+      opacity: menuOpen ? 1 : 0,
+      transform: `translate3d(${menuOpen ? 0 : 10}px,0,0)`,
+    },
+  });
+
+  // Menu Slide down transition
 
   const transitions = useTransition(menuOpen, null, {
     from: {
@@ -27,10 +54,41 @@ const Select = ({ options }) => {
     update: { height },
   });
 
+  // Handling close when click off element
+  const handleClickOff = (e) => {
+    if (outerElement.current.contains(e.target)) {
+      //  exit if inside click
+      return;
+    }
+    // outside click
+    set(false);
+    
+  };
+
+  useEffect(() => {
+    // add when mounted
+    document.addEventListener("mousedown", handleClickOff);
+    // return function to be called when unmounted
+    return () => {
+      document.removeEventListener("mousedown", handleClickOff);
+    };
+  }, []);
+
   return (
-    <div className="options">
-      <div className="options__selected" onClick={handleBtnClick}>
-        <h3 className="heading-tertiary">{selectedValue}</h3>
+    <div
+      className="options"
+      ref={outerElement}
+      style={{ width: width }}
+      tabIndex="0">
+      <div
+        className="options__selected"
+        ref={selectedRef}
+        onClick={() => set(!menuOpen)}>
+        <p className="paragraph">{selectedValue}</p>
+        <i
+          className={`fas fa-chevron-up options__chevron ${
+            menuOpen && "u-rotate-180"
+          }`}></i>
       </div>
 
       {transitions.map(
@@ -41,17 +99,24 @@ const Select = ({ options }) => {
               style={{
                 ...props,
                 overflow: "hidden",
+                marginTop: selectedSize.height + 4,
+
                 // position: "relative",
               }}
-              
               key={key}>
-              <div ref={ref}>
+              <animated.div ref={ref} style={{ opacity, width: width }}>
                 {options.map((menuItem, index) => (
-                  <div className="menuItem" key={index}>
-                    {menuItem}
-                  </div>
+                  <animated.div
+                    style={{ transform }}
+                    className="options__item"
+                    onClick={() => {
+                      handleBtnClick(menuItem);
+                    }}
+                    key={index}>
+                    {menuItem.name}
+                  </animated.div>
                 ))}
-              </div>
+              </animated.div>
             </animated.div>
           )
       )}

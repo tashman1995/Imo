@@ -81,7 +81,7 @@ const Dashboard = ({
         {/*  */}
 
         {/* Add Profile Modal */}
-        <CenterModal
+        {/* <CenterModal
           isOpen={addProfileModal}
           onRequestClose={closeAddProfileModal}>
           {fadeProfile.map(
@@ -92,10 +92,10 @@ const Dashboard = ({
                 </animated.div>
               )
           )}
-        </CenterModal>
+        </CenterModal> */}
 
         {/* Add Education Modal */}
-        <CenterModal isOpen={addEduModal} onRequestClose={closeAddEduModal}>
+        {/* <CenterModal isOpen={addEduModal} onRequestClose={closeAddEduModal}>
           {fadeEducation.map(
             ({ item, key, props }) =>
               item && (
@@ -104,10 +104,10 @@ const Dashboard = ({
                 </animated.div>
               )
           )}
-        </CenterModal>
+        </CenterModal> */}
 
         {/* Add Experience Modal */}
-        <CenterModal isOpen={addExpModal} onRequestClose={closeAddExpModal}>
+        {/* <CenterModal isOpen={addExpModal} onRequestClose={closeAddExpModal}>
           {fadeExperience.map(
             ({ item, key, props }) =>
               item && (
@@ -116,10 +116,10 @@ const Dashboard = ({
                 </animated.div>
               )
           )}
-        </CenterModal>
+        </CenterModal> */}
 
         {/* Edit Profile Modal */}
-        <CenterModal
+        {/* <CenterModal
           isOpen={editProfileModal}
           onRequestClose={closeEditProfileModal}>
           {fadeProfile.map(
@@ -130,10 +130,10 @@ const Dashboard = ({
                 </animated.div>
               )
           )}
-        </CenterModal>
+        </CenterModal> */}
 
         {/* Edit Social Media Modal */}
-        <CenterModal
+        {/* <CenterModal
           isOpen={editSocialMediaModal}
           onRequestClose={closeEditSocialMediaModal}>
           {fadeProfile.map(
@@ -146,7 +146,7 @@ const Dashboard = ({
                 </animated.div>
               )
           )}
-        </CenterModal>
+        </CenterModal> */}
 
         {/*  */}
         {/* PAGE CONTENT */}

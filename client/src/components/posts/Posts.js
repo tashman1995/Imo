@@ -1,10 +1,12 @@
-import React, { useState, useEffect, Fragment } from "react";
+import React, { useState, useEffect, useRef, Fragment } from "react";
 import PropTypes from "prop-types";
 import { connect } from "react-redux";
 import { getPosts } from "../../actions/post";
 import Navbar from "../../components/layout/Navbar";
 import PostsHeader from "./PostsHeader";
+import PostElement from "./PostElement";
 import Grid from "../layout/Grid";
+
 import "./Posts.scss";
 
 const Posts = ({ getPosts, post: { posts, loading } }) => {
@@ -13,11 +15,8 @@ const Posts = ({ getPosts, post: { posts, loading } }) => {
   const [columns, setColumns] = useState(5);
   const [scaleConstant, setConstant] = useState(0.001);
   const [orderedPosts, setOrderedPosts] = useState(posts);
-  // 2 columns 0.000270
-  //3 columns 0.000238
-  // 4 columns 0.000168
-  // 5 columns 0.000145
 
+  // GRID COLUMNS SCALING CONSTANTS
   const constants = {
     1: 0.0004,
     2: 0.00027,
@@ -33,20 +32,16 @@ const Posts = ({ getPosts, post: { posts, loading } }) => {
 
   // MANAGE SCALING
   const manageScaling = () => {
-    console.log(window.innerWidth);
-
     if (window.innerWidth <= 1800) {
       if (window.innerWidth <= 900) {
-        console.log("900 - 1800");
         setConstant(constants[columns]);
         // Set scale factor
-        setScaleFactor(1 / (window.innerWidth * scaleConstant * .7));
+        setScaleFactor(1 / (window.innerWidth * scaleConstant * 0.7));
         // Handle scale factor on  Window resiizing
         window.addEventListener("resize", () =>
-          setScaleFactor(1 / (window.innerWidth * scaleConstant * .7))
+          setScaleFactor(1 / (window.innerWidth * scaleConstant * 0.7))
         );
       } else {
-        console.log("900 - 1800");
         setConstant(constants[columns]);
         // Set scale factor
         setScaleFactor(1 / (window.innerWidth * scaleConstant));
@@ -56,7 +51,6 @@ const Posts = ({ getPosts, post: { posts, loading } }) => {
         );
       }
     } else if (window.innerWidth >= 1800) {
-      console.log("larger than 1800");
       // Set scale factor
 
       setScaleFactor(columns > 3 ? 0.82 * columns : 2);
@@ -69,9 +63,7 @@ const Posts = ({ getPosts, post: { posts, loading } }) => {
     // Set shown post array to equal posts
     setOrderedPosts(posts);
     manageScaling();
-
     window.addEventListener("resize", () => manageScaling());
-
     return () => {
       window.removeEventListener("resize", () => manageScaling());
     };
@@ -92,24 +84,58 @@ const Posts = ({ getPosts, post: { posts, loading } }) => {
 
     return array;
   };
-  const handleShuffle = (array) => {
-    const shuffledArray = shuffle(array);
+  const handleShuffle = () => {
+    const shuffledArray = shuffle(orderedPosts);
     setOrderedPosts([...shuffledArray]);
   };
 
-  // const gridRef = useRef(null);
-  // console.log(gridRef.current)
+  // HANDLE IMAGE POPUPS
+  const [popoutImage, setPopoutImage] = useState("");
+  const [mousePosition, setMousePosition] = useState({ x: 0, y: 0 });
+
+  const { x, y } = mousePosition;
+  // Mouse over event listeners
+  useEffect(() => {
+    window.addEventListener("mousemove", (e) =>
+      setMousePosition({ x: e.clientX, y: e.clientY })
+    );
+
+    return window.removeEventListener("mousemove", (e) =>
+      setMousePosition({ x: e.clientX, y: e.clientY })
+    );
+  }, []);
+  // Image size measuring
+  const popoutImageRef = useRef();
+  const popoutImageRefCurrent = popoutImageRef.current;
+
+  const height = (popoutImageRefCurrent ? popoutImageRefCurrent.clientHeight : 458)
+  const width = (popoutImageRefCurrent ? popoutImageRefCurrent.clientWidth : 458)
+ 
 
   return (
     <Fragment>
+      {popoutImage != "" && (
+        <div className="popout-image">
+          <img
+            className="popout-image__element"
+            ref={popoutImageRef}
+            src={popoutImage}
+            alt=""
+            style={{
+              transform: `translate(${
+                x < window.innerWidth / 2 ? x : x - width
+              }px,${y - height / 2}px)`,
+              height: `${height/width > 1 ? "80%" : "55%" }`
+            }}
+          />
+        </div>
+      )}
       <Navbar stage="2" />
 
       <div className="posts">
         <div className="u-grid">
-          <PostsHeader />
+          <PostsHeader setColumns={setColumns} shuffle={handleShuffle} />
         </div>
-
-        <button onClick={() => handleShuffle(orderedPosts)}>Click</button>
 
         <Grid
           className="posts__grid"
@@ -119,6 +145,13 @@ const Posts = ({ getPosts, post: { posts, loading } }) => {
           {orderedPosts.map((post) => {
             return (
               <li
+                onMouseOver={() => {
+                  setPopoutImage(post.image[0]);
+                }}
+                onMouseLeave={() => {
+                  setPopoutImage("");
+                  console.log("leave");
+                }}
                 key={post._id}
                 className="posts__item"
                 itemHeight={post.height / scaleFactor}
@@ -126,7 +159,7 @@ const Posts = ({ getPosts, post: { posts, loading } }) => {
                   width: 1080 / scaleFactor,
                   height: post.height / scaleFactor,
                 }}>
-                <img src={post.image[0]} className="posts__image" alt="" />
+                <PostElement post={post}  />
               </li>
             );
           })}

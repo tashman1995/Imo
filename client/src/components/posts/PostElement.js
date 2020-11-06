@@ -1,17 +1,26 @@
-import React from 'react'
-import PropTypes from 'prop-types'
+import React, { Fragment, useEffect, useState, useRef } from "react";
+import PropTypes from "prop-types";
 
-const PostElement = ({post}) => {
-    console.log(post)
-    return (
-        <div>
-            <img className="post__image" src={post.image[0]} alt=""/>
-        </div>
-    )
-}
+const PostElement = ({ post }) => {
+  const [infoVisible, setInfoVisible] = useState(false);
+  const element = useRef();
 
-PostElement.propTypes = {
 
-}
 
-export default PostElement
+  return (
+    <Fragment>
+      <div
+        ref={element}
+        className="post"
+       >
+        <img className="post__image" src={post.image[0]} alt="" />
+        <div className="post__cover"></div>
+      </div>
+  
+    </Fragment>
+  );
+};
+
+PostElement.propTypes = {};
+
+export default PostElement;

@@ -5,13 +5,14 @@ import {
   DELETE_POST,
   ADD_POST,
   GET_POST,
+  GET_SEARCH_POSTS,
   ADD_COMMENT,
   REMOVE_COMMENT,
 } from "../actions/types";
 
 const initialState = {
   posts: [],
-  
+  // searchPosts: [],
   post: null,
   loading: true,
   error: {},
@@ -22,11 +23,18 @@ export default function (state = initialState, action) {
 
   switch (type) {
     case GET_POSTS:
+      case GET_SEARCH_POSTS:
       return {
         ...state,
         posts: payload,
         loading: false,
       };
+    // case GET_SEARCH_POSTS:
+    //   return {
+    //     ...state,
+    //     searchPosts: payload,
+    //     loading: false,
+    //   };
     case GET_POST:
       return {
         ...state,

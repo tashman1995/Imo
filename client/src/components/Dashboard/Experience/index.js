@@ -74,7 +74,7 @@ const Experience = ({
         </table>
       </section>
 
-      <CenterModal isOpen={editExpModal} onRequestClose={closeEditExpModal}>
+      {/* <CenterModal isOpen={editExpModal} onRequestClose={closeEditExpModal}>
         {fade.map(
           ({ item, key, props }) =>
             item && (
@@ -86,7 +86,7 @@ const Experience = ({
               </animated.div>
             )
         )}
-      </CenterModal>
+      </CenterModal> */}
     </Fragment>
   );
 };

@@ -9,7 +9,7 @@ import Alert from "../layout/Alert";
 import "./auth.scss";
 import Navbar from "../layout/Navbar";
 
-const Login = ({ login, isAuthenticated, clearAlerts }) => {
+const Login = ({ clearAlerts, login, isAuthenticated }) => {
   const [formData, setFormData] = useState({
     email: "",
     password: "",
