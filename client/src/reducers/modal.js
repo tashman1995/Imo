@@ -128,8 +128,6 @@ export default function (state = initialState, action) {
         addNewPostModal: true,
         loading: false,
       };
-
-
     default:
       return state;
   }

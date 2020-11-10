@@ -6,6 +6,12 @@ const PostSchema = new Schema({
     type: Schema.Types.ObjectId,
     ref: "users",
   },
+  name: {
+    type: String,
+  },
+  avatar: {
+    type: String,
+  },
   title: {
     type: String,
     required: true,
@@ -23,9 +29,6 @@ const PostSchema = new Schema({
     required: true,
     default: 1350,
   },
-  name: {
-    type: String,
-  },
   bestTime: {
     type: String,
     required: true,
@@ -35,12 +38,10 @@ const PostSchema = new Schema({
     required: true,
   },
   location: {
-    type: String,
+    type:   Array,
     required: true,
   },
-  avatar: {
-    type: String,
-  },
+
   date: {
     type: Date,
     default: Date.now,

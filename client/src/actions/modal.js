@@ -15,6 +15,8 @@ import {
   CLOSE_EDIT_SOCIALMEDIA_MODAL,
   OPEN_NEW_POST_MODAL,
   CLOSE_NEW_POST_MODAL,
+  OPEN_SHOW_POST_MODAL,
+  CLOSE_SHOW_POST_MODAL,
 } from "../actions/types";
 
 ////////////////////////////////////////////////////////////
@@ -145,8 +147,25 @@ export const openNewPostModal = () => (dispatch) => {
 
 // Close add new post modal
 export const closeNewPostModal = () => (dispatch) => {
-  console.log("close Add New Post Modal");
   dispatch({
     type: CLOSE_NEW_POST_MODAL,
+  });
+};
+////////////////////////////////////////////////////////////
+//  Show post Modal
+////////////////////////////////////////////////////////////
+
+// Open add new post modal
+export const openShowPostModal = (id) => (dispatch) => {
+  dispatch({
+    type: OPEN_SHOW_POST_MODAL,
+    payload: id,
+  });
+};
+
+// Close add new post modal
+export const closeShowPostModal = () => (dispatch) => {
+  dispatch({
+    type: CLOSE_SHOW_POST_MODAL,
   });
 };

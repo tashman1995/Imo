@@ -6,7 +6,6 @@ import Navbar from "../../components/layout/Navbar";
 import PostsHeader from "./PostsHeader";
 import PostElement from "./PostElement";
 import Grid from "../layout/Grid";
-import AddNewPostModal from '../Modals/AddNewPostModal'
 
 import "./Posts.scss";
 
@@ -126,7 +125,8 @@ const Posts = ({ getPosts, post: { posts, loading } }) => {
               transform: `translate(${
                 x < window.innerWidth / 2 ? x : x - width
               }px,${y - height / 2}px)`,
-              height: `${height / width > 1 ? "80%" : "55%"}`,
+              height: `${height / width > 1 ? "80%" : "auto"}`,
+              width: `${height / width > 1 ? "auto" : "50%"}`,
             }}
           />
         </div>

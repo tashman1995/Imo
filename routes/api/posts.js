@@ -34,7 +34,7 @@ router.post(
     try {
       // -password means user is fetched without password property
       const user = await User.findById(req.user.id).select("-password");
-      console.log(req.body.image);
+     
       // Image
       const uploadedResponse = await cloudinary.uploader.upload(
         req.body.image,
@@ -59,23 +59,27 @@ router.post(
       );
 
       // Geocoding
-      // const geoData = await geocoder.forwardGeocode({
-      //   query: 'Yosemite, CA',
-      //   limit: 1
-      // })
+      const geoData = await geocoder.forwardGeocode({
+        query: req.body.location,
+        limit: 1
+      }).send()
 
-      // console.log(geoData)
-
+      const location = geoData.body.features[0].geometry.coordinates
       /////////////////////////////////////////////
       // TO DO ADD RESPONSIVE IMAGE LOADING
       /////////////////////////////////////////////
 
       const newPost = new Post({
-        text: req.body.caption,
-        name: user.name,
-        image: uploadedResponse.url,
-        avatar: user.avatar,
         user: req.user.id,
+        name: user.name,
+        avatar: user.avatar,
+        title: req.body.title,
+        description: req.body.description,
+        image: uploadedResponse.url,
+        height: req.body.height,
+        bestTime: req.body.bestTime,
+        focalLengthRange: req.body.focalLengthRange,
+        location: location
       });
 
       const post = await newPost.save();

@@ -12,20 +12,6 @@ import { useSpring } from "react-spring";
 
 const PostForm = ({ addPost, closeNewPostModal, alerts, clearAlerts }) => {
   ////////////////////////////////////
-  // HANDLE IMAGE PREVIEW
-  ////////////////////////////////////
-  const [previewImage, setPreviewImage] = useState("");
-  const previewFile = (file) => {
-    // Use file reader from built in JS Api
-    const reader = new FileReader();
-    // Convert image to string
-    reader.readAsDataURL(file);
-    reader.onloadend = () => {
-      setPreviewImage(reader.result);
-    };
-  };
-
-  ////////////////////////////////////
   // CUSTOM FILE UPLOAD BUTTON
   ////////////////////////////////////
   const handleFileBtnClick = (e) => {
@@ -53,7 +39,6 @@ const PostForm = ({ addPost, closeNewPostModal, alerts, clearAlerts }) => {
   const [uploadingImage, setUploadingImage] = useState(false);
   useEffect(() => {
     if (alerts.length !== 0) {
-      console.log("alerts over 0 useEffect");
       setUploadingImage(false);
     }
   }, [alerts]);
@@ -64,6 +49,7 @@ const PostForm = ({ addPost, closeNewPostModal, alerts, clearAlerts }) => {
   // Handle form state
   const [formData, setFormData] = useState({
     image: "",
+    height: 1350,
     title: "",
     description: "",
     bestTime: "",
@@ -78,17 +64,33 @@ const PostForm = ({ addPost, closeNewPostModal, alerts, clearAlerts }) => {
   // Handle file selection
   const handleFileInputChange = (e) => {
     const file = e.target.files[0];
-    console.log(file)
-    setFormData({ ...formData, image: file });
     previewFile(file);
   };
 
+  const previewFile = (file) => {
+    // Use file reader from built in JS Api
+    const reader = new FileReader();
+    // Convert image to string
+    reader.readAsDataURL(file);
+    reader.onloadend = () => {
+      setFormData({
+        ...formData,
+        image: reader.result,
+        height:
+          previewRef.current.clientHeight / previewRef.current.clientWidth > 1
+            ? 1350
+            : 770,
+      });
+    };
+  };
+
   // On change function for simple inputs
-  const onChange = (e) =>
+  const onChange = (e) => {
     setFormData({ ...formData, [e.target.name]: e.target.value });
+  };
 
   // Extract values from formData to populate simple input
-  const { title, description, location, bestTime } = formData;
+  const { title, description, location, image } = formData;
 
   // Handle focal length input
   const [focalLengthRange, setFocalLengthRange] = useState({
@@ -127,7 +129,6 @@ const PostForm = ({ addPost, closeNewPostModal, alerts, clearAlerts }) => {
           e.preventDefault();
           clearAlerts();
           setUploadingImage(true);
-          console.log("1", uploadingImage);
           addPost(formData);
         }}>
         <div className="input-form__row u-margin-bottom-medium">
@@ -153,8 +154,8 @@ const PostForm = ({ addPost, closeNewPostModal, alerts, clearAlerts }) => {
               <div
                 className="input-form__image-container u-margin-bottom-small"
                 ref={previewRef}>
-                {previewImage ? (
-                  <img src={previewImage} className="input-form__image" />
+                {image != "" ? (
+                  <img src={image} className="input-form__image" />
                 ) : (
                   <i className="fas fa-image fa-10x input-form__image--icon"></i>
                 )}
@@ -173,7 +174,9 @@ const PostForm = ({ addPost, closeNewPostModal, alerts, clearAlerts }) => {
               {/* ///////////////////////////////////////// // TITLE INPUT
               ///////////////////////////////////////// */}
               <div className="input-form__group">
-                <label className="form-label input-form__label u-margin-bottom-smallest" htmlFor="title">
+                <label
+                  className="form-label input-form__label u-margin-bottom-smallest"
+                  htmlFor="title">
                   Location Title
                 </label>
                 <input
@@ -210,7 +213,7 @@ const PostForm = ({ addPost, closeNewPostModal, alerts, clearAlerts }) => {
                   width="100%"
                   setFunction={setBestTime}
                 />
-                <div className="div" style={{marginTop: "3px"}}>
+                <div className="div" style={{ marginTop: "3px" }}>
                   <Alert param="bestTime" />
                 </div>
               </div>
