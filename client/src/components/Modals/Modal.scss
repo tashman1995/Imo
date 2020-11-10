@@ -1,0 +1,96 @@
+@import "../../style/main.scss";
+
+.modal {
+    position: fixed;
+  top: 0;
+  left: 0;
+  width: 100vw;
+  height: 100vh;
+  background-color: rgba($color-black, 0.3);
+  @include center;
+  z-index: 100;
+  backdrop-filter: blur(4px);
+
+  &__container {
+    background-color: $color-primary-light;
+    border-radius: $border-radius;
+    overflow: hidden;
+    max-height: 90vh;
+    max-width: 95rem;
+    position: relative;
+    z-index: 1001;
+    width: 50%;
+    position: relative;
+
+    -webkit-box-shadow: 0px 12px 31px 0px rgba(0, 0, 0, 0.34);
+    -moz-box-shadow: 0px 12px 31px 0px rgba(0, 0, 0, 0.34);
+    box-shadow: 0px 12px 31px 0px rgba(0, 0, 0, 0.34);
+
+    &--50 {
+      width: 50vw;
+    }
+
+    &--70 {
+      width: 70vw;
+    }
+  }
+  &__backdrop {
+    position: absolute;
+    top: 0;
+    width: 100vw;
+    height: 100vh;
+    // -webkit-backdrop-filter: blur(10px);
+    // backdrop-filter: blur(10px);
+    background-color: rgba($color: $color-black, $alpha: 0.7);
+    z-index: 1000;
+  }
+
+  
+  &__headings {
+    padding: 3rem 3rem 2rem 3rem;
+  }
+
+  &__close {
+      cursor: pointer;
+      position: absolute;
+      right: 3rem;
+      top: 3rem;
+      transform: scale(1.5);
+      opacity: .5;
+      transition: all .5s;
+
+      &:hover {
+          opacity: 1;
+          transform: scale(1.5) translateY(-.5px);
+      }
+  }
+
+  &__loading {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-color: rgba($color-black,.3);
+    
+    @include center;
+    z-index: 999999;
+  }
+
+  &__loading-animation {
+  border: 1.6rem solid $color-white; /* Light grey */
+  border-top: 1.6rem solid $color-primary-light; /* Blue */
+  border-radius: 50%;
+  width: 12rem;
+  height: 12rem;
+  animation: spin 1.2s ease infinite;
+  }
+
+}
+
+
+
+@keyframes spin {
+  0% { transform: rotate(0deg); }
+  100% { transform: rotate(360deg); }
+}

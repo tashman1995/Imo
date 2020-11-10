@@ -1,23 +1,26 @@
-import React from "react";
+import React, { Fragment } from "react";
 import PropTypes from "prop-types";
 import { connect } from "react-redux";
 import "react-spring-modal/dist/index.css";
-import PostForm from "../posts/PostForm";
+import AddNewPost from "../forms/AddNewPost";
 import Modal from "./Modal";
-import { closeAddNewPostModal, openAddNewPostModal } from "../../actions/modal";
+import { closeNewPostModal, openNewPostModal } from "../../actions/modal";
 
 const AddNewPostModal = ({
   modal: { addNewPostModal },
-  openAddNewPostModal,
-  closeAddNewPostModal,
+  openNewPostModal,
+  closeNewPostModal,
 }) => {
   return (
-    <Modal
-      openModal={openAddNewPostModal}
-      modal={addNewPostModal}
-      closeModal={closeAddNewPostModal}>
-      <PostForm closeAddNewPostModal={closeAddNewPostModal} />
-    </Modal>
+    <Fragment>
+      <Modal
+        openModal={openNewPostModal}
+        modal={addNewPostModal}
+        closeModal={closeNewPostModal}
+        width={70}>
+        <AddNewPost closeNewPostModal={closeNewPostModal} />;
+      </Modal>
+    </Fragment>
   );
 };
 
@@ -26,11 +29,11 @@ const mapStateToProps = (state) => ({
 });
 
 AddNewPostModal.propTypes = {
-  openAddNewPostModal: PropTypes.func.isRequired,
-  closeAddNewPostModal: PropTypes.func.isRequired,
+  openNewPostModal: PropTypes.func.isRequired,
+  closeNewPostModal: PropTypes.func.isRequired,
 };
 
 export default connect(mapStateToProps, {
-  openAddNewPostModal,
-  closeAddNewPostModal,
+  openNewPostModal,
+  closeNewPostModal,
 })(AddNewPostModal);

@@ -1,13 +1,10 @@
-import React from "react";
+import React, { Fragment } from "react";
 import PropTypes from "prop-types";
 import { connect } from "react-redux";
 import "react-spring-modal/dist/index.css";
-import AddExperience from "../profile-form/AddExperience";
+import AddExperience from "../forms/AddExperience";
 import Modal from "./Modal";
-import {
-  closeAddExpModal,
-  openAddExpModal,
-} from "../../actions/modal";
+import { closeAddExpModal, openAddExpModal } from "../../actions/modal";
 
 const AddExperienceModal = ({
   modal: { addExpModal },
@@ -15,12 +12,14 @@ const AddExperienceModal = ({
   closeAddExpModal,
 }) => {
   return (
-    <Modal
-      openModal={openAddExpModal}
-      modal={addExpModal}
-      closeModal={closeAddExpModal}>
-      <AddExperience closeAddExpModal={closeAddExpModal} />
-    </Modal>
+    <Fragment>
+      <Modal
+        openModal={openAddExpModal}
+        modal={addExpModal}
+        closeModal={closeAddExpModal}>
+        <AddExperience closeAddExpModal={closeAddExpModal} />
+      </Modal>
+    </Fragment>
   );
 };
 

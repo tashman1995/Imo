@@ -6,21 +6,37 @@ const PostSchema = new Schema({
     type: Schema.Types.ObjectId,
     ref: "users",
   },
-  text: {
+  title: {
+    type: String,
+    required: true,
+  },
+  description: {
     type: String,
     required: true,
   },
   image: {
     type: Array,
-    required: true
+    required: true,
   },
   height: {
     type: Number,
     required: true,
-    default: 1350
+    default: 1350,
   },
   name: {
     type: String,
+  },
+  bestTime: {
+    type: String,
+    required: true,
+  },
+  focalLengthRange: {
+    type: Object,
+    required: true,
+  },
+  location: {
+    type: String,
+    required: true,
   },
   avatar: {
     type: String,

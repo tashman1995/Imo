@@ -13,6 +13,8 @@ import {
   CLOSE_EDIT_PROFILE_MODAL,
   OPEN_EDIT_SOCIALMEDIA_MODAL,
   CLOSE_EDIT_SOCIALMEDIA_MODAL,
+  OPEN_NEW_POST_MODAL,
+  CLOSE_NEW_POST_MODAL,
 } from "../actions/types";
 
 const initialState = {
@@ -23,6 +25,7 @@ const initialState = {
   addProfileModal: false,
   editProfileModal: false,
   editSocialMediaModal: false,
+  addNewPostModal: false,
   tempEducationId: null,
   tempExperienceId: null,
   loading: true,
@@ -111,6 +114,18 @@ export default function (state = initialState, action) {
     case OPEN_EDIT_SOCIALMEDIA_MODAL:
       return {
         editSocialMediaModal: true,
+        loading: false,
+      };
+
+    // Social Media Modal
+    case CLOSE_NEW_POST_MODAL:
+      return {
+        addNewPostModal: false,
+        loading: false,
+      };
+    case OPEN_NEW_POST_MODAL:
+      return {
+        addNewPostModal: true,
         loading: false,
       };
 

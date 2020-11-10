@@ -24,8 +24,8 @@ export const DELETE_POST = 'DELETE_POST';
 export const ADD_POST = 'ADD_POST';
 export const ADD_COMMENT = "ADD_COMMENT";
 export const REMOVE_COMMENT = "REMOVE_COMMENT";
-
-
+export const STARTED_UPLOADING_POST = "STARTED_UPLOADING_POST";
+export const FINISHED_UPLOADING_POST = "FINISHED_UPLOADING_POST";
 
 
 // Modals

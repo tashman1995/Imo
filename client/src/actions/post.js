@@ -10,7 +10,9 @@ import {
   GET_SEARCH_POSTS,
   ADD_COMMENT,
   REMOVE_COMMENT,
-
+  CLOSE_NEW_POST_MODAL,
+  STARTED_UPLOADING_POST,
+  FINISHED_UPLOADING_POST,
 } from "./types";
 
 // Get posts
@@ -51,9 +53,9 @@ export const getPost = (id) => async (dispatch) => {
 export const searchPosts = (term) => async (dispatch) => {
   try {
     let res;
-    (term) ?  res = await axios.get(`/api/posts/search/${term}`)
-    :  res = await axios.get("/api/posts");
-    
+    term
+      ? (res = await axios.get(`/api/posts/search/${term}`))
+      : (res = await axios.get("/api/posts"));
 
     dispatch({
       type: GET_SEARCH_POSTS,
@@ -123,23 +125,33 @@ export const deletePost = (id) => async (dispatch) => {
 // Add post
 export const addPost = (formData) => async (dispatch) => {
   try {
+     
     const res = await axios.post("/api/posts", formData);
-
+   
     dispatch({
       type: ADD_POST,
       payload: res.data,
     });
 
+    dispatch({
+      type: CLOSE_NEW_POST_MODAL,
+    });
+
     dispatch(setAlert("Post Created", "success"));
   } catch (err) {
+     const errors = err.response.data.errors;
+
+     if (errors) {
+       errors.forEach((error) =>
+         dispatch(setAlert(error.msg, "danger", error.param))
+       );
+     }
     dispatch({
       type: POST_ERROR,
       payload: { msg: err.response.statusText, status: err.response.status },
     });
   }
 };
-
-
 
 // Add comment
 export const addComment = (postId, formData) => async (dispatch) => {

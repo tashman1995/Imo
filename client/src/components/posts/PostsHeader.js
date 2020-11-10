@@ -3,10 +3,11 @@ import PropTypes from "prop-types";
 import { connect } from "react-redux";
 import { searchPosts } from "../../actions/post";
 import {  animated, useSpring } from "react-spring";
-import {openAddNewPostModal} from "../../actions/modal"
+import {openNewPostModal} from "../../actions/modal"
+import AddNewPostModal from '../Modals/AddNewPostModal'
 
 import Select from "../layout/Select";
-const PostsHeader = ({ searchPosts, setColumns, shuffle, openAddNewPostModal }) => {
+const PostsHeader = ({ searchPosts, setColumns, shuffle, openNewPostModal }) => {
   const [searchTerm, setSearchTerm] = useState("");
 
   const onChange = (e) => {
@@ -37,7 +38,7 @@ const PostsHeader = ({ searchPosts, setColumns, shuffle, openAddNewPostModal }) 
           className="post-header__btn"
           onClick={(e) => {
             e.preventDefault();
-            shuffle();
+            openNewPostModal()
             e.target.blur();
           }}>
           Add Post &nbsp; <i className="fas fa-plus"></i>
@@ -92,13 +93,14 @@ const PostsHeader = ({ searchPosts, setColumns, shuffle, openAddNewPostModal }) 
           </div>
         </fieldset>
       </form>
+      
     </div>
   );
 };
 
 PostsHeader.propTypes = {
   searchPosts: PropTypes.func.isRequired,
-  openAddNewPostModal: PropTypes.func.isRequired,
+  openNewPostModal: PropTypes.func.isRequired,
 };
 
-export default connect(null, { searchPosts, openAddNewPostModal })(PostsHeader);
+export default connect(null, { searchPosts, openNewPostModal })(PostsHeader);

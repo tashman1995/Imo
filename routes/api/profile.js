@@ -13,6 +13,7 @@ const Post = require("../../models/Post");
 
 router.get("/me", auth, async (req, res) => {
   try {
+    console.log(req.user)
     const profile = await Profile.findOne({
       user: req.user.id,
     }).populate("user", ["name", "avatar"]);
@@ -64,7 +65,7 @@ router.post(
       behance,
     } = req.body;
 
-    console.log(equipment);
+    
 
     // Build profile object
     const profileFields = {};

@@ -4,15 +4,11 @@ import Moment from "react-moment";
 import { connect } from "react-redux";
 import { deleteExperience } from "../../../actions/profile";
 import { openEditExpModal, closeEditExpModal } from "../../../actions/modal";
-import EditExperience from "../../profile-form/EditExperience";
+import EditExperience from "../../forms/EditExperience";
 import { animated, useTransition } from "react-spring";
 import { CenterModal } from "react-spring-modal";
 
-const Experience = ({
-  experience,
-  openAddExpModal,
-  openEditExpModal,
-}) => {
+const Experience = ({ experience, openAddExpModal, openEditExpModal }) => {
   const experiences = experience.map((exp) => (
     <tr className="dashboard-table__name" key={exp._id}>
       <td className="paragraph">{exp.title}</td>
@@ -30,15 +26,12 @@ const Experience = ({
           className="btn btn--table"
           onClick={() => {
             openEditExpModal(exp._id);
-          }}
-        >
+          }}>
           Edit
         </button>
       </td>
     </tr>
   ));
-
-
 
   return (
     <Fragment>

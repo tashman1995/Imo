@@ -14,13 +14,7 @@ import Navbar from "../layout/Navbar";
 import Experience from "./Experience";
 import Education from "./Education";
 import UserInfo from "./UserInfo";
-import EditProfileModal from "../Modals/EditProfileModal";
-import AddProfileModal from "../Modals/AddProfileModal";
-import EditEducationModal from "../Modals/EditEducationModal";
-import AddEducationModal from "../Modals/AddEducationModal";
-import EditExperienceModal from "../Modals/EditExperienceModal";
-import AddExperienceModal from "../Modals/AddExperienceModal";
-import EditSocialMediaModal from "../Modals/EditSocialMediaModal";
+
 
 import "react-spring-modal/dist/index.css";
 import "./Dashboard.scss";
@@ -35,6 +29,7 @@ const Dashboard = ({
   openAddProfileModal,
 }) => {
   useEffect(() => {
+    
     getCurrentProfile();
   }, [getCurrentProfile]);
 
@@ -79,13 +74,7 @@ const Dashboard = ({
             </Fragment>
           )}
         </div>
-        <EditProfileModal />
-        <AddProfileModal />
-        <EditEducationModal />
-        <AddEducationModal />
-        <EditExperienceModal />
-        <AddExperienceModal />
-        <EditSocialMediaModal />
+    
       </Fragment>
     </Fragment>
   );

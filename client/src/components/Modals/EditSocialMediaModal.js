@@ -1,10 +1,13 @@
-import React from "react";
+import React, { Fragment } from "react";
 import PropTypes from "prop-types";
 import { connect } from "react-redux";
 import "react-spring-modal/dist/index.css";
-import EditSocialMedia from "../profile-form/EditSocialMedia";
+import EditSocialMedia from "../forms/EditSocialMedia";
 import Modal from "./Modal";
-import { closeEditSocialMediaModal, openEditSocialMediaModal } from "../../actions/modal";
+import {
+  closeEditSocialMediaModal,
+  openEditSocialMediaModal,
+} from "../../actions/modal";
 
 const EditSocialMediaModal = ({
   modal: { editSocialMediaModal },
@@ -12,12 +15,17 @@ const EditSocialMediaModal = ({
   closeEditSocialMediaModal,
 }) => {
   return (
-    <Modal
-      openModal={openEditSocialMediaModal}
-      modal={editSocialMediaModal}
-      closeModal={closeEditSocialMediaModal}>
-      <EditSocialMedia closeEditSocialMediaModal={closeEditSocialMediaModal} />
-    </Modal>
+    <Fragment>
+      <Modal
+        openModal={openEditSocialMediaModal}
+        modal={editSocialMediaModal}
+        closeModal={closeEditSocialMediaModal}
+        width="70">
+        <EditSocialMedia
+          closeEditSocialMediaModal={closeEditSocialMediaModal}
+        />
+      </Modal>
+    </Fragment>
   );
 };
 

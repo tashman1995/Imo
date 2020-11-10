@@ -1,8 +1,11 @@
 import React, { Fragment, useState, useEffect } from "react";
-import { Link } from "react-router-dom";
+import PropTypes from "prop-types";
+import { connect } from "react-redux";
 import { CenterModal } from "react-spring-modal";
 import { animated, useTransition } from "react-spring";
 import "react-spring-modal/dist/index.css";
+import { openEditProfileModal } from "../../actions/modal";
+import EditProfileModal from "../Modals/EditProfileModal"
 
 const ProfileTop = ({
   profileOwned,
@@ -17,6 +20,7 @@ const ProfileTop = ({
     equipment,
     user: { name, avatar },
   },
+  openEditProfileModal,
 }) => {
   const [screenWidth, setWidth] = React.useState(window.innerWidth);
 
@@ -55,9 +59,13 @@ const ProfileTop = ({
       <div className="profile-top">
         <div className="profile-top__avatar-container">
           {profileOwned && (
-            <Link to="/edit-profile" className="profile-top__edit-btn">
+            <button
+              onClick={() => {
+                openEditProfileModal();
+              }}
+              className="profile-top__edit-btn">
               Edit Profile
-            </Link>
+            </button>
           )}
           <img
             className="profile-top__avatar"
@@ -163,6 +171,8 @@ const ProfileTop = ({
         </div>
       </div>
 
+    
+
       <CenterModal isOpen={bioModal} onRequestClose={closeBioModal}>
         {fade.map(
           ({ item, key, props }) =>
@@ -207,5 +217,8 @@ const ProfileTop = ({
     </Fragment>
   );
 };
+ProfileTop.propTypes = {
+  openEditProfileModal: PropTypes.func.isRequired,
+};
 
-export default ProfileTop;
+export default connect(null, { openEditProfileModal })(ProfileTop);

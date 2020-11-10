@@ -126,48 +126,48 @@ const Posts = ({ getPosts, post: { posts, loading } }) => {
               transform: `translate(${
                 x < window.innerWidth / 2 ? x : x - width
               }px,${y - height / 2}px)`,
-              height: `${height/width > 1 ? "80%" : "55%" }`
+              height: `${height / width > 1 ? "80%" : "55%"}`,
             }}
           />
         </div>
       )}
       <Navbar stage="2" />
+      <Fragment>
+        <div className="posts">
+          <div className="u-grid">
+            <PostsHeader setColumns={setColumns} shuffle={handleShuffle} />
+          </div>
 
-      <div className="posts">
-        <div className="u-grid">
-          <PostsHeader setColumns={setColumns} shuffle={handleShuffle} />
+          <Grid
+            className="posts__grid"
+            columnWidth={1080 / scaleFactor}
+            columns={columns}
+            scaleFactor={scaleFactor}>
+            {orderedPosts.map((post) => {
+              return (
+                <li
+                  onMouseOver={() => {
+                    setPopoutImage(post.image[0]);
+                  }}
+                  onMouseLeave={() => {
+                    setPopoutImage("");
+                  }}
+                  key={post._id}
+                  className="posts__item"
+                  itemHeight={post.height / scaleFactor}
+                  style={{
+                    width: 1080 / scaleFactor,
+                    height: post.height / scaleFactor,
+                  }}>
+                  <PostElement post={post} />
+                </li>
+              );
+            })}
+          </Grid>
         </div>
-
-        <Grid
-          className="posts__grid"
-          columnWidth={1080 / scaleFactor}
-          columns={columns}
-          scaleFactor={scaleFactor}>
-          {orderedPosts.map((post) => {
-            return (
-              <li
-                onMouseOver={() => {
-                  setPopoutImage(post.image[0]);
-                }}
-                onMouseLeave={() => {
-                  setPopoutImage("");
-                  console.log("leave");
-                }}
-                key={post._id}
-                className="posts__item"
-                itemHeight={post.height / scaleFactor}
-                style={{
-                  width: 1080 / scaleFactor,
-                  height: post.height / scaleFactor,
-                }}>
-                <PostElement post={post}  />
-              </li>
-            );
-          })}
-        </Grid>
-      </div>
-      {/* )} */}
-      <AddNewPostModal />
+        {/* )} */}
+      </Fragment>
+      
     </Fragment>
   );
 };

@@ -68,8 +68,7 @@ const EditProfile = ({
 
   return (
     <Fragment>
-      <div className="modal">
-        <div className="modal__container modal__container--70">
+      
           <div className="modal__close">
             <button
               onClick={closeEditProfileModal}
@@ -199,8 +198,7 @@ const EditProfile = ({
             </div>
             <input type="submit" className="btn btn--full-width" />
           </form>
-        </div>
-      </div>
+
     </Fragment>
   );
 };

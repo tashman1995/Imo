@@ -8,12 +8,14 @@ import {
   GET_SEARCH_POSTS,
   ADD_COMMENT,
   REMOVE_COMMENT,
+  STARTED_UPLOADING_POST,
+  FINISHED_UPLOADING_POST,
 } from "../actions/types";
 
 const initialState = {
   posts: [],
-  // searchPosts: [],
   post: null,
+  uploadingPost: false,
   loading: true,
   error: {},
 };
@@ -23,18 +25,12 @@ export default function (state = initialState, action) {
 
   switch (type) {
     case GET_POSTS:
-      case GET_SEARCH_POSTS:
+    case GET_SEARCH_POSTS:
       return {
         ...state,
         posts: payload,
         loading: false,
       };
-    // case GET_SEARCH_POSTS:
-    //   return {
-    //     ...state,
-    //     searchPosts: payload,
-    //     loading: false,
-    //   };
     case GET_POST:
       return {
         ...state,
@@ -82,6 +78,16 @@ export default function (state = initialState, action) {
             (comment) => comment._id !== payload
           ),
         },
+        loading: false,
+      };
+    case STARTED_UPLOADING_POST:
+      return {
+        uploadingPost: true,
+        loading: false,
+      };
+    case FINISHED_UPLOADING_POST:
+      return {
+        uploadingPost: false,
         loading: false,
       };
     default:

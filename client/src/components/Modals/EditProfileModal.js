@@ -1,26 +1,34 @@
-import React from "react";
+import React, { Fragment } from "react";
 import PropTypes from "prop-types";
 import { connect } from "react-redux";
 import "react-spring-modal/dist/index.css";
-import EditProfile from "../profile-form/EditProfile";
+import EditProfile from "../forms/EditProfile";
 import Modal from "./Modal";
 import {
   closeEditProfileModal,
   openEditProfileModal,
 } from "../../actions/modal";
+import { useEffect } from "react";
 
 const EditProfileModal = ({
   modal: { editProfileModal },
   openEditProfileModal,
   closeEditProfileModal,
 }) => {
+  useEffect(() => {
+    console.log("edit profile rendered");
+  }, []);
+
   return (
-    <Modal
-      openModal={openEditProfileModal}
-      modal={editProfileModal}
-      closeModal={closeEditProfileModal}>
-      <EditProfile closeEditProfileModal={closeEditProfileModal} />
-    </Modal>
+    <Fragment>
+      <Modal
+        openModal={openEditProfileModal}
+        modal={editProfileModal}
+        closeModal={closeEditProfileModal}
+        width="70">
+        <EditProfile closeEditProfileModal={closeEditProfileModal} />
+      </Modal>
+    </Fragment>
   );
 };
 

@@ -3,6 +3,9 @@ const router = express.Router();
 const auth = require("../../middleware/auth");
 const { check, validationResult } = require("express-validator");
 const { cloudinary } = require("../../client/src/api/cloudinary");
+const mbxGeocoding = require("@mapbox/mapbox-sdk/services/geocoding");
+const mapBoxToken = process.env.MAPBOX_TOKEN;
+const geocoder = mbxGeocoding({ accessToken: mapBoxToken });
 
 const Post = require("../../models/Post");
 const User = require("../../models/Users");
@@ -12,7 +15,16 @@ const User = require("../../models/Users");
 // @access Private
 router.post(
   "/",
-  [auth, [check("caption", "Captopion is required").not().isEmpty()]],
+  [
+    auth,
+    [
+      check("title", "Title is required").not().isEmpty(),
+      check("description", "Caption is required").not().isEmpty(),
+      check("location", "Location is required").not().isEmpty(),
+      check("bestTime", "Please select a time").not().isEmpty(),
+      check("image", "Please select an image file").not().isEmpty(),
+    ],
+  ],
   async (req, res) => {
     const errors = validationResult(req);
     if (!errors.isEmpty()) {
@@ -22,7 +34,8 @@ router.post(
     try {
       // -password means user is fetched without password property
       const user = await User.findById(req.user.id).select("-password");
-
+      console.log(req.body.image);
+      // Image
       const uploadedResponse = await cloudinary.uploader.upload(
         req.body.image,
         {
@@ -45,7 +58,13 @@ router.post(
         }
       );
 
-      console.log("uploaded response", uploadedResponse);
+      // Geocoding
+      // const geoData = await geocoder.forwardGeocode({
+      //   query: 'Yosemite, CA',
+      //   limit: 1
+      // })
+
+      // console.log(geoData)
 
       /////////////////////////////////////////////
       // TO DO ADD RESPONSIVE IMAGE LOADING
@@ -110,18 +129,16 @@ const escapeRegex = (text) => {
   return text.replace(/[-[\]{}()*+?.,\\^$|#\s]/g, "\\$&");
 };
 
-router.get("/search/:term", async (req, res) => {  
+router.get("/search/:term", async (req, res) => {
   try {
-    
     if (req.params.term) {
-      const regex = new RegExp(escapeRegex(req.params.term), "gi");   
+      const regex = new RegExp(escapeRegex(req.params.term), "gi");
       const posts = await Post.find({ text: regex }).sort({ date: -1 });
       res.json(posts);
     } else {
       const posts = await Post.find().sort({ date: -1 });
       res.json(posts);
     }
-
   } catch (err) {
     res.status(500).send("Server Error");
   }

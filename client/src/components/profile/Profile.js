@@ -7,6 +7,7 @@ import { getProfileById } from "../../actions/profile";
 import ProfileTop from "./ProfileTop";
 import ProfileExperience from "./ProfileExperience";
 import ProfileEducation from "./ProfileEducation";
+
 import "./Profile.scss";
 
 const Profile = ({
@@ -48,6 +49,7 @@ const Profile = ({
           </div>
         </Fragment>
       )}
+     
     </Fragment>
   );
 };

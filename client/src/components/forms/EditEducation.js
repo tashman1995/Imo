@@ -1,30 +1,74 @@
 import React, { Fragment, useState, useEffect } from "react";
 import PropTypes from "prop-types";
-import { withRouter } from "react-router-dom";
 import { connect } from "react-redux";
-import { addExperience } from "../../actions/profile";
-import "./profile-form.scss";
+import {
+  editEducation,
+  deleteEducation,
+  getCurrentProfile,
+} from "../../actions/profile";
+import moment from "moment";
 import Alert from "../layout/Alert";
 import { clearAlerts } from "../../actions/alert";
 
-const AddExperience = ({
-  addExperience,
+const EditEducation = ({
+  editEducation,
+  deleteEducation,
   history,
-  closeAddExpModal,
+  closeEditEduModal,
+  getCurrentProfile,
+  educationId,
+  profile: { profile, loading },
   clearAlerts,
 }) => {
+
   const [formData, setFormData] = useState({
     title: "",
-    description: "",
+    location: "",
     from: "",
     to: "",
     current: false,
-    paid: false,
+    description: "",
   });
 
-  const [toDateDisabled, toggleDisabled] = useState(false);
+  useEffect(() => {
+    getCurrentProfile();
+    const editIndex = profile.education
+      .map((item) => item._id)
+      .indexOf(educationId);
+     
+    setFormData({
+      title:
+        loading || !profile.education[editIndex].title
+          ? ""
+          : profile.education[editIndex].title,
+      location:
+        loading || !profile.education[editIndex].location
+          ? ""
+          : profile.education[editIndex].location,
+      from:
+        loading || !profile.education[editIndex].from
+          ? ""
+          : moment(profile.education[editIndex].from).format("yyyy-MM-DD"),
 
-  const { title, description, from, to, current, paid } = formData;
+      to:
+        loading || !profile.education[editIndex].to
+          ? false
+          : moment(profile.education[editIndex].to).format("yyyy-MM-DD"),
+
+      current:
+        loading || !profile.education[editIndex].current
+          ? ""
+          : profile.education[editIndex].current,
+      description:
+        loading || !profile.education[editIndex].description
+          ? ""
+          : profile.education[editIndex].description,
+    });
+  }, []);
+
+  const { title, location, description, from, to, current } = formData;
+
+  const [toDateDisabled, toggleDisabled] = useState(false);
 
   const onChange = (e) =>
     setFormData({ ...formData, [e.target.name]: e.target.value });
@@ -35,20 +79,19 @@ const AddExperience = ({
 
   return (
     <Fragment>
-      <div className="modal">
-        <div className="modal__container modal__container--50">
+   
           <div className="modal__close">
             <button
-              onClick={closeAddExpModal}
+              onClick={closeEditEduModal}
               className="modal__close-icon fa fa-times"
               aria-hidden="true"></button>
           </div>
           <div className="modal__headings">
             <h2 className="heading-secondary u-margin-bottom-smallest">
-              Add Experience
+              Edit Education
             </h2>
             <h3 className="paragraph u-margin-bottom-smallest">
-              Add professional experience you've gained
+              Add any school, course, etc that you have attended
             </h3>
             <p className="subtext">* = required field</p>
           </div>
@@ -57,18 +100,18 @@ const AddExperience = ({
             onSubmit={(e) => {
               e.preventDefault();
               clearAlerts();
-              addExperience(formData, history);
+              editEducation(formData, history, educationId);
             }}
             className="input-form">
             <div className="input-form__row">
               <div className="input-form__group u-margin-bottom-medium">
                 <label className="form-label" htmlFor="title">
-                  Experience Title
+                  Course Title
                 </label>
                 <input
                   className="input-form__input text-input"
                   type="text"
-                  placeholder="Experience Title"
+                  placeholder="Course Name"
                   onChange={(e) => onChange(e)}
                   value={title}
                   name="title"
@@ -76,23 +119,20 @@ const AddExperience = ({
                 />
                 <Alert param="title" />
               </div>
-
-              <div className="input-form__group input-form__group--checkbox u-margin-bottom-medium checkbox">
-                <div className="form-label">Was this work paid?</div>
-                <label
-                  htmlFor="paid"
-                  className="checkbox-label checkbox__label">
-                  <input
-                    className="checkbox__input"
-                    type="checkbox"
-                    name="paid"
-                    id="paid"
-                    value={paid}
-                    checked={paid}
-                    onChange={(e) => setFormData({ ...formData, paid: !paid })}
-                  />
-                  <span className="checkbox__custom checkbox-custom"></span>
+              <div className="input-form__group u-margin-bottom-medium">
+                <label className="form-label" htmlFor="location">
+                  University or School Attended
                 </label>
+                <input
+                  className="input-form__input text-input"
+                  type="text"
+                  placeholder="University or School Name"
+                  onChange={(e) => onChange(e)}
+                  value={location}
+                  name="location"
+                  // required
+                />
+                <Alert param="location" />
               </div>
             </div>
             <div className="input-form__row">
@@ -113,16 +153,16 @@ const AddExperience = ({
 
               <div
                 className={`input-form__group u-margin-bottom-medium ${
-                  toDateDisabled && "input-form__group--disabled"
+                  current && "input-form__group--disabled"
                 }`}>
-                <label className="form-label form-label--no-wrap" htmlFor="email">
+                <label className="form-label form-label--no-wrap" htmlFor="to">
                   End Date
                 </label>
                 <input
                   className="input-form__input text-input"
                   type="date"
                   onChange={(e) => onChange(e)}
-                  disabled={toDateDisabled ? "disabled" : ""}
+                  disabled={current ? true : ""}
                   value={to}
                   name="to"
                   // required
@@ -158,7 +198,7 @@ const AddExperience = ({
               </label>
               <textarea
                 className="input-form__input text-input input-form__input input-form__input--text-area"
-                placeholder="Describe your Experience"
+                placeholder="Add some more detail about your studies"
                 onChange={(e) => onChange(e)}
                 value={description}
                 name="description"
@@ -168,24 +208,42 @@ const AddExperience = ({
               ></textarea>
               <Alert param="description" />
             </div>
-            <input type="submit" className="btn btn--full-width" />
+            <div className="input-form__row">
+              <input type="submit" className="btn btn--full-width" />
+              <button
+                type="button"
+                onClick={() => {
+                  deleteEducation(educationId);
+                  closeEditEduModal();
+                }}
+                className="btn btn--delete input-form__delete-btn">
+                Delete
+              </button>
+            </div>
           </form>
-        </div>
-      </div>
+  
+      {/* <div className="modal__backdrop" onClick={closeAddEduModal}></div> */}
     </Fragment>
   );
 };
 
-AddExperience.propTypes = {
-  addExperience: PropTypes.func.isRequired,
+EditEducation.propTypes = {
+  editEducation: PropTypes.func.isRequired,
+  deleteEducation: PropTypes.func.isRequired,
+  getCurrentProfile: PropTypes.func.isRequired,
+  profile: PropTypes.object.isRequired,
   clearAlerts: PropTypes.func.isRequired,
   alerts: PropTypes.array.isRequired,
 };
 
 const mapStateToProps = (state) => ({
+  profile: state.profile,
   alerts: state.alert,
 });
 
-export default connect(mapStateToProps, { addExperience, clearAlerts })(
-  withRouter(AddExperience)
-);
+export default connect(mapStateToProps, {
+  editEducation,
+  deleteEducation,
+  getCurrentProfile,
+  clearAlerts,
+})(EditEducation);

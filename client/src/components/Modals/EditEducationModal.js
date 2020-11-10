@@ -1,13 +1,10 @@
-import React from "react";
+import React, { Fragment } from "react";
 import PropTypes from "prop-types";
 import { connect } from "react-redux";
 import "react-spring-modal/dist/index.css";
-import EditEducation from "../profile-form/EditEducation";
+import EditEducation from "../forms/EditEducation";
 import Modal from "./Modal";
-import {
-  closeEditEduModal,
-  openEditEduModal,
-} from "../../actions/modal";
+import { closeEditEduModal, openEditEduModal } from "../../actions/modal";
 
 const EditEducationModal = ({
   modal: { editEduModal, tempEducationId },
@@ -15,12 +12,18 @@ const EditEducationModal = ({
   closeEditEduModal,
 }) => {
   return (
-    <Modal
-      openModal={openEditEduModal}
-      modal={editEduModal}
-      closeModal={closeEditEduModal}>
-      <EditEducation educationId={tempEducationId} closeEditEduModal={closeEditEduModal} />
-    </Modal>
+    <Fragment>
+      <Modal
+        openModal={openEditEduModal}
+        modal={editEduModal}
+        closeModal={closeEditEduModal}
+        width="70">
+        <EditEducation
+          educationId={tempEducationId}
+          closeEditEduModal={closeEditEduModal}
+        />
+      </Modal>
+    </Fragment>
   );
 };
 

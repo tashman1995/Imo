@@ -7,6 +7,7 @@ const Select = ({
   options,
   initiallySelectedOption,
   width = "15rem",
+  placeholder,
   setFunction,
 }) => {
   const [menuOpen, set] = useState(false);
@@ -17,6 +18,7 @@ const Select = ({
   const outerElement = useRef();
 
   const [selectedValue, setSelectedValue] = useState(
+    initiallySelectedOption &&
     options[initiallySelectedOption].name
   );
 
@@ -52,6 +54,9 @@ const Select = ({
       height: 0,
     },
     update: { height },
+    config: {
+      tension: 300
+    }
   });
 
   // Handling close when click off element
@@ -84,7 +89,9 @@ const Select = ({
         className="options__selected"
         ref={selectedRef}
         onClick={() => set(!menuOpen)}>
-        <p className="paragraph">{selectedValue}</p>
+        <p className="paragraph">
+          {selectedValue ? selectedValue : placeholder}
+        </p>
         <i
           className={`fas fa-chevron-up options__chevron ${
             menuOpen && "u-rotate-180"
@@ -100,11 +107,12 @@ const Select = ({
                 ...props,
                 overflow: "hidden",
                 marginTop: selectedSize.height + 4,
+                width: width,
 
                 // position: "relative",
               }}
               key={key}>
-              <animated.div ref={ref} style={{ opacity, width: width }}>
+              <animated.div ref={ref} style={{ opacity }}>
                 {options.map((menuItem, index) => (
                   <animated.div
                     style={{ transform }}
