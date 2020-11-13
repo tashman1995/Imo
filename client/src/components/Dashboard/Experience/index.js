@@ -2,11 +2,7 @@ import React, { Fragment, useState } from "react";
 import PropTypes from "prop-types";
 import Moment from "react-moment";
 import { connect } from "react-redux";
-import { deleteExperience } from "../../../actions/profile";
-import { openEditExpModal, closeEditExpModal } from "../../../actions/modal";
-import EditExperience from "../../forms/EditExperience";
-import { animated, useTransition } from "react-spring";
-import { CenterModal } from "react-spring-modal";
+import { openEditExpModal, closeEditExpModal, deleteExperience } from "../../../actions/profile";
 
 const Experience = ({ experience, openAddExpModal, openEditExpModal }) => {
   const experiences = experience.map((exp) => (

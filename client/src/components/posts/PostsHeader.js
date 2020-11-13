@@ -3,7 +3,7 @@ import PropTypes from "prop-types";
 import { connect } from "react-redux";
 import { searchPosts } from "../../actions/post";
 import {  animated, useSpring } from "react-spring";
-import {openNewPostModal} from "../../actions/modal"
+import {openNewPostModal} from "../../actions/post"
 import AddNewPostModal from '../Modals/AddNewPostModal'
 
 import Select from "../layout/Select";

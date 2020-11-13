@@ -4,10 +4,10 @@ import { connect } from "react-redux";
 import "react-spring-modal/dist/index.css";
 import AddNewPost from "../forms/AddNewPost";
 import Modal from "./Modal";
-import { closeNewPostModal, openNewPostModal } from "../../actions/modal";
+import { closeNewPostModal, openNewPostModal } from "../../actions/post";
 
 const AddNewPostModal = ({
-  modal: { addNewPostModal },
+  post: { addNewPostModal },
   openNewPostModal,
   closeNewPostModal,
 }) => {
@@ -17,7 +17,7 @@ const AddNewPostModal = ({
         openModal={openNewPostModal}
         modal={addNewPostModal}
         closeModal={closeNewPostModal}
-        width={70}>
+        width={80}>
         <AddNewPost closeNewPostModal={closeNewPostModal} />;
       </Modal>
     </Fragment>
@@ -25,7 +25,7 @@ const AddNewPostModal = ({
 };
 
 const mapStateToProps = (state) => ({
-  modal: state.modal,
+  post: state.post,
 });
 
 AddNewPostModal.propTypes = {

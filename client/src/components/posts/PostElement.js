@@ -1,17 +1,18 @@
 import React, { Fragment, useEffect, useState, useRef } from "react";
 import PropTypes from "prop-types";
+import { getPost, openShowPostModal } from "../../actions/post";
+import { connect } from "react-redux";
 
-const PostElement = ({ post }) => {
-  const [infoVisible, setInfoVisible] = useState(false);
-  const element = useRef();
-
-
-
+const PostElement = ({ post, getPost, openShowPostModal }) => {
+  
   return (
     <Fragment>
       <div
-        ref={element}
         className="post"
+        onClick={() => {
+          getPost(post._id)
+          openShowPostModal()
+        }}
        >
         <img className="post__image" src={post.image[0]} alt="" />
         <div className="post__cover"></div>
@@ -21,6 +22,9 @@ const PostElement = ({ post }) => {
   );
 };
 
-PostElement.propTypes = {};
+PostElement.propTypes = {
+  getPost: PropTypes.func.isRequired,
+  openShowPostModal: PropTypes.func.isRequired,
+};
 
-export default PostElement;
+export default connect(null, {getPost, openShowPostModal})(PostElement);

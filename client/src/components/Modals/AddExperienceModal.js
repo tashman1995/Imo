@@ -4,10 +4,10 @@ import { connect } from "react-redux";
 import "react-spring-modal/dist/index.css";
 import AddExperience from "../forms/AddExperience";
 import Modal from "./Modal";
-import { closeAddExpModal, openAddExpModal } from "../../actions/modal";
+import { closeAddExpModal, openAddExpModal } from "../../actions/profile";
 
 const AddExperienceModal = ({
-  modal: { addExpModal },
+  profile: { addExpModal },
   openAddExpModal,
   closeAddExpModal,
 }) => {
@@ -24,7 +24,7 @@ const AddExperienceModal = ({
 };
 
 const mapStateToProps = (state) => ({
-  modal: state.modal,
+  profile: state.profile,
 });
 
 AddExperienceModal.propTypes = {

@@ -37,9 +37,20 @@ const PostSchema = new Schema({
     type: Object,
     required: true,
   },
+  locationName:{
+    type: String,
+    required: true
+  },
   location: {
-    type:   Array,
-    required: true,
+    type:   {
+      type: String,
+      enum: ['Point'],
+      required: true
+    },
+    coordinates: {
+      type: [Number],
+      required:true
+    }
   },
 
   date: {

@@ -7,10 +7,10 @@ import Modal from "./Modal";
 import {
   closeEditSocialMediaModal,
   openEditSocialMediaModal,
-} from "../../actions/modal";
+} from "../../actions/profile";
 
 const EditSocialMediaModal = ({
-  modal: { editSocialMediaModal },
+  profile: { editSocialMediaModal },
   openEditSocialMediaModal,
   closeEditSocialMediaModal,
 }) => {
@@ -30,7 +30,7 @@ const EditSocialMediaModal = ({
 };
 
 const mapStateToProps = (state) => ({
-  modal: state.modal,
+  profile: state.profile,
 });
 
 EditSocialMediaModal.propTypes = {

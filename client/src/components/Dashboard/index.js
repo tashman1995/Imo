@@ -1,22 +1,21 @@
 import React, { useEffect, Fragment } from "react";
 import PropTypes from "prop-types";
 import { connect } from "react-redux";
-import { getCurrentProfile, deleteAccount } from "../../actions/profile";
 import {
+  getCurrentProfile,
+  deleteAccount,
   openAddEduModal,
   openAddExpModal,
   openAddProfileModal,
   openEditProfileModal,
   openEditSocialMediaModal,
-} from "../../actions/modal";
+} from "../../actions/profile";
 import Spinner from "../reausable/Loading";
 import Navbar from "../layout/Navbar";
 import Experience from "./Experience";
 import Education from "./Education";
 import UserInfo from "./UserInfo";
 
-
-import "react-spring-modal/dist/index.css";
 import "./Dashboard.scss";
 
 const Dashboard = ({
@@ -28,8 +27,8 @@ const Dashboard = ({
   openAddExpModal,
   openAddProfileModal,
 }) => {
+
   useEffect(() => {
-    
     getCurrentProfile();
   }, [getCurrentProfile]);
 
@@ -85,13 +84,12 @@ Dashboard.propTypes = {
   deleteAccount: PropTypes.func.isRequired,
   auth: PropTypes.object.isRequired,
   profile: PropTypes.object.isRequired,
-  modal: PropTypes.object.isRequired,
+  
 };
 
 const mapStateToProps = (state) => ({
   auth: state.auth,
   profile: state.profile,
-  modal: state.modal,
 });
 
 export default connect(mapStateToProps, {

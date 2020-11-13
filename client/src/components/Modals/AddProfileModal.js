@@ -4,10 +4,10 @@ import { connect } from "react-redux";
 import "react-spring-modal/dist/index.css";
 import CreateProfile from "../forms/CreateProfile";
 import Modal from "./Modal";
-import { closeAddProfileModal, openAddProfileModal } from "../../actions/modal";
+import { closeAddProfileModal, openAddProfileModal } from "../../actions/profile";
 
 const AddProfileModal = ({
-  modal: { addProfileModal },
+  profile: { addProfileModal },
   openAddProfileModal,
   closeAddProfileModal,
 }) => {
@@ -25,7 +25,7 @@ const AddProfileModal = ({
 };
 
 const mapStateToProps = (state) => ({
-  modal: state.modal,
+  profile: state.profile,
 });
 
 AddProfileModal.propTypes = {

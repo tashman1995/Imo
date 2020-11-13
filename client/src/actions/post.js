@@ -10,9 +10,10 @@ import {
   GET_SEARCH_POSTS,
   ADD_COMMENT,
   REMOVE_COMMENT,
+  OPEN_NEW_POST_MODAL,
   CLOSE_NEW_POST_MODAL,
-  STARTED_UPLOADING_POST,
-  FINISHED_UPLOADING_POST,
+  OPEN_SHOW_POST_MODAL,
+  CLOSE_SHOW_POST_MODAL,
 } from "./types";
 
 // Get posts
@@ -32,7 +33,7 @@ export const getPosts = () => async (dispatch) => {
   }
 };
 
-// Get post
+// Get  single post
 export const getPost = (id) => async (dispatch) => {
   try {
     const res = await axios.get(`/api/posts/${id}`);
@@ -190,3 +191,43 @@ export const deleteComment = (postId, commentId) => async (dispatch) => {
     });
   }
 };
+
+////////////////////////////////////////////////////////////
+//  Add new post Modal
+////////////////////////////////////////////////////////////
+
+// Open add new post modal
+export const openNewPostModal = () => (dispatch) => {
+  dispatch({
+    type: OPEN_NEW_POST_MODAL,
+  });
+};
+
+// Close add new post modal
+export const closeNewPostModal = () => (dispatch) => {
+  dispatch({
+    type: CLOSE_NEW_POST_MODAL,
+  });
+};
+////////////////////////////////////////////////////////////
+//  Show post Modal
+////////////////////////////////////////////////////////////
+
+// Open add new post modal
+export const openShowPostModal = (id) => (dispatch) => {
+  dispatch({
+    type: GET_POST,
+    
+  })
+  dispatch({
+    type: OPEN_SHOW_POST_MODAL,
+  });
+};
+
+// Close add new post modal
+export const closeShowPostModal = () => (dispatch) => {
+  dispatch({
+    type: CLOSE_SHOW_POST_MODAL,
+  });
+};
+

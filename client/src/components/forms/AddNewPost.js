@@ -23,6 +23,7 @@ const PostForm = ({ addPost, closeNewPostModal, alerts, clearAlerts }) => {
   const fileButton = useRef();
   const fakeButton = useRef();
   const previewRef = useRef();
+  const previewImageRef = useRef();
   // creates a event that triggers click on fileButton
   useEffect(() => {
     fakeButton.current.addEventListener("click", handleFileBtnClick);
@@ -49,7 +50,7 @@ const PostForm = ({ addPost, closeNewPostModal, alerts, clearAlerts }) => {
   // Handle form state
   const [formData, setFormData] = useState({
     image: "",
-    height: 1350,
+    height: null,
     title: "",
     description: "",
     bestTime: "",
@@ -65,6 +66,7 @@ const PostForm = ({ addPost, closeNewPostModal, alerts, clearAlerts }) => {
   const handleFileInputChange = (e) => {
     const file = e.target.files[0];
     previewFile(file);
+    console.log();
   };
 
   const previewFile = (file) => {
@@ -76,10 +78,6 @@ const PostForm = ({ addPost, closeNewPostModal, alerts, clearAlerts }) => {
       setFormData({
         ...formData,
         image: reader.result,
-        height:
-          previewRef.current.clientHeight / previewRef.current.clientWidth > 1
-            ? 1350
-            : 770,
       });
     };
   };
@@ -103,6 +101,24 @@ const PostForm = ({ addPost, closeNewPostModal, alerts, clearAlerts }) => {
     clearAlerts();
   }, [clearAlerts]);
 
+  useEffect(() => {
+    console.log('run')
+    previewImageRef.current &&
+    setFormData({
+      ...formData,
+      height: previewImageRef.current.height/ previewImageRef.current.width > 1 ? 1350 : 770,
+    });
+    
+  }, [formData.image]);
+
+  // HANDLE SUBMIT
+  const handleSubmit = (e) => {
+    e.preventDefault();
+    clearAlerts();
+    setUploadingImage(true);
+    addPost(formData);
+  };
+
   return (
     <Fragment>
       {uploadingImage && (
@@ -123,15 +139,8 @@ const PostForm = ({ addPost, closeNewPostModal, alerts, clearAlerts }) => {
         </h2>
       </div>
 
-      <form
-        className="input-form"
-        onSubmit={(e) => {
-          e.preventDefault();
-          clearAlerts();
-          setUploadingImage(true);
-          addPost(formData);
-        }}>
-        <div className="input-form__row u-margin-bottom-medium">
+      <form className="input-form" onSubmit={handleSubmit}>
+        <div className="input-form__row">
           {/* /////////////////////////////////////////
            // FILE INPUT
           ///////////////////////////////////////// */}
@@ -155,7 +164,11 @@ const PostForm = ({ addPost, closeNewPostModal, alerts, clearAlerts }) => {
                 className="input-form__image-container u-margin-bottom-small"
                 ref={previewRef}>
                 {image != "" ? (
-                  <img src={image} className="input-form__image" />
+                  <img
+                    src={image}
+                    ref={previewImageRef}
+                    className="input-form__image"
+                  />
                 ) : (
                   <i className="fas fa-image fa-10x input-form__image--icon"></i>
                 )}

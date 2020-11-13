@@ -19,6 +19,7 @@ import EditExperienceModal from "./components/Modals/EditExperienceModal";
 import AddExperienceModal from "./components/Modals/AddExperienceModal";
 import EditSocialMediaModal from "./components/Modals/EditSocialMediaModal";
 import AddNewPostModal from "./components/Modals/AddNewPostModal";
+import ShowPostModal from "./components/Modals/ShowPostModal/index.js";
 
 import { loadUser } from "./actions/auth";
 import setAuthToken from "./utils/setAuthToken";
@@ -28,6 +29,7 @@ import "./App.css";
 // Redux
 import { Provider } from "react-redux";
 import store from "./store";
+
 
 if (localStorage.token) {
   setAuthToken(localStorage.token);
@@ -90,6 +92,7 @@ const App = () => {
             <Route path="/" component={AddExperienceModal} />
             <Route path="/" component={EditSocialMediaModal} />
             <Route path="/" component={AddNewPostModal} />
+            <Route path="/" component={ShowPostModal} />
         
           </section>
         </Fragment>

@@ -34,7 +34,7 @@ router.post(
     try {
       // -password means user is fetched without password property
       const user = await User.findById(req.user.id).select("-password");
-     
+
       // Image
       const uploadedResponse = await cloudinary.uploader.upload(
         req.body.image,
@@ -59,12 +59,14 @@ router.post(
       );
 
       // Geocoding
-      const geoData = await geocoder.forwardGeocode({
-        query: req.body.location,
-        limit: 1
-      }).send()
+      const geoData = await geocoder
+        .forwardGeocode({
+          query: req.body.location,
+          limit: 1,
+        })
+        .send();
 
-      const location = geoData.body.features[0].geometry.coordinates
+      const location = geoData.body.features[0].geometry;
       /////////////////////////////////////////////
       // TO DO ADD RESPONSIVE IMAGE LOADING
       /////////////////////////////////////////////
@@ -79,8 +81,11 @@ router.post(
         height: req.body.height,
         bestTime: req.body.bestTime,
         focalLengthRange: req.body.focalLengthRange,
-        location: location
+        locationName: req.body.location,
+        location: location,
       });
+
+      console.log(newPost);
 
       const post = await newPost.save();
 

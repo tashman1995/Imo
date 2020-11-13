@@ -4,11 +4,11 @@ import { connect } from "react-redux";
 import "react-spring-modal/dist/index.css";
 import AddEducation from "../forms/AddEducation";
 import Modal from "./Modal";
-import { closeAddEduModal, openAddEduModal } from "../../actions/modal";
+import { closeAddEduModal, openAddEduModal } from "../../actions/profile";
 import { Fragment } from "react";
 
 const AddEducationModal = ({
-  modal: { addEduModal },
+  profile: { addEduModal },
   openAddEduModal,
   closeAddEduModal,
 }) => {
@@ -27,7 +27,7 @@ const AddEducationModal = ({
 };
 
 const mapStateToProps = (state) => ({
-  modal: state.modal,
+  profile: state.profile,
 });
 
 AddEducationModal.propTypes = {

@@ -2,9 +2,7 @@ import React, { Fragment, useState } from "react";
 import PropTypes from "prop-types";
 import Moment from "react-moment";
 import { connect } from "react-redux";
-import { deleteEducation } from "../../../actions/profile";
-import { openEditEduModal} from "../../../actions/modal";
-
+import { deleteEducation, openEditEduModal } from "../../../actions/profile";
 
 const Education = ({
   education,

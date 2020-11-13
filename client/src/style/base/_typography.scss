@@ -61,6 +61,10 @@ $font-size-smaller: 1.3rem;
   &--no-wrap {
     white-space: nowrap;
   }
+
+  &--inline {
+    display: inline;
+  }
 }
 
 .text-input {

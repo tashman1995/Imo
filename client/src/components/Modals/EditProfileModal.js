@@ -7,18 +7,13 @@ import Modal from "./Modal";
 import {
   closeEditProfileModal,
   openEditProfileModal,
-} from "../../actions/modal";
-import { useEffect } from "react";
+} from "../../actions/profile";
 
 const EditProfileModal = ({
-  modal: { editProfileModal },
+  profile: { editProfileModal },
   openEditProfileModal,
   closeEditProfileModal,
 }) => {
-  useEffect(() => {
-    console.log("edit profile rendered");
-  }, []);
-
   return (
     <Fragment>
       <Modal
@@ -33,7 +28,7 @@ const EditProfileModal = ({
 };
 
 const mapStateToProps = (state) => ({
-  modal: state.modal,
+  profile: state.profile,
 });
 
 EditProfileModal.propTypes = {

@@ -1,12 +1,12 @@
 import React, { useState, Fragment } from "react";
 import PropTypes from "prop-types";
 import { connect } from "react-redux";
-import { getCurrentProfile } from "../../../actions/profile";
 import {
+  getCurrentProfile,
   openEditProfileModal,
   closeEditProfileModal,
   openEditSocialMediaModal,
-} from "../../../actions/modal";
+} from "../../../actions/profile";
 
 import "./UserInfo.scss";
 

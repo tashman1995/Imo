@@ -4,10 +4,10 @@ import { connect } from "react-redux";
 import "react-spring-modal/dist/index.css";
 import EditExperience from "../forms/EditExperience";
 import Modal from "./Modal";
-import { closeEditExpModal, openEditExpModal } from "../../actions/modal";
+import { closeEditExpModal, openEditExpModal } from "../../actions/profile";
 
 const EditExperienceModal = ({
-  modal: { editExpModal, tempExperienceId },
+  profile: { editExpModal, tempExperienceId },
   openEditExpModal,
   closeEditExpModal,
 }) => {
@@ -28,7 +28,7 @@ const EditExperienceModal = ({
 };
 
 const mapStateToProps = (state) => ({
-  modal: state.modal,
+  profile: state.profile,
 });
 
 EditExperienceModal.propTypes = {

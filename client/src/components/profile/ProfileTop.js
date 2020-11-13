@@ -4,8 +4,7 @@ import { connect } from "react-redux";
 import { CenterModal } from "react-spring-modal";
 import { animated, useTransition } from "react-spring";
 import "react-spring-modal/dist/index.css";
-import { openEditProfileModal } from "../../actions/modal";
-import EditProfileModal from "../Modals/EditProfileModal"
+import { openEditProfileModal } from "../../actions/profile";
 
 const ProfileTop = ({
   profileOwned,

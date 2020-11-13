@@ -8,8 +8,10 @@ import {
   GET_SEARCH_POSTS,
   ADD_COMMENT,
   REMOVE_COMMENT,
-  STARTED_UPLOADING_POST,
-  FINISHED_UPLOADING_POST,
+  OPEN_NEW_POST_MODAL,
+  CLOSE_NEW_POST_MODAL,
+  OPEN_SHOW_POST_MODAL,
+  CLOSE_SHOW_POST_MODAL,
 } from "../actions/types";
 
 const initialState = {
@@ -18,6 +20,8 @@ const initialState = {
   uploadingPost: false,
   loading: true,
   error: {},
+  addNewPostModal: false,
+  showPostModal: true
 };
 
 export default function (state = initialState, action) {
@@ -80,14 +84,30 @@ export default function (state = initialState, action) {
         },
         loading: false,
       };
-    case STARTED_UPLOADING_POST:
+    //New Post Modal
+    case CLOSE_NEW_POST_MODAL:
       return {
-        uploadingPost: true,
+        ...state,
+        addNewPostModal: false,
         loading: false,
       };
-    case FINISHED_UPLOADING_POST:
+    case OPEN_NEW_POST_MODAL:
       return {
-        uploadingPost: false,
+        ...state,
+        addNewPostModal: true,
+        loading: false,
+      };
+    //New Post Modal
+    case CLOSE_SHOW_POST_MODAL:
+      return {
+        ...state,
+        showPostModal: false,
+        loading: false,
+      };
+    case OPEN_SHOW_POST_MODAL:
+      return {
+        ...state,
+        showPostModal: true,
         loading: false,
       };
     default:
