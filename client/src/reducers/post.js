@@ -17,7 +17,7 @@ import {
 const initialState = {
   posts: [],
   post: null,
-  uploadingPost: false,
+  tempPostId: null,
   loading: true,
   error: {},
   addNewPostModal: false,
@@ -108,6 +108,7 @@ export default function (state = initialState, action) {
       return {
         ...state,
         showPostModal: true,
+        tempPostId: payload,
         loading: false,
       };
     default:

@@ -217,7 +217,7 @@ export const closeNewPostModal = () => (dispatch) => {
 export const openShowPostModal = (id) => (dispatch) => {
   dispatch({
     type: GET_POST,
-    
+    payload: id
   })
   dispatch({
     type: OPEN_SHOW_POST_MODAL,

@@ -1,35 +1,28 @@
-import React, {useState, useRef, useEffect} from "react";
+import React, { useState, useRef, useEffect } from "react";
 import PropTypes from "prop-types";
 import { useTransition, animated, useSpring } from "react-spring";
 import useComponentSize from "@rehooks/component-size";
+import SlideToggle from "../../layout/SlideToggle";
 
 const Discussion = (props) => {
   const [commentsVisible, setCommentsVisible] = useState(false);
   const [newCommentsVisible, setNewCommentsVisible] = useState(false);
-  const addNewCommentInput = useRef()
+  const addNewCommentInput = useRef();
   const addNewCommentElement = useRef(null);
   const { height } = useComponentSize(addNewCommentElement);
 
   //  MOVE FOCUS TO  NEW COMMENT INPUT ON LOAD
   useEffect(() => {
-   newCommentsVisible && addNewCommentInput.current.focus();
-  }, [newCommentsVisible])
+    newCommentsVisible && addNewCommentInput.current.focus();
+  }, [newCommentsVisible]);
 
-    const commentInputTransition = useTransition(newCommentsVisible, null, {
-      from: {
-        height: "0rem",
-      },
-      enter: {
-        height: "5rem",
-      },
-      leave: {
-        height: "0rem",
-      },
-      // update: { height },
-      // config: {
-      //   tension: 300,
-      // },
-    });
+   const { transform, opacity } = useSpring({
+     from: { opacity: 0, transform: "translate3d(20px,0,0)" },
+     to: {
+       opacity: commentsVisible ? 1 : 0,
+       transform: `translate3d(${commentsVisible ? 0 : 10}px,0,0)`,
+     },
+   });
 
   return (
     <div className="discussion">
@@ -65,38 +58,33 @@ const Discussion = (props) => {
           </p>
         </button>
       </div>
-      {commentInputTransition.map(
-        ({ item, props, key }) =>
-          item && (
-            <animated.div
-              style={props}
-              key={key}
-              ref={addNewCommentElement}
-              className="discussion__add-comment"
-              >
-              <div className="discussion__add-comment--avatar">
-                <img
-                  src="https://images.pexels.com/photos/220453/pexels-photo-220453.jpeg?auto=compress&cs=tinysrgb&dpr=2&w=500"
-                  alt=""
-                />
-              </div>
-              <form className="discussion__add-comment--form">
-                <input
-                  ref={addNewCommentInput}
-                  className="discussion__text-input"
-                  placeholder="Write a comment..."
-                  type="text"
-                />
-                <button className="discussion__add-comment--send">
-                  <i className="far fa-paper-plane fa-2x discussion__add-comment--icon"></i>
-                </button>
-              </form>
-            </animated.div>
-          )
-      )}
-      {commentsVisible ? (
-        <div className="discussion__comments">
-          <div className="discussion__comment comment">
+      <SlideToggle isVisible={newCommentsVisible}>
+        <div className="discussion__add-comment">
+          <div className="discussion__add-comment--avatar">
+            <img
+              src="https://images.pexels.com/photos/220453/pexels-photo-220453.jpeg?auto=compress&cs=tinysrgb&dpr=2&w=500"
+              alt=""
+            />
+          </div>
+          <form className="discussion__add-comment--form">
+            <input
+              ref={addNewCommentInput}
+              className="discussion__text-input"
+              placeholder="Write a comment..."
+              type="text"
+            />
+            <button className="discussion__add-comment--send">
+              <i className="far fa-paper-plane fa-2x discussion__add-comment--icon"></i>
+            </button>
+          </form>
+        </div>
+      </SlideToggle>
+
+      <div className="discussion__comments">
+        <SlideToggle isVisible={commentsVisible}>
+          <animated.div
+            style={{ opacity, transform }}
+            className="discussion__comment comment">
             <div className="comment__avatar">
               <img
                 src="https://sarx.org.uk/wp-content/uploads/2017/02/profile.png"
@@ -115,8 +103,8 @@ const Discussion = (props) => {
                 Great location, visited a while ago for sunset. Slightly longer.
               </p>
             </div>
-          </div>
-          <div className="discussion__comment comment">
+          </animated.div>
+          <animated.div style={{ opacity, transform }} className="discussion__comment comment">
             <div className="comment__avatar">
               <img
                 src="https://sarx.org.uk/wp-content/uploads/2017/02/profile.png"
@@ -136,8 +124,8 @@ const Discussion = (props) => {
                 another length. Very long comment this one
               </p>
             </div>
-          </div>
-          <div className="discussion__comment comment">
+          </animated.div>
+          <animated.div style={{ opacity, transform }} className="discussion__comment comment">
             <div className="comment__avatar">
               <img
                 src="https://sarx.org.uk/wp-content/uploads/2017/02/profile.png"
@@ -154,22 +142,23 @@ const Discussion = (props) => {
               </p>
               <p className="paragraph">Great location, visited.</p>
             </div>
-          </div>
+          </animated.div>
+        </SlideToggle>
+
+        {commentsVisible ? (
           <button
             onClick={() => setCommentsVisible(false)}
             className="discussion__comments--button">
             <p className="heading-tertiary">Hide Comments...</p>
           </button>
-        </div>
-      ) : (
-        <div className="discussion__comments">
+        ) : (
           <button
             onClick={() => setCommentsVisible(true)}
             className="discussion__comments--button">
             <p className="heading-tertiary">View Comments...</p>
           </button>
-        </div>
-      )}
+        )}
+      </div>
     </div>
   );
 };

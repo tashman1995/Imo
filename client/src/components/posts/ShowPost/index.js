@@ -22,9 +22,9 @@ import Measure from "react-measure";
 const mapBoxToken =
   "pk.eyJ1IjoidG9tYXNobWFuMTk5NSIsImEiOiJja2hheXl5M3YxOTU2MnFucXMxMGkzMDE1In0.wCJe7VlDOc6tWX-6itorug";
 
-const ShowPostModal = ({
+const ShowPost = ({
   getPost,
-  post: { post, loading, showPostModal, tempPostId },
+  post: { post, loading, tempPostId },
   auth,
   closeShowPostModal,
   deletePost,
@@ -50,11 +50,6 @@ const ShowPostModal = ({
 
   return (
     <Fragment>
-      <Modal
-        modal={showPostModal}
-        closeModal={closeShowPostModal}
-        width="95"
-        maxWidth="150">
         {loading || post === null ? (
           <Loading />
         ) : (
@@ -167,7 +162,7 @@ const ShowPostModal = ({
             </div>
           </Fragment>
         )}
-      </Modal>
+  
     </Fragment>
   );
 };
@@ -177,7 +172,7 @@ const mapStateToProps = (state) => ({
   auth: state.auth,
 });
 
-ShowPostModal.propTypes = {
+ShowPost.propTypes = {
   openShowPostModal: PropTypes.func.isRequired,
   closeShowPostModal: PropTypes.func.isRequired,
   getPost: PropTypes.func.isRequired,
@@ -195,4 +190,4 @@ export default connect(mapStateToProps, {
   removeLike,
   deletePost,
   getPost,
-})(ShowPostModal);
+})(ShowPost);
