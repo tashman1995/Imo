@@ -21,43 +21,36 @@ const Modal = ({
     },
   };
 
-  useEffect(() => {
-    console.log('Modal component run')
-  })
-
   // STOP SCROLL BEHIND MODAL
   useEffect(() => {
     modal && (document.body.style.overflowY = "hidden");
     !modal && (document.body.style.overflowY = "auto");
   }, [modal]);
 
-  // const fade = useTransition(modal, null, transitionConfig1);
+  const fade = useTransition(modal, null, transitionConfig1);
 
   // HANDLE ESC KEYPRESS
 
   return createPortal(
     <Fragment>
-      {/* {fade.map(
+      {fade.map(
         ({ item, key, props }) =>
           item && (
             <animated.div
               // ref={internalElement}
               className="modal"
               key={key}
-              style={props}> */}
-      <div className="modal">
-        <ModalElement
-          width={width}
-          maxWidth={maxWidth}
-          modal={modal}
-          closeModal={closeModal}>
-          {children}
-        </ModalElement>
-      </div>
-
-      {/* </animated.div>
+              style={props}>
+              <ModalElement
+                width={width}
+                maxWidth={maxWidth}
+                modal={modal}
+                closeModal={closeModal}>
+                {children}
+              </ModalElement>
+            </animated.div>
           )
-      )} */}
+      )}
     </Fragment>,
     document.getElementById("modal_root")
   );
@@ -150,11 +143,11 @@ const ModalElement = ({ children, closeModal, width, maxWidth, modal }) => {
     },
   };
 
-  // const scale = useTransition(modal, null, transitionConfig2);
+  const scale = useTransition(modal, null, transitionConfig2);
 
   return (
     <Fragment>
-      {/* {scale.map(
+      {scale.map(
         ({ item, key, props }) =>
           item && (
             <animated.div
@@ -167,21 +160,17 @@ const ModalElement = ({ children, closeModal, width, maxWidth, modal }) => {
                 maxWidth: `${maxWidth}rem`,
               }}
               ref={innerElement}
-              className={`modal__container`}> */}
-      <div className="modal__container">
-        
-        <div className="modal__close">
-          <button
-            onClick={closeModal}
-            className="modal__close-icon fa fa-times"
-            aria-hidden="true"></button>
-        </div>
-        {children}
-      </div>
-
-      {/* </animated.div>
+              className={`modal__container`}>
+              <div className="modal__close">
+                <button
+                  onClick={closeModal}
+                  className="modal__close-icon fa fa-times"
+                  aria-hidden="true"></button>
+              </div>
+              {children}
+            </animated.div>
           )
-      )} */}
+      )}
     </Fragment>
   );
 };
