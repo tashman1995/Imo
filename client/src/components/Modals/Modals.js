@@ -3,8 +3,12 @@ import PropTypes from "prop-types";
 import { connect } from "react-redux";
 import "react-spring-modal/dist/index.css";
 import Modal from "./Modal";
+import InnerModal from "./InnerModal";
+import { animated, useTransition } from "react-spring";
 
 //Components;
+import Fade from "../layout/Fade";
+import Scale from "../layout/Scale";
 import AddEducation from "../forms/AddEducation";
 import EditEducation from "../forms/EditEducation";
 import AddExperience from "../forms/AddExperience";
@@ -38,7 +42,7 @@ const Modals = ({
     editProfileModal,
     editSocialMediaModal,
     tempEducationId,
-    tempExperienceId
+    tempExperienceId,
   },
   post: { addNewPostModal, showPostModal },
   closeAddEduModal,
@@ -51,95 +55,208 @@ const Modals = ({
   closeEditProfileModal,
   closeEditSocialMediaModal,
 }) => {
-  
+  // MODAL FADE TRANSITIONS
+  const transitionConfig1 = {
+    from: { opacity: 0 },
+    enter: { opacity: 1 },
+    leave: { opacity: 0 },
+    config: {
+      tension: 400,
+    },
+  };
+
+  const fade = useTransition(addEduModal, null, transitionConfig1);
+  const addEduModalFade = useTransition(addEduModal, null, transitionConfig1);
+  const addExpModalFade = useTransition(addExpModal, null, transitionConfig1);
+  const editEduModalFade = useTransition(editEduModal, null, transitionConfig1);
+  const editExpModalFade = useTransition(editExpModal, null, transitionConfig1);
+  const addProfileModalFade = useTransition(
+    addProfileModal,
+    null,
+    transitionConfig1
+  );
+  const editProfileModalFade = useTransition(
+    editProfileModal,
+    null,
+    transitionConfig1
+  );
+  const editSocialMediaModalFade = useTransition(
+    editSocialMediaModal,
+    null,
+    transitionConfig1
+  );
+  const tempEducationIdFade = useTransition(
+    tempEducationId,
+    null,
+    transitionConfig1
+  );
+  const tempExperienceIdFade = useTransition(
+    tempExperienceId,
+    null,
+    transitionConfig1
+  );
+  const addNewPostModalFade = useTransition(
+    addNewPostModal,
+    null,
+    transitionConfig1
+  );
+  const showPostModalFade = useTransition(
+    showPostModal,
+    null,
+    transitionConfig1
+  );
 
   return (
     <Fragment>
       {/* ADD EDUCATION */}
-      {addEduModal && (
-        <Modal modal={addEduModal} closeModal={closeAddEduModal}>
-          <AddEducation closeAddEduModal={closeAddEduModal} />
+      <Fade trigger={addEduModal} className="modal">
+        <Modal modal={addEduModal}>
+          <Scale trigger={addEduModal}>
+            <InnerModal
+              width="70"
+              modal={addEduModal}
+              closeModal={closeAddEduModal}>
+              <AddEducation closeAddEduModal={closeAddEduModal} />
+            </InnerModal>
+          </Scale>
         </Modal>
-      )}
+      </Fade>
 
       {/* EDIT EDUCATION */}
-      {editEduModal && (
-        <Modal modal={editEduModal} closeModal={closeEditEduModal} width="70">
-          <EditEducation
-            educationId={tempEducationId}
-            closeEditEduModal={closeEditEduModal}
-          />
-        </Modal>
+      {editEduModalFade.map(
+        ({ item, key, props }) =>
+          item && (
+            <animated.div className="modal" key={key} style={props}>
+              <Modal modal={editEduModal}>
+                <InnerModal
+                  width="70"
+                  modal={editEduModal}
+                  closeModal={closeEditEduModal}>
+                  <EditEducation educationId={tempEducationId} />
+                </InnerModal>
+              </Modal>
+            </animated.div>
+          )
       )}
 
       {/* ADD EXPERIENCE */}
-      {addExpModal && (
-        <Modal modal={addExpModal} closeModal={closeAddExpModal}>
-          <AddExperience closeAddExpModal={closeAddExpModal} />
-        </Modal>
+      {addExpModalFade.map(
+        ({ item, key, props }) =>
+          item && (
+            <animated.div className="modal" key={key} style={props}>
+              <Modal modal={addExpModal}>
+                <InnerModal
+                  width="70"
+                  modal={addExpModal}
+                  closeModal={closeAddExpModal}>
+                  <AddExperience />
+                </InnerModal>
+              </Modal>
+            </animated.div>
+          )
       )}
 
       {/* EDIT EXPERIENCE */}
-      {editExpModal && (
-        <Modal modal={editExpModal} closeModal={closeEditExpModal} width="70">
-          <EditExperience
-            experienceId={tempExperienceId}
-            closeEditExpModal={closeEditExpModal}
-          />
-        </Modal>
+      {editExpModalFade.map(
+        ({ item, key, props }) =>
+          item && (
+            <animated.div className="modal" key={key} style={props}>
+              <Modal modal={editExpModal}>
+                <InnerModal
+                  width="70"
+                  modal={editExpModal}
+                  closeModal={closeEditExpModal}>
+                  <EditExperience experienceId={tempExperienceId} />
+                </InnerModal>
+              </Modal>
+            </animated.div>
+          )
       )}
 
       {/* ADD PROFILE */}
-      {addProfileModal && (
-        <Modal
-          modal={addProfileModal}
-          closeModal={closeAddProfileModal}
-          width="70">
-          <CreateProfile closeAddProfileModal={closeAddProfileModal} />
-        </Modal>
+      {addProfileModalFade.map(
+        ({ item, key, props }) =>
+          item && (
+            <animated.div className="modal" key={key} style={props}>
+              <Modal modal={addProfileModal}>
+                <InnerModal
+                  width="70"
+                  modal={editProfileModal}
+                  closeModal={closeEditProfileModal}>
+                  <CreateProfile />
+                </InnerModal>
+              </Modal>
+            </animated.div>
+          )
       )}
 
       {/* EDIT PROFILE */}
-      {editProfileModal && (
-        <Modal
-          modal={editProfileModal}
-          closeModal={closeEditProfileModal}
-          width="70">
-          <EditProfile closeEditProfileModal={closeEditProfileModal} />
-        </Modal>
+      {addExpModalFade.map(
+        ({ item, key, props }) =>
+          item && (
+            <animated.div className="modal" key={key} style={props}>
+              <Modal modal={editProfileModal}>
+                <InnerModal
+                  width="70"
+                  modal={editProfileModal}
+                  closeModal={closeEditProfileModal}>
+                  <EditProfile />
+                </InnerModal>
+              </Modal>
+            </animated.div>
+          )
       )}
 
       {/* EDIT SOCIAL MEDIA */}
-      {editSocialMediaModal && (
-        <Modal
-          modal={editSocialMediaModal}
-          closeModal={closeEditSocialMediaModal}
-          width="70">
-          <EditSocialMedia
-            closeEditSocialMediaModal={closeEditSocialMediaModal}
-          />
-        </Modal>
+      {addExpModalFade.map(
+        ({ item, key, props }) =>
+          item && (
+            <animated.div className="modal" key={key} style={props}>
+              <Modal modal={editSocialMediaModal}>
+                <InnerModal
+                  width="70"
+                  modal={editSocialMediaModal}
+                  closeModal={closeEditSocialMediaModal}>
+                  <EditSocialMedia />
+                </InnerModal>
+              </Modal>
+            </animated.div>
+          )
       )}
 
       {/* NEW POST MODAL */}
-      {addNewPostModal && (
-        <Modal
-          modal={addNewPostModal}
-          closeModal={closeNewPostModal}
-          width={80}>
-          <AddNewPost closeNewPostModal={closeNewPostModal} />;
-        </Modal>
+      {addExpModalFade.map(
+        ({ item, key, props }) =>
+          item && (
+            <animated.div className="modal" key={key} style={props}>
+              <Modal modal={addNewPostModal}>
+                <InnerModal
+                  width="80"
+                  modal={addNewPostModal}
+                  closeModal={closeNewPostModal}>
+                  <AddNewPost closeNewPostModal={closeNewPostModal} />;
+                </InnerModal>
+              </Modal>
+            </animated.div>
+          )
       )}
 
       {/* SHOW POST */}
-      {showPostModal && (
-        <Modal
-          modal={showPostModal}
-          closeModal={closeShowPostModal}
-          width="95"
-          maxWidth="150">
-          <ShowPost />
-        </Modal>
+      {addExpModalFade.map(
+        ({ item, key, props }) =>
+          item && (
+            <animated.div className="modal" key={key} style={props}>
+              <Modal modal={showPostModal}>
+                <InnerModal
+                  width="95"
+                  maxWidth="150"
+                  modal={showPostModal}
+                  closeModal={closeShowPostModal}>
+                  <ShowPost />
+                </InnerModal>
+              </Modal>
+            </animated.div>
+          )
       )}
     </Fragment>
   );

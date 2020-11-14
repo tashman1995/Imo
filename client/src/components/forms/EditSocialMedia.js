@@ -12,7 +12,7 @@ const EditSocialMedia = ({
   getCurrentProfile,
   history,
   clearAlerts,
-  closeEditSocialMediaModal,
+  
 }) => {
   const [formData, setFormData] = useState({
     youtube: "",
