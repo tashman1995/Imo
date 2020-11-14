@@ -21,7 +21,7 @@ const initialState = {
   loading: true,
   error: {},
   addNewPostModal: false,
-  showPostModal: true
+  showPostModal: false
 };
 
 export default function (state = initialState, action) {

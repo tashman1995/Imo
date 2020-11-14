@@ -4,7 +4,7 @@ import PropTypes from "prop-types";
 import { connect } from "react-redux";
 import "react-spring-modal/dist/index.css";
 import { Scrollbars } from "react-custom-scrollbars";
-import Modal from "../Modal";
+
 import Loading from "../../reausable/Loading";
 import Discussion from "./Discussion";
 import {
@@ -29,9 +29,7 @@ const ShowPost = ({
   closeShowPostModal,
   deletePost,
 }) => {
-  useEffect(() => {
-    getPost(tempPostId);
-  }, [getPost, tempPostId]);
+
 
   // GENERATE MAP
   const [viewport, setViewport] = useState({
@@ -44,9 +42,11 @@ const ShowPost = ({
     position: "relative",
   });
 
-  useEffect(() => {
-    console.log(post);
-  });
+  // FOCAL RANGE
+  const focalLengthRange = `Between ${post.focalLengthRange.min}mm and ${post.focalLengthRange.max}mm`;
+
+  // Location
+  
 
   return (
     <Fragment>
@@ -54,16 +54,11 @@ const ShowPost = ({
           <Loading />
         ) : (
           <Fragment>
-            <div className="modal__close">
-              <button
-                onClick={closeShowPostModal}
-                className="modal__close-icon fa fa-times"
-                aria-hidden="true"></button>
-            </div>
+    
             <div className="show-modal">
               <div className="show-modal__image-container">
                 <img
-                  // src={post.image[0]}
+                  src={post.image[0]}
                   className="show-modal__image"
                 />
               </div>
@@ -117,7 +112,9 @@ const ShowPost = ({
                           <h2 className="heading-secondary ">Description</h2>
                         </div>
                         <div className="description__content u-margin-bottom-small">
-                          <p className="paragraph">{post.description}</p>
+                          <p className="paragraph">
+                              {post.description}
+                              </p>
                         </div>
                       </div>
                     )}
@@ -126,13 +123,15 @@ const ShowPost = ({
                   <div className="show-modal__specific-info specific-info">
                     <div className="specific-info__item">
                       <h2 className="heading-secondary ">Best Time</h2>
-                      <p className="paragraph">{post.bestTime}</p>
+                      <p className="paragraph">
+                          {post.bestTime}
+                          </p>
                     </div>
                     <div className="specific-info__item">
                       <h2 className="heading-secondary ">
                         Suggested Focal Lengths
                       </h2>
-                      <p className="paragraph">24mm-200mm</p>
+                      <p className="paragraph">{focalLengthRange}</p>
                     </div>
                   </div>
                   <div className="show-modal__map map ">
@@ -140,7 +139,9 @@ const ShowPost = ({
                       <h4 className="paragraph ">
                         <span className="u-bold">Location:</span>
                       </h4>
-                      <p className="paragraph">{post.locationName}</p>
+                      <p className="paragraph">
+                          {post.locationName}
+                          </p>
                     </div>
                     <ReactMapGl
                       {...viewport}
@@ -151,7 +152,7 @@ const ShowPost = ({
                       mapStyle="mapbox://styles/tomashman1995/ckhfcz6yx0dpy19o5nz8bz9gb"
                       mapboxApiAccessToken={mapBoxToken}>
                       <Marker latitude={45.4211} longitude={-75.6903}>
-                        {/* <div className="marker"></div> */}
+                        
                         <div className="pin"></div>
                       </Marker>
                     </ReactMapGl>

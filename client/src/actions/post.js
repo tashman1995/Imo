@@ -214,14 +214,23 @@ export const closeNewPostModal = () => (dispatch) => {
 ////////////////////////////////////////////////////////////
 
 // Open add new post modal
-export const openShowPostModal = (id) => (dispatch) => {
-  dispatch({
-    type: GET_POST,
-    payload: id
-  })
-  dispatch({
-    type: OPEN_SHOW_POST_MODAL,
-  });
+export const openShowPostModal = (id) => async (dispatch) => {
+  try {
+    const res = await axios.get(`/api/posts/${id}`);
+
+    dispatch({
+      type: GET_POST,
+      payload: res.data,
+    });
+    dispatch({
+      type: OPEN_SHOW_POST_MODAL,
+    });
+  } catch (err) {
+    dispatch({
+      type: POST_ERROR,
+      payload: { msg: err.response.statusText, status: err.response.status },
+    });
+  }
 };
 
 // Close add new post modal

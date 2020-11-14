@@ -82,12 +82,7 @@ const EditExperience = ({
 
   return (
     <Fragment>
-      <div className="modal__close">
-        <button
-          onClick={closeEditExpModal}
-          className="modal__close-icon fa fa-times"
-          aria-hidden="true"></button>
-      </div>
+    
       <div className="modal__headings">
         <h2 className="heading-secondary u-margin-bottom-smallest">
           Edit Experience

@@ -10,16 +10,9 @@ import Profiles from "./components/profiles/Profiles";
 import Profile from "./components/profile/Profile";
 import Posts from "./components/posts/Posts";
 import AddExperience from "./components/forms/AddExperience";
+import Modals from "./components/Modals/Modals"
 import PrivateRoute from "./components/routing/PrivateRoute";
-import EditProfileModal from "./components/Modals/EditProfileModal";
-import AddProfileModal from "./components/Modals/AddProfileModal";
-import EditEducationModal from "./components/Modals/EditEducationModal";
-import AddEducationModal from "./components/Modals/AddEducationModal";
-import EditExperienceModal from "./components/Modals/EditExperienceModal";
-import AddExperienceModal from "./components/Modals/AddExperienceModal";
-import EditSocialMediaModal from "./components/Modals/EditSocialMediaModal";
-import AddNewPostModal from "./components/Modals/AddNewPostModal";
-import ShowPostModal from "./components/Modals/ShowPostModal/index.js";
+
 
 import { loadUser } from "./actions/auth";
 import setAuthToken from "./utils/setAuthToken";
@@ -36,7 +29,7 @@ if (localStorage.token) {
 }
 
 const App = () => {
-  // Empty set of brackets ensures this only loads once
+
   useEffect(() => {
     store.dispatch(loadUser());
   }, []);
@@ -47,13 +40,7 @@ const App = () => {
         <Fragment>
           {/* <Navbar /> */}
           <Route exact path="/" component={Landing} />
-          {/* <EditProfileModal />
-          <AddProfileModal width={70} />
-          <EditEducationModal />
-          <AddEducationModal />
-          <EditExperienceModal />
-          <AddExperienceModal />
-          <EditSocialMediaModal /> */}
+       
           <section className="container">
             <Switch>
               <Route exact path="/register" component={Register} />
@@ -78,22 +65,10 @@ const App = () => {
               />
               <PrivateRoute exact path="/posts" component={Posts} />
 
-              {/* <PrivateRoute
-                exact
-                path="/add-education"
-                component={AddEducation} */}
-              {/* /> */}
+             
             </Switch>
-            <Route path="/" component={EditProfileModal} />
-            <Route path="/" component={AddProfileModal} />
-            <Route path="/" component={EditEducationModal} />
-            <Route path="/" component={AddEducationModal} />
-            <Route path="/" component={EditExperienceModal} />
-            <Route path="/" component={AddExperienceModal} />
-            <Route path="/" component={EditSocialMediaModal} />
-            <Route path="/" component={AddNewPostModal} />
-            <Route path="/" component={ShowPostModal} />
-        
+            <Route path="/" component={Modals} />
+                
           </section>
         </Fragment>
       </Router>

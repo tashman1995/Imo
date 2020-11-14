@@ -8,13 +8,12 @@ import { closeAddExpModal, openAddExpModal } from "../../actions/profile";
 
 const AddExperienceModal = ({
   profile: { addExpModal },
-  openAddExpModal,
+
   closeAddExpModal,
 }) => {
   return (
     <Fragment>
       <Modal
-        openModal={openAddExpModal}
         modal={addExpModal}
         closeModal={closeAddExpModal}>
         <AddExperience closeAddExpModal={closeAddExpModal} />

@@ -10,8 +10,7 @@ const PostElement = ({ post, getPost, openShowPostModal }) => {
       <div
         className="post"
         onClick={() => {
-          getPost(post._id)
-          openShowPostModal()
+          openShowPostModal(post._id)
         }}
        >
         <img className="post__image" src={post.image[0]} alt="" />

@@ -127,12 +127,7 @@ const PostForm = ({ addPost, closeNewPostModal, alerts, clearAlerts }) => {
         </div>
       )}
 
-      <div className="modal__close">
-        <button
-          onClick={closeNewPostModal}
-          className="modal__close-icon fa fa-times"
-          aria-hidden="true"></button>
-      </div>
+    
       <div className="modal__headings">
         <h2 className="heading-secondary u-margin-bottom-smallest">
           Add New Location
