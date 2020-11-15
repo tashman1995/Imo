@@ -11,12 +11,14 @@ const Scale = ({ trigger, className, children }) => {
     },
   };
 
+  console.log('scale run')
+
   const scale = useTransition(trigger, null, transitionConfig);
 
   return scale.map(
     ({ item, key, props }) =>
       item && (
-        <animated.div className={className} key={key} style={props}>
+        <animated.div className={className} key={key} style={{...props, width: "100%", display: "flex", justifyContent: "center"}}>
           {children}
         </animated.div>
       )

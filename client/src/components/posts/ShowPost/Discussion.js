@@ -1,10 +1,11 @@
 import React, { useState, useRef, useEffect } from "react";
+import { Link } from "react-router-dom";
 import PropTypes from "prop-types";
 import { useTransition, animated, useSpring } from "react-spring";
 import useComponentSize from "@rehooks/component-size";
 import SlideToggle from "../../layout/SlideToggle";
 
-const Discussion = (props) => {
+const Discussion = ({ user, addLike, removeLike, likes, comments, id }) => {
   const [commentsVisible, setCommentsVisible] = useState(false);
   const [newCommentsVisible, setNewCommentsVisible] = useState(false);
   const addNewCommentInput = useRef();
@@ -16,26 +17,37 @@ const Discussion = (props) => {
     newCommentsVisible && addNewCommentInput.current.focus();
   }, [newCommentsVisible]);
 
-   const { transform, opacity } = useSpring({
-     from: { opacity: 0, transform: "translate3d(20px,0,0)" },
-     to: {
-       opacity: commentsVisible ? 1 : 0,
-       transform: `translate3d(${commentsVisible ? 0 : 10}px,0,0)`,
-     },
-   });
+  const { transform, opacity } = useSpring({
+    from: { opacity: 0, transform: "translate3d(20px,0,0)" },
+    to: {
+      opacity: commentsVisible ? 1 : 0,
+      transform: `translate3d(${commentsVisible ? 0 : 10}px,0,0)`,
+    },
+  });
 
   return (
     <div className="discussion">
       <div className="discussion__amounts">
-        <p className="discussion__amounts--likes">
-          <span className="u-bold">2</span> likes
-        </p>
-        <p className="discussion__amounts--comments">
-          <span className="u-bold">2</span> comments
-        </p>
+        {likes.length > 0 ? (
+          <p className="discussion__amounts--likes">
+            <span className="u-bold">{likes.length}</span> likes{" "}
+          </p>
+        ) : (
+          <p className="discussion__amounts--likes">No likes yet</p>
+        )}
+        {comments.length > 0 ? (
+          <p className="discussion__amounts--comments">
+            <span className="u-bold">{comments.length}</span> comments{" "}
+          </p>
+        ) : (
+          <p className="discussion__amounts--comments">No comments yet</p>
+        )}
       </div>
       <div className="discussion__buttons">
-        <button className="discussion__button">
+        <button className="discussion__button" onClick={() => {
+          console.log(id)
+          addLike(id)
+        }}>
           <p className="paragraph">
             <i className="far fa-heart discussion__button--icon"></i> Like
           </p>
@@ -43,7 +55,7 @@ const Discussion = (props) => {
         <button
           className="discussion__button"
           onClick={(e) => {
-            e.currentTarget.blur();
+            !newCommentsVisible && e.currentTarget.blur();
             setNewCommentsVisible(!newCommentsVisible);
           }}>
           <p className="paragraph">
@@ -85,13 +97,15 @@ const Discussion = (props) => {
           <animated.div
             style={{ opacity, transform }}
             className="discussion__comment comment">
-            <div className="comment__avatar">
-              <img
-                src="https://sarx.org.uk/wp-content/uploads/2017/02/profile.png"
-                alt=""
-                className="comment__avatar--image"
-              />
-            </div>
+            <Link to={`/profile/${user}`}>
+              <div className="comment__avatar">
+                <img
+                  src="https://sarx.org.uk/wp-content/uploads/2017/02/profile.png"
+                  alt=""
+                  className="comment__avatar--image"
+                />
+              </div>
+            </Link>
             <div className="comment__content">
               <p className="paragraph">
                 <span className="u-bold">Tom Ashman</span>
@@ -104,7 +118,9 @@ const Discussion = (props) => {
               </p>
             </div>
           </animated.div>
-          <animated.div style={{ opacity, transform }} className="discussion__comment comment">
+          <animated.div
+            style={{ opacity, transform }}
+            className="discussion__comment comment">
             <div className="comment__avatar">
               <img
                 src="https://sarx.org.uk/wp-content/uploads/2017/02/profile.png"
@@ -125,7 +141,9 @@ const Discussion = (props) => {
               </p>
             </div>
           </animated.div>
-          <animated.div style={{ opacity, transform }} className="discussion__comment comment">
+          <animated.div
+            style={{ opacity, transform }}
+            className="discussion__comment comment">
             <div className="comment__avatar">
               <img
                 src="https://sarx.org.uk/wp-content/uploads/2017/02/profile.png"

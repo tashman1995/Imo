@@ -25,7 +25,7 @@ const Modal = ({
 
   // HANDLE ESC KEYPRESS
 
-  return createPortal(
+  return (
     <Fragment>
       {/* {fade.map(
         ({ item, key, props }) =>
@@ -40,8 +40,8 @@ const Modal = ({
       {/* </animated.div>
           )
       )} */}
-    </Fragment>,
-    document.getElementById("modal_root")
+    </Fragment>
+    // document.getElementById("modal_root")
   );
 };
 
