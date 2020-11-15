@@ -118,16 +118,16 @@ const Modals = ({
                   width="70"
                   modal={addEduModal}
                   closeModal={closeAddEduModal}>
-                  <AddEducation closeAddEduModal={closeAddEduModal} />
+                  <AddEducation />
                 </InnerModal>
               </Scale>
               {/* EDIT EDUCATION */}
               <Scale trigger={editEduModal}>
                 <InnerModal
                   width="70"
-                  modal={editExpModal}
-                  closeModal={closeEditExpModal}>
-                  <EditExperience experienceId={tempExperienceId} />
+                  modal={editEduModal}
+                  closeModal={closeEditEduModal}>
+                  <EditEducation educationId={tempEducationId} />
                 </InnerModal>
               </Scale>
               {/* ADD EXPERIENCE */}
@@ -143,9 +143,9 @@ const Modals = ({
               <Scale trigger={editExpModal}>
                 <InnerModal
                   width="70"
-                  modal={addExpModal}
-                  closeModal={closeAddExpModal}>
-                  <AddExperience />
+                  modal={editExpModal}
+                  closeModal={closeEditExpModal}>
+                  <EditExperience experienceId={tempExperienceId} />
                 </InnerModal>
               </Scale>
 

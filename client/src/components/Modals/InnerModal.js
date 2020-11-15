@@ -1,5 +1,5 @@
 import React, { Fragment, useEffect, useRef } from "react";
-import { createPortal } from "react-dom";
+
 import "react-spring-modal/dist/index.css";
 import { animated, useTransition } from "react-spring";
 import "./Modal.scss";
@@ -91,17 +91,6 @@ const InnerModal = ({
   }, []);
 
   const innerElement = useRef();
-
-  const transitionConfig2 = {
-    from: { transform: "scale(0.9)" },
-    enter: { transform: "scale(1)" },
-    leave: { transform: "scale(0.9)" },
-    config: {
-      tension: 450,
-    },
-  };
-
-  const scale = useTransition(modal, null, transitionConfig2);
 
   return (
     <Fragment>

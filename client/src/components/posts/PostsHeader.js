@@ -4,7 +4,7 @@ import { connect } from "react-redux";
 import { searchPosts } from "../../actions/post";
 import {  animated, useSpring } from "react-spring";
 import {openNewPostModal} from "../../actions/post"
-import AddNewPostModal from '../Modals/AddNewPostModal'
+
 
 import Select from "../layout/Select";
 const PostsHeader = ({ searchPosts, setColumns, shuffle, openNewPostModal }) => {
