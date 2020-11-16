@@ -3,7 +3,6 @@ import PropTypes from "prop-types";
 import { connect } from "react-redux";
 import { createPortal } from "react-dom";
 import "react-spring-modal/dist/index.css";
-import Modal from "./Modal";
 import InnerModal from "./InnerModal";
 import { animated, useTransition } from "react-spring";
 
@@ -69,23 +68,60 @@ const Modals = ({
   };
 
   const [modalVisible, setModalVisible] = useState(false);
+  const modals = [
+    {
+      modal: addProfileModal,
+      closeFunc: closeAddProfileModal,
+    },
+    {
+      modal: editProfileModal,
+      closeFunc: closeEditProfileModal,
+    },
+    {
+      modal: addEduModal,
+      closeFunc: closeAddEduModal,
+    },
+    {
+      modal: editEduModal,
+      closeFunc: closeEditEduModal,
+    },
+    {
+      modal: addExpModal,
+      closeFunc: closeAddExpModal,
+    },
+    {
+      modal: editExpModal,
+      closeFunc: closeEditExpModal,
+    },
+    {
+      modal: editSocialMediaModal,
+      closeFunc: closeEditSocialMediaModal,
+    },
+    {
+      modal: showPostModal,
+      closeFunc: closeShowPostModal,
+    },
+    {
+      modal: addNewPostModal,
+      closeFunc: closeNewPostModal,
+    },
+  ];
+
+  const closeOpenModal = () => {
+    modals.forEach((modal) => {
+      if (modal.modal) {
+        modal.closeFunc();
+      }
+    });
+  };
+
+   useEffect(() => {
+     modalVisible && (document.body.style.overflowY = "hidden");
+     !modalVisible && (document.body.style.overflowY = "auto");
+   }, [modalVisible]);
 
   useEffect(() => {
-    const modals = [
-      addEduModal,
-      addExpModal,
-      editEduModal,
-      editExpModal,
-      addProfileModal,
-      editProfileModal,
-      editSocialMediaModal,
-      tempEducationId,
-      tempExperienceId,
-      addNewPostModal,
-      showPostModal,
-    ];
-
-    setModalVisible(modals.some((modal) => modal === true));
+    setModalVisible(modals.some((modal) => modal.modal === true));
   }, [
     addEduModal,
     addExpModal,
@@ -101,7 +137,7 @@ const Modals = ({
   ]);
 
   const fade = useTransition(modalVisible, null, transitionConfig1);
- 
+
   return createPortal(
     <Fragment>
       {fade.map(
@@ -113,92 +149,23 @@ const Modals = ({
               key={key}
               style={props}>
               {/* ADD EDUCATION */}
-              <Scale trigger={addEduModal}>
-                <InnerModal
-                  width="70"
-                  modal={addEduModal}
-                  closeModal={closeAddEduModal}>
-                  <AddEducation />
+              <Scale trigger={modalVisible}>
+                <InnerModal closeModal={closeOpenModal}>
+                  {addEduModal && <AddEducation />}
+                  {editEduModal && (
+                    <EditEducation educationId={tempEducationId} />
+                  )}
+                  {addExpModal && <AddExperience />}
+                  {editExpModal && (
+                    <EditExperience experienceId={tempExperienceId} />
+                  )}
+                  {addProfileModal && <CreateProfile />}
+                  {editProfileModal && <EditProfile />}
+                  {editSocialMediaModal && <EditSocialMedia />}
+                  {addNewPostModal && <AddNewPost />}
+                  {showPostModal && <ShowPost />}
                 </InnerModal>
-              </Scale>
-              {/* EDIT EDUCATION */}
-              <Scale trigger={editEduModal}>
-                <InnerModal
-                  width="70"
-                  modal={editEduModal}
-                  closeModal={closeEditEduModal}>
-                  <EditEducation educationId={tempEducationId} />
-                </InnerModal>
-              </Scale>
-              {/* ADD EXPERIENCE */}
-              <Scale trigger={addExpModal}>
-                <InnerModal
-                  width="70"
-                  modal={addExpModal}
-                  closeModal={closeAddExpModal}>
-                  <AddExperience />
-                </InnerModal>
-              </Scale>
-              {/* EDIT EXPERIENCE */}
-              <Scale trigger={editExpModal}>
-                <InnerModal
-                  width="70"
-                  modal={editExpModal}
-                  closeModal={closeEditExpModal}>
-                  <EditExperience experienceId={tempExperienceId} />
-                </InnerModal>
-              </Scale>
-
-              {/* ADD PROFILE */}
-              <Scale trigger={addProfileModal}>
-                <InnerModal
-                  width="70"
-                  modal={addProfileModal}
-                  closeModal={closeAddProfileModal}>
-                  <CreateProfile />
-                </InnerModal>
-              </Scale>
-
-              {/* EDIT PROFILE */}
-              <Scale trigger={editProfileModal}>
-                <InnerModal
-                  width="70"
-                  modal={editProfileModal}
-                  closeModal={closeEditProfileModal}>
-                  <EditProfile />
-                </InnerModal>
-              </Scale>
-
-              {/* EDIT SOCIAL MEDIA */}
-              <Scale trigger={editSocialMediaModal}>
-                <InnerModal
-                  width="70"
-                  modal={editSocialMediaModal}
-                  closeModal={closeEditSocialMediaModal}>
-                  <EditSocialMedia />
-                </InnerModal>
-              </Scale>
-
-              {/* NEW POST MODAL */}
-              <Scale trigger={addNewPostModal}>
-                <InnerModal
-                  width="80"
-                  modal={addNewPostModal}
-                  closeModal={closeNewPostModal}>
-                  <AddNewPost closeNewPostModal={closeNewPostModal} />;
-                </InnerModal>
-              </Scale>
-
-              {/* SHOW POST */}
-              <Scale trigger={showPostModal}>
-                <InnerModal
-                  width="95"
-                  maxWidth="150"
-                  modal={showPostModal}
-                  closeModal={closeShowPostModal}>
-                  <ShowPost />
-                </InnerModal>
-              </Scale>
+              </Scale>             
             </animated.div>
           )
       )}

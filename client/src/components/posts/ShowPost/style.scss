@@ -156,10 +156,10 @@
     margin-top: 1.2rem;
     &--button {
       padding: 1.2rem 1.2rem 0 1.2rem;
-       &:hover, &:focus {
-          text-decoration: underline      ;
-        }
-
+      &:hover,
+      &:focus {
+        text-decoration: underline;
+      }
     }
   }
 
@@ -188,12 +188,14 @@
   padding: 0.6rem;
 
   &:last-of-type {
-    margin-bottom: .6rem;
+    margin-bottom: 0.6rem;
+  }
+
+  &__right {
+    margin-left: 1.6rem;
   }
 
   &__content {
-    // width: 100%;
-    margin-left: 1.6rem;
     background-color: $color-primary-lightest;
     padding: 1.2rem;
     border-radius: $border-radius;
@@ -210,6 +212,38 @@
 
   &__title {
     cursor: pointer;
+  }
+
+  &__sub-content {
+    margin-top: 0.5rem;
+    margin-left: .5rem;
+    display: flex;
+
+    &:first-child {
+      margin-left: 1.8em;
+    }
+
+    & :not(:first-child){
+      // Point between delete button and date
+      display: flex;
+      align-items: center;
+      &:before {
+        content: "";
+        background-color: $color-black;
+        border-color: $color-black;
+        border-radius: 50%;
+        border-width: 5px;
+        height: 0.4rem;
+        width: 0.4rem;
+        margin: 0 .6rem;
+      }
+    }
+  }
+
+  &__delete-btn {
+    &:focus, &:hover {
+      text-decoration: underline;
+    }
   }
 }
 

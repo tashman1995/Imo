@@ -120,7 +120,7 @@ const PostForm = ({ addPost, closeNewPostModal, alerts, clearAlerts }) => {
   };
 
   return (
-    <Fragment>
+    <div className="modal__container--80">
       {uploadingImage && (
         <div className="modal__loading">
           <div className="modal__loading-animation"></div>
@@ -129,9 +129,9 @@ const PostForm = ({ addPost, closeNewPostModal, alerts, clearAlerts }) => {
 
     
       <div className="modal__headings">
-        <h2 className="heading-secondary u-margin-bottom-smallest">
+        <h1 className="heading-primary u-margin-bottom-smallest">
           Add New Location
-        </h2>
+        </h1>
       </div>
 
       <form className="input-form" onSubmit={handleSubmit}>
@@ -301,7 +301,7 @@ const PostForm = ({ addPost, closeNewPostModal, alerts, clearAlerts }) => {
 
         <input type="submit" className="btn btn-dark my-1" value="Submit" />
       </form>
-    </Fragment>
+    </div>
   );
 };
 

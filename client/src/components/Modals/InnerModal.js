@@ -7,15 +7,9 @@ import "./Modal.scss";
 const InnerModal = ({
   children,
   closeModal,
-  width = "50",
-  maxWidth = "95",
-  modal,
 }) => {
   // STOP SCROLL BEHIND MODAL
-  useEffect(() => {
-    modal && (document.body.style.overflowY = "hidden");
-    !modal && (document.body.style.overflowY = "auto");
-  }, [modal]);
+ 
   // SET UP KEY PRESS LISTENER
   useEffect(() => {
     function keyListener(e) {
@@ -29,11 +23,9 @@ const InnerModal = ({
 
   // HANDLE TABBING
   const handleTabKey = (e) => {
-    // console.log("focused element", document.activeElement);
     const focusableModalElements = innerElement.current.querySelectorAll(
       'a[href], button, textarea, input[type="text"], input[type="radio"], input[type="checkbox"], select'
     );
-    // console.log("focusable elements", focusableModalElements);
     const firstElement = focusableModalElements[0];
     const lastElement =
       focusableModalElements[focusableModalElements.length - 1];
@@ -97,10 +89,6 @@ const InnerModal = ({
       <div
         role="dialog"
         aria-modal="true"
-        style={{
-          width: `${width}%`,
-          maxWidth: `${maxWidth}rem`,
-        }}
         ref={innerElement}
         className={`modal__container`}>
         <div className="modal__close">

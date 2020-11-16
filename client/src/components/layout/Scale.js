@@ -10,9 +10,7 @@ const Scale = ({ trigger, className, children }) => {
       tension: 450,
     },
   };
-
-  console.log('scale run')
-
+  
   const scale = useTransition(trigger, null, transitionConfig);
 
   return scale.map(

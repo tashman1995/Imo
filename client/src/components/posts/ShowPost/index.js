@@ -5,6 +5,7 @@ import PropTypes from "prop-types";
 import { connect } from "react-redux";
 import "react-spring-modal/dist/index.css";
 import { Scrollbars } from "react-custom-scrollbars";
+import Moment from "react-moment";
 
 import Loading from "../../reausable/Loading";
 import Discussion from "./Discussion";
@@ -13,6 +14,8 @@ import {
   openShowPostModal,
   addLike,
   removeLike,
+  addComment,
+  deleteComment,
   deletePost,
   getPost,
 } from "../../../actions/post";
@@ -25,13 +28,15 @@ const mapBoxToken =
 
 const ShowPost = ({
   getPost,
+  posts,
   post: {
-      post,
+    post,
     post: {
       _id,
       user,
       name,
       avatar,
+      date,
       title,
       description,
       image,
@@ -50,21 +55,33 @@ const ShowPost = ({
   deletePost,
   addLike,
   removeLike,
+  addComment,
+  deleteComment,
 }) => {
+    //  useEffect(() => {
+    //      console.log('getpost')
+    //    getPost(_id);
+    //  }, [getPost,post]);
+
+  
   // GENERATE MAP
   const [viewport, setViewport] = useState({
-    latitude: 45.4211,
-    longitude: -75.6903,
-    zoom: 5,
+    latitude: 38.8951,
+    longitude: -77.0364,
+    zoom: 7,
     width: null,
     height: "25vh",
     display: "block",
     position: "relative",
   });
 
- 
-
-  console.log(likes);
+  useEffect(() => {
+    setViewport({
+      ...viewport,
+      latitude: location.coordinates[1],
+      longitude: location.coordinates[0],
+    });
+  }, [location]);
 
   // FOCAL RANGE
   const focalLengthRangeText = `Between ${focalLengthRange.min}mm and ${focalLengthRange.max}mm`;
@@ -72,9 +89,11 @@ const ShowPost = ({
   return (
     <Fragment>
       {loading || post === null ? (
-        <Loading />
+        <div className="modal__container--95">
+          <Loading />
+        </div>
       ) : (
-        <Fragment>
+        <div className="modal__container--95">
           <div className="show-modal">
             <div className="show-modal__image-container">
               <img src={image[0]} className="show-modal__image" />
@@ -87,11 +106,12 @@ const ShowPost = ({
               <div className="show-modal__info ">
                 <div className="show-modal__header">
                   <div className="show-modal__header--left">
-                    <h1 className="heading-primary u-margin-bottom-smallest">
-                      {title}
-                    </h1>
-                    <h3 className="paragraph u-margin-bottom-smallest">
-                      Posted <span className="u-bold">2 days ago</span>
+                    <h1 className="heading-primary ">{title}</h1>
+                    <h3 className="paragraph">
+                      Posted{" "}
+                      <span className="u-bold">
+                        <Moment fromNow>{date}</Moment>
+                      </span>
                     </h3>
                   </div>
                   <div className="show-modal__header--right">
@@ -156,13 +176,19 @@ const ShowPost = ({
                   </div>
                   <ReactMapGl
                     {...viewport}
+                    // LONG AND LAT NEED PUTTING BACK INTO VIEWPOST AS IT ALLOWS MOVING, OR FIX ON VIEWPORT CHANGE
+
+                    // latitude={location.coordinates[1]}
+                    // longitude={location.coordinates[0]}
                     width={viewport.width}
                     onViewportChange={(viewport) => {
                       setViewport(viewport);
                     }}
                     mapStyle="mapbox://styles/tomashman1995/ckhfcz6yx0dpy19o5nz8bz9gb"
                     mapboxApiAccessToken={mapBoxToken}>
-                    <Marker latitude={45.4211} longitude={-75.6903}>
+                    <Marker
+                      latitude={location.coordinates[1]}
+                      longitude={location.coordinates[0]}>
                       <div className="pin"></div>
                     </Marker>
                   </ReactMapGl>
@@ -171,13 +197,17 @@ const ShowPost = ({
                   id={_id}
                   addLike={addLike}
                   removeLike={removeLike}
+                  addComment={addComment}
                   likes={likes}
                   comments={comments}
+                  user={user}
+                  auth={auth}
+                  deleteComment={deleteComment}
                 />
               </div>
             </Scrollbars>
           </div>
-        </Fragment>
+        </div>
       )}
     </Fragment>
   );
@@ -196,6 +226,8 @@ ShowPost.propTypes = {
   auth: PropTypes.object.isRequired,
   addLike: PropTypes.func.isRequired,
   removeLike: PropTypes.func.isRequired,
+  addComment: PropTypes.func.isRequired,
+  deleteComment: PropTypes.func.isRequired,
   deletePost: PropTypes.func.isRequired,
 };
 
@@ -204,6 +236,8 @@ export default connect(mapStateToProps, {
   closeShowPostModal,
   addLike,
   removeLike,
+  addComment,
+  deleteComment,
   deletePost,
   getPost,
 })(ShowPost);

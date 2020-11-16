@@ -34,12 +34,11 @@ const AddExperience = ({
   }, [clearAlerts]);
 
   return (
-    <Fragment>
-  
+    <div className="modal__container--70">
       <div className="modal__headings">
-        <h2 className="heading-secondary u-margin-bottom-smallest">
+        <h1 className="heading-primary u-margin-bottom-smallest">
           Add Experience
-        </h2>
+        </h1>
         <h3 className="paragraph u-margin-bottom-smallest">
           Add professional experience you've gained
         </h3>
@@ -159,7 +158,7 @@ const AddExperience = ({
         </div>
         <input type="submit" className="btn btn--full-width" />
       </form>
-    </Fragment>
+    </div>
   );
 };
 
