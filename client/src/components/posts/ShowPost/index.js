@@ -73,6 +73,8 @@ const ShowPost = ({
     position: "relative",
   });
 
+  
+
   useEffect(() => {
     setViewport({
       ...viewport,
@@ -116,8 +118,8 @@ const ShowPost = ({
                     <div className="user-block">
                       <div className="user-block__avatar">
                         <img
-                        alt="Users Avatar"
-                          src="https://cdn.fastly.picmonkey.com/contentful/h6goo9gw1hh6/2sNZtFAWOdP1lmQ33VwRN3/24e953b920a9cd0ff2e1d587742a2472/1-intro-photo-final.jpg?w=800&q=70"
+                          alt="Users Avatar"
+                          src={avatar}
                           className="user-block__avatar--image"
                         />
                       </div>
@@ -192,17 +194,19 @@ const ShowPost = ({
                     </Marker>
                   </ReactMapGl>
                 </div>
-                <Discussion
-                  id={_id}
-                  addLike={addLike}
-                  removeLike={removeLike}
-                  addComment={addComment}
-                  likes={likes}
-                  comments={comments}
-                  user={user}
-                  auth={auth}
-                  deleteComment={deleteComment}
-                />
+                {auth.isAuthenticated && (
+                  <Discussion
+                    id={_id}
+                    addLike={addLike}
+                    removeLike={removeLike}
+                    addComment={addComment}
+                    likes={likes}
+                    comments={comments}
+                    user={user}
+                    auth={auth}
+                    deleteComment={deleteComment}
+                  />
+                )}
               </div>
             </Scrollbars>
           </div>

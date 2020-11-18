@@ -9,7 +9,8 @@ import Grid from "../layout/Grid";
 
 import "./Posts.scss";
 
-const Posts = ({ getPosts, post: { posts, loading } }) => {
+
+const Posts = ({ getPosts,auth, post: { posts, loading } }) => {
   // Initialise State
   const [scaleFactor, setScaleFactor] = useState(3.5);
   const [columns, setColumns] = useState(5);
@@ -135,7 +136,7 @@ const Posts = ({ getPosts, post: { posts, loading } }) => {
       <Fragment>
         <div className="posts">
           <div className="u-grid">
-            <PostsHeader setColumns={setColumns} shuffle={handleShuffle} />
+            <PostsHeader isAuthenticated={auth.isAuthenticated} setColumns={setColumns} shuffle={handleShuffle} />
           </div>
 
           <Grid
@@ -175,10 +176,12 @@ const Posts = ({ getPosts, post: { posts, loading } }) => {
 Posts.propTypes = {
   getPosts: PropTypes.func.isRequired,
   post: PropTypes.object.isRequired,
+  auth: PropTypes.object.isRequired,
 };
 
 const mapStateToProps = (state) => ({
   post: state.post,
+  auth: state.auth
 });
 
 export default connect(mapStateToProps, { getPosts })(Posts);

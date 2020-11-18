@@ -2,12 +2,17 @@ import React, { useState } from "react";
 import PropTypes from "prop-types";
 import { connect } from "react-redux";
 import { searchPosts } from "../../actions/post";
-import {  animated, useSpring } from "react-spring";
-import {openNewPostModal} from "../../actions/post"
-
+import { animated, useSpring } from "react-spring";
+import { openNewPostModal } from "../../actions/post";
 
 import Select from "../layout/Select";
-const PostsHeader = ({ searchPosts, setColumns, shuffle, openNewPostModal }) => {
+const PostsHeader = ({
+  searchPosts,
+  setColumns,
+  shuffle,
+  openNewPostModal,
+  isAuthenticated,
+}) => {
   const [searchTerm, setSearchTerm] = useState("");
 
   const onChange = (e) => {
@@ -34,15 +39,18 @@ const PostsHeader = ({ searchPosts, setColumns, shuffle, openNewPostModal }) => 
       <h1 className="heading-primary">Posts</h1>
 
       <form className="post-header__inputs">
-        <button
-          className="post-header__btn"
-          onClick={(e) => {
-            e.preventDefault();
-            openNewPostModal()
-            e.target.blur();
-          }}>
-          Add Post &nbsp; <i className="fas fa-plus"></i>
-        </button>
+        {isAuthenticated && (
+          <button
+            className="post-header__btn"
+            onClick={(e) => {
+              e.preventDefault();
+              openNewPostModal();
+              e.target.blur();
+            }}>
+            Add Post &nbsp; <i className="fas fa-plus"></i>
+          </button>
+        )}
+
         <button
           className="post-header__btn"
           onClick={(e) => {
@@ -93,7 +101,6 @@ const PostsHeader = ({ searchPosts, setColumns, shuffle, openNewPostModal }) => 
           </div>
         </fieldset>
       </form>
-      
     </div>
   );
 };

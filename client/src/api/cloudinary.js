@@ -13,7 +13,7 @@ const avatarStorage = new CloudinaryStorage({
   folder: "Imo-avatars",
   allowedFormats: ["jpeg", "png", "jpg"],
   params: {
-    transformation: [{ width: 250, height: 250, crop: "fill" }],
+    transformation: [{ width: 350, height: 350, crop: "fill" }],
   },
 });
 

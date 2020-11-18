@@ -29,7 +29,6 @@ const CreateProfile = ({ createProfile, history, clearAlerts }) => {
     status,
     subjects,
     bio,
-    avatar,
     equipment,
   } = formData;
 
@@ -51,6 +50,7 @@ const CreateProfile = ({ createProfile, history, clearAlerts }) => {
   const fakeButton = useRef();
   const previewRef = useRef();
   const previewAvatarRef = useRef();
+  const [previewImage, setPreviewImage] = useState("");
   // creates a event that triggers click on fileButton
   const handleFileBtnClick = (e) => {
     // creates a event that triggers click on fileButton
@@ -59,18 +59,23 @@ const CreateProfile = ({ createProfile, history, clearAlerts }) => {
   };
 
   useEffect(() => {
-    fakeButton.current.addEventListener("click", handleFileBtnClick);
-    previewRef.current.addEventListener("click", handleFileBtnClick);
+    const currentFakeButton = fakeButton.current;
+    const currentPreviewRef = previewRef.current;
+    currentFakeButton.addEventListener("click", handleFileBtnClick);
+    currentPreviewRef.addEventListener("click", handleFileBtnClick);
     return () => {
-      fakeButton.current.removeEventListener("click", handleFileBtnClick);
-      previewRef.current.removeEventListener("click", handleFileBtnClick);
+      currentFakeButton.removeEventListener("click", handleFileBtnClick);
+      currentPreviewRef.removeEventListener("click", handleFileBtnClick);
     };
   }, []);
 
+
+
   // Handle file selection
   const handleFileInputChange = (e) => {
-    const file = e.target.files[0];
-    previewFile(file);
+  const file = e.target.files[0];
+  setFormData({ ...formData, avatar: file });
+  previewFile(file);
   };
 
   const previewFile = (file) => {
@@ -78,11 +83,9 @@ const CreateProfile = ({ createProfile, history, clearAlerts }) => {
     const reader = new FileReader();
     // Convert image to string
     reader.readAsDataURL(file);
+    console.log(reader);
     reader.onloadend = () => {
-      setFormData({
-        ...formData,
-        avatar: reader.result,
-      });
+      setPreviewImage(reader.result);
     };
   };
 
@@ -183,9 +186,9 @@ const CreateProfile = ({ createProfile, history, clearAlerts }) => {
 
             <div className="avatar-input__right">
               <div className="avatar-input__preview" ref={previewRef}>
-                {avatar !== "" ? (
+                {previewImage !== "" ? (
                   <img
-                    src={avatar}
+                    src={previewImage}
                     ref={previewAvatarRef}
                     alt="User avatar preview"
                     className="avatar-input__image"

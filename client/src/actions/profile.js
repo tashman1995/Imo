@@ -97,6 +97,7 @@ export const createProfile = (formData, history, edit = false) => async (
     data.append("facebook", formData.facebook);
     data.append("behance", formData.behance);
     data.append("avatar", formData.avatar);
+    console.log('actions data', data)
     const res = await axios.post("/api/profile", data, config);
 
     dispatch({

@@ -107,6 +107,7 @@ router.post(
 
     try {
       if (uploadedAvatar !== "") {
+        console.log('user id',req.user.id)
         await Users.findOneAndUpdate(
           { _id: req.user.id },
           {

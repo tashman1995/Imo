@@ -56,7 +56,7 @@ const EditProfile = ({
     subjects,
     bio,
     equipment,
-    avatar,
+
   } = formData;
 
   const onChange = (e) =>
@@ -77,6 +77,7 @@ const EditProfile = ({
   const fakeButton = useRef();
   const previewRef = useRef();
   const previewAvatarRef = useRef();
+  const [previewImage, setPreviewImage] = useState("");
   // creates a event that triggers click on fileButton
   const handleFileBtnClick = (e) => {
     // creates a event that triggers click on fileButton
@@ -85,17 +86,20 @@ const EditProfile = ({
   };
 
   useEffect(() => {
-    fakeButton.current.addEventListener("click", handleFileBtnClick);
-    previewRef.current.addEventListener("click", handleFileBtnClick);
+    const currentFakeButton = fakeButton.current;
+    const currentPreviewRef = previewRef.current;
+    currentFakeButton.addEventListener("click", handleFileBtnClick);
+    currentPreviewRef.addEventListener("click", handleFileBtnClick);
     return () => {
-      fakeButton.current.removeEventListener("click", handleFileBtnClick);
-      previewRef.current.removeEventListener("click", handleFileBtnClick);
+      currentFakeButton.removeEventListener("click", handleFileBtnClick);
+      currentPreviewRef.removeEventListener("click", handleFileBtnClick);
     };
   }, []);
 
   // Handle file selection
   const handleFileInputChange = (e) => {
     const file = e.target.files[0];
+    setFormData({ ...formData, avatar: file });
     previewFile(file);
   };
 
@@ -106,10 +110,7 @@ const EditProfile = ({
     reader.readAsDataURL(file);
     console.log(reader);
     reader.onloadend = () => {
-      // setFormData({
-      //   ...formData,
-      //   avatar: reader.result,
-      // });
+      setPreviewImage(reader.result);
     };
   };
 
@@ -121,10 +122,7 @@ const EditProfile = ({
         </h1>
       </div>
 
-      <form
-        className="input-form"
-        
-        onSubmit={(e) => onSubmit(e)}>
+      <form className="input-form" onSubmit={(e) => onSubmit(e)}>
         <div className="input-form__row">
           {/* PHOTOGRAPHER LEVEL */}
           <div className="input-form__group u-margin-bottom-medium">
@@ -196,14 +194,16 @@ const EditProfile = ({
               name="avatar"
               id="avatar"
               style={{ display: "none" }}
-              // onChange={handleFileInputChange}
-              onChange={(e) => setFormData({ ...formData, [e.target.name]: e.target.files[0] })}
+              onChange={handleFileInputChange}
+              // onChange={(e) => setFormData({ ...formData, [e.target.name]: e.target.files[0] })}
               // value={avatar}
             />
             {/* VISIBLE INPUT */}
             <div className="avatar-input__left">
               <div className="avatar-input__label">
-                <label htmlFor="avatar" className="form-label u-margin-bottom-smallest">
+                <label
+                  htmlFor="avatar"
+                  className="form-label u-margin-bottom-smallest">
                   Select Avatar File
                 </label>
               </div>
@@ -218,15 +218,16 @@ const EditProfile = ({
 
             <div className="avatar-input__right">
               <div className="avatar-input__preview" ref={previewRef}>
-                {/* {avatar != "" ? (
+                {previewImage !== "" ? (
                   <img
-                    src={avatar}
+                    src={previewImage}
+                    alt="user avatar"
                     ref={previewAvatarRef}
                     className="avatar-input__image"
                   />
-                ) : ( */}
-                <i className="fas fa-2x fa-user avatar-input__icon"></i>
-                {/* )} */}
+                ) : (
+                  <i className="fas fa-2x fa-user avatar-input__icon"></i>
+                )}
               </div>
               <div className="avatar-input__alert"></div>
               <Alert param="avatar" />
