@@ -72,7 +72,6 @@ export const searchPosts = (term) => async (dispatch) => {
 
 // Add like
 export const addLike = (id) => async (dispatch) => {
-  console.log('add like run')
   try {
     const res = await axios.put(`/api/posts/like/${id}`);
 

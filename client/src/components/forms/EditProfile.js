@@ -49,15 +49,7 @@ const EditProfile = ({
     });
   }, [loading, getCurrentProfile]);
 
-  const {
-    website,
-    location,
-    status,
-    subjects,
-    bio,
-    equipment,
-
-  } = formData;
+  const { website, location, status, subjects, bio, equipment } = formData;
 
   const onChange = (e) =>
     setFormData({ ...formData, [e.target.name]: e.target.value });
@@ -107,11 +99,12 @@ const EditProfile = ({
     // Use file reader from built in JS Api
     const reader = new FileReader();
     // Convert image to string
-    reader.readAsDataURL(file);
-    console.log(reader);
-    reader.onloadend = () => {
-      setPreviewImage(reader.result);
-    };
+    if (file) {
+      reader.readAsDataURL(file);
+      reader.onloadend = () => {
+        setPreviewImage(reader.result);
+      };
+    }
   };
 
   return (

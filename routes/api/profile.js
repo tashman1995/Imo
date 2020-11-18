@@ -1,14 +1,21 @@
 const express = require("express");
 const router = express.Router();
 const auth = require("../../middleware/auth");
+const imageValidation = require("../../middleware/imageValidation");
 const { check, validationResult } = require("express-validator");
 const { avatarStorage } = require("../../client/src/api/cloudinary");
-const multer = require('multer');
-const upload = multer({ storage: avatarStorage });
+const multer = require("multer");
+const upload = multer({
+  storage: avatarStorage,
+  limits: {
+    fileSize: 10000000,
+  },
+});
 const Profile = require("../../models/Profile");
 const User = require("../../models/Users");
 const Post = require("../../models/Post");
 const Users = require("../../models/Users");
+const { nextTick } = require("process");
 
 // @route GET api/profile/me
 // @desc Get current users profile
@@ -47,16 +54,15 @@ router.post(
       }),
       check("location", "Location is required").not().isEmpty(),
       check("subjects", "Subjects are required").not().isEmpty(),
-      check("avatar").custom(async (avatar, { req }) => {
-       
-      }),
     ],
   ],
   async (req, res) => {
+    console.log(req.file);
     const errors = validationResult(req);
     if (!errors.isEmpty()) {
       return res.status(400).json({ errors: errors.array() });
     }
+
     const {
       website,
       location,
@@ -107,7 +113,6 @@ router.post(
 
     try {
       if (uploadedAvatar !== "") {
-        console.log('user id',req.user.id)
         await Users.findOneAndUpdate(
           { _id: req.user.id },
           {
@@ -136,7 +141,8 @@ router.post(
       await profile.save();
       res.json(profile);
     } catch (err) {
-      console.error(err.message);
+  
+      // console.error(err.message);
       res.status(500).send("Server Error");
     }
   }

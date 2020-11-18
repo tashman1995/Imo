@@ -83,7 +83,6 @@ const CreateProfile = ({ createProfile, history, clearAlerts }) => {
     const reader = new FileReader();
     // Convert image to string
     reader.readAsDataURL(file);
-    console.log(reader);
     reader.onloadend = () => {
       setPreviewImage(reader.result);
     };
