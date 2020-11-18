@@ -1,5 +1,4 @@
 import React, { Fragment } from "react";
-import PropTypes from "prop-types";
 import InputRange from "react-input-range";
 import './styles.scss'
 

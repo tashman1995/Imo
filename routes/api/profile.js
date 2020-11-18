@@ -2,7 +2,9 @@ const express = require("express");
 const router = express.Router();
 const auth = require("../../middleware/auth");
 const { check, validationResult } = require("express-validator");
-const { cloudinary } = require("../../client/src/api/cloudinary");
+const { avatarStorage } = require("../../client/src/api/cloudinary");
+const multer = require('multer');
+const upload = multer({ storage: avatarStorage });
 const Profile = require("../../models/Profile");
 const User = require("../../models/Users");
 const Post = require("../../models/Post");
@@ -31,10 +33,12 @@ router.get("/me", auth, async (req, res) => {
 // @route POST api/profile/
 // @desc Create or update a user profile
 // @access Private
+
 router.post(
   "/",
   [
     auth,
+    upload.single("avatar"),
     [
       check("status").custom((status) => {
         if (status === "") {
@@ -43,6 +47,9 @@ router.post(
       }),
       check("location", "Location is required").not().isEmpty(),
       check("subjects", "Subjects are required").not().isEmpty(),
+      check("avatar").custom(async (avatar, { req }) => {
+       
+      }),
     ],
   ],
   async (req, res) => {
@@ -52,7 +59,6 @@ router.post(
     }
     const {
       website,
-      avatar,
       location,
       status,
       subjects,
@@ -66,7 +72,7 @@ router.post(
       behance,
     } = req.body;
 
-
+    const uploadedAvatar = req.file ? req.file : "";
 
     // Build profile object
     const profileFields = {};
@@ -100,25 +106,13 @@ router.post(
     if (behance) profileFields.social.behance = behance;
 
     try {
-      // User Avatar
-      const uploadedAvatar = "";
-      if (avatar !== "") {
-        uploadedAvatar = await cloudinary.uploader.upload(avatar, {
-          upload_preset: "imoSocialMedia",
-          responsive_breakpoints: {
-            create_derived: true,
-            bytes_step: 20000,
-            min_width: 200,
-            max_width: 1080,
-            max_images: 4,
-          },
-          transformation: [{ width: 250, height: 250, crop: "fill" }],
-        });
-      }
       if (uploadedAvatar !== "") {
         await Users.findOneAndUpdate(
           { _id: req.user.id },
-          { avatar: uploadedAvatar.url }
+          {
+            avatar: uploadedAvatar.path,
+            avatar_cloudinary_id: uploadedAvatar.filename,
+          }
         );
       }
 
@@ -141,17 +135,7 @@ router.post(
       await profile.save();
       res.json(profile);
     } catch (err) {
-      if (
-        err.message.includes("File size too large")
-      ) {
-        console.log("File too large");
-        return res
-          .status(400)
-          .json({
-            msg: "File Too Large (<10mb)"
-          });
-      }
-        console.error(err.message);
+      console.error(err.message);
       res.status(500).send("Server Error");
     }
   }

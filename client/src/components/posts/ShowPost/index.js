@@ -1,5 +1,4 @@
-import React, { Fragment, useEffect, useRef, useState } from "react";
-import { Link } from "react-router-dom";
+import React, { Fragment, useEffect, useState } from "react";
 import "./style.scss";
 import PropTypes from "prop-types";
 import { connect } from "react-redux";
@@ -59,9 +58,8 @@ const ShowPost = ({
   deleteComment,
 }) => {
      useEffect(() => {
-         console.log('getpost')
        getPost(_id);
-     }, [posts]);
+     }, [posts, getPost, __dirname]);
 
   
   // GENERATE MAP
@@ -96,7 +94,7 @@ const ShowPost = ({
         <div className="modal__container--95">
           <div className="show-modal">
             <div className="show-modal__image-container">
-              <img src={image[0]} className="show-modal__image" />
+              <img src={image[0]} alt="Post" className="show-modal__image" />
             </div>
 
             <Scrollbars
@@ -118,6 +116,7 @@ const ShowPost = ({
                     <div className="user-block">
                       <div className="user-block__avatar">
                         <img
+                        alt="Users Avatar"
                           src="https://cdn.fastly.picmonkey.com/contentful/h6goo9gw1hh6/2sNZtFAWOdP1lmQ33VwRN3/24e953b920a9cd0ff2e1d587742a2472/1-intro-photo-final.jpg?w=800&q=70"
                           className="user-block__avatar--image"
                         />

@@ -114,7 +114,7 @@ const Posts = ({ getPosts, post: { posts, loading } }) => {
 
   return (
     <Fragment>
-      {popoutImage != "" && (
+      {popoutImage !== "" && (
         <div className="popout-image">
           <img
             className="popout-image__element"

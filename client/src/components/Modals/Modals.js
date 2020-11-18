@@ -7,7 +7,6 @@ import InnerModal from "./InnerModal";
 import { animated, useTransition } from "react-spring";
 
 //Components;
-import Fade from "../layout/Fade";
 import Scale from "../layout/Scale";
 import AddEducation from "../forms/AddEducation";
 import EditEducation from "../forms/EditEducation";
@@ -134,6 +133,7 @@ const Modals = ({
     tempExperienceId,
     addNewPostModal,
     showPostModal,
+    modals
   ]);
 
   const fade = useTransition(modalVisible, null, transitionConfig1);

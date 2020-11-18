@@ -183,10 +183,11 @@ const CreateProfile = ({ createProfile, history, clearAlerts }) => {
 
             <div className="avatar-input__right">
               <div className="avatar-input__preview" ref={previewRef}>
-                {avatar != "" ? (
+                {avatar !== "" ? (
                   <img
                     src={avatar}
                     ref={previewAvatarRef}
+                    alt="User avatar preview"
                     className="avatar-input__image"
                   />
                 ) : (

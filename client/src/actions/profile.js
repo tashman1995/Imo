@@ -80,13 +80,24 @@ export const createProfile = (formData, history, edit = false) => async (
   try {
     const config = {
       headers: {
-        "Content-Type": "application/json",
+        "Content-Type": "multipart/form-data",
       },
     };
-
-    const res = await axios.post("/api/profile", formData, config);
-
-    console.log(res)
+    const data = new FormData();
+    data.append("website", formData.website);
+    data.append("location", formData.location);
+    data.append("status", formData.status);
+    data.append("subjects", formData.subjects);
+    data.append("bio", formData.bio);
+    data.append("equipment", formData.equipment);
+    data.append("youtube", formData.youtube);
+    data.append("twitter", formData.twitter);
+    data.append("instagram", formData.instagram);
+    data.append("linkedin", formData.linkedin);
+    data.append("facebook", formData.facebook);
+    data.append("behance", formData.behance);
+    data.append("avatar", formData.avatar);
+    const res = await axios.post("/api/profile", data, config);
 
     dispatch({
       type: GET_PROFILE,
@@ -161,7 +172,6 @@ export const addExperience = (formData) => async (dispatch) => {
 
 // Edit Experience
 export const editExperience = (formData, history, id) => async (dispatch) => {
-  
   try {
     const config = {
       headers: {
@@ -209,6 +219,10 @@ export const deleteExperience = (id) => async (dispatch) => {
     dispatch({
       type: UPDATE_PROFILE,
       payload: res.data,
+    });
+
+    dispatch({
+      type: CLOSE_EDIT_EXP_MODAL,
     });
 
     dispatch(setAlert("Experience Removed", "success"));
@@ -302,6 +316,10 @@ export const deleteEducation = (id) => async (dispatch) => {
     dispatch({
       type: UPDATE_PROFILE,
       payload: res.data,
+    });
+
+    dispatch({
+      type: CLOSE_EDIT_EDU_MODAL,
     });
 
     dispatch(setAlert("Education Removed", "success"));
@@ -445,4 +463,3 @@ export const closeEditSocialMediaModal = () => (dispatch) => {
     type: CLOSE_EDIT_SOCIALMEDIA_MODAL,
   });
 };
-

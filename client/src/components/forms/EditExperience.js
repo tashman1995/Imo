@@ -1,10 +1,11 @@
-import React, { Fragment, useState, useEffect } from "react";
+import React, { useState, useEffect } from "react";
 import PropTypes from "prop-types";
 import { connect } from "react-redux";
 import {
   editExperience,
   deleteExperience,
   getCurrentProfile,
+  closeEditExpModal,
 } from "../../actions/profile";
 import "./forms.scss";
 import moment from "moment";
@@ -67,7 +68,7 @@ const EditExperience = ({
           ? ""
           : profile.experience[editIndex].description,
     });
-  }, []);
+  }, [experienceId, getCurrentProfile, loading]);
 
   const { title, description, from, to, current, paid } = formData;
 
@@ -82,7 +83,6 @@ const EditExperience = ({
 
   return (
     <div className="modal__container--70">
-    
       <div className="modal__headings">
         <h1 className="heading-primary u-margin-bottom-smallest">
           Edit Experience
@@ -227,6 +227,7 @@ EditExperience.propTypes = {
   editExperience: PropTypes.func.isRequired,
   deleteExperience: PropTypes.func.isRequired,
   getCurrentProfile: PropTypes.func.isRequired,
+  closeEditExpModal: PropTypes.func.isRequired,
   profile: PropTypes.object.isRequired,
   clearAlerts: PropTypes.func.isRequired,
   alerts: PropTypes.array.isRequired,
@@ -241,5 +242,6 @@ export default connect(mapStateToProps, {
   editExperience,
   deleteExperience,
   getCurrentProfile,
+  closeEditExpModal,
   clearAlerts,
 })(EditExperience);

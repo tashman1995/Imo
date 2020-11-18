@@ -1,7 +1,6 @@
 import React, { Fragment, useEffect, useRef } from "react";
 
 import "react-spring-modal/dist/index.css";
-import { animated, useTransition } from "react-spring";
 import "./Modal.scss";
 
 const InnerModal = ({
@@ -80,7 +79,7 @@ const InnerModal = ({
     return () => {
       document.removeEventListener("mousedown", handleClickOff);
     };
-  }, []);
+  }, [handleClickOff]);
 
   const innerElement = useRef();
 

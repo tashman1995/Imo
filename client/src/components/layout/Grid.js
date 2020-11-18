@@ -2,7 +2,6 @@ import React, {  useState, } from "react";
 import {
   SpringGrid,
   makeResponsive,
-  layout as layouts,
   enterExitStyle as enterExitStyles,
   layout,
 } from "react-stonecutter";

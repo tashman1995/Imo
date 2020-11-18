@@ -1,5 +1,4 @@
 import React, { Fragment, useState } from "react";
-import Moment from "react-moment";
 import SlideToggle from "../layout/SlideToggle";
 
 const ProfileTable = ({ children, title }) => {

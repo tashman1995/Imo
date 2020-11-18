@@ -1,5 +1,6 @@
 require("dotenv").config();
 const cloudinary = require("cloudinary").v2;
+const { CloudinaryStorage } = require("multer-storage-cloudinary");
 
 cloudinary.config({
   cloud_name: process.env.CLOUDINARY_NAME,
@@ -7,4 +8,13 @@ cloudinary.config({
   api_secret: process.env.CLOUDINARY_API_SECRET,
 });
 
-module.exports = { cloudinary };
+const avatarStorage = new CloudinaryStorage({
+  cloudinary,
+  folder: "Imo-avatars",
+  allowedFormats: ["jpeg", "png", "jpg"],
+  params: {
+    transformation: [{ width: 250, height: 250, crop: "fill" }],
+  },
+});
+
+module.exports = { cloudinary, avatarStorage };

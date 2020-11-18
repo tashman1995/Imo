@@ -1,4 +1,4 @@
-import React, { Fragment, useState, useEffect } from "react";
+import React, {  useState, useEffect } from "react";
 import PropTypes from "prop-types";
 import { connect } from "react-redux";
 import {
@@ -13,8 +13,7 @@ import { clearAlerts } from "../../actions/alert";
 const EditEducation = ({
   editEducation,
   deleteEducation,
-  history,
-  closeEditEduModal,
+  history, 
   getCurrentProfile,
   educationId,
   profile: { profile, loading },
@@ -63,7 +62,7 @@ const EditEducation = ({
           ? ""
           : profile.education[editIndex].description,
     });
-  }, []);
+  }, [educationId, getCurrentProfile, loading]);
 
   const { title, location, description, from, to, current } = formData;
 
@@ -204,7 +203,7 @@ const EditEducation = ({
             type="button"
             onClick={() => {
               deleteEducation(educationId);
-              closeEditEduModal();
+              
             }}
             className="btn btn--delete input-form__delete-btn">
             Delete
@@ -221,6 +220,7 @@ EditEducation.propTypes = {
   editEducation: PropTypes.func.isRequired,
   deleteEducation: PropTypes.func.isRequired,
   getCurrentProfile: PropTypes.func.isRequired,
+  closeEditEduModal: PropTypes.func.isRequired,
   profile: PropTypes.object.isRequired,
   clearAlerts: PropTypes.func.isRequired,
   alerts: PropTypes.array.isRequired,

@@ -85,6 +85,11 @@
     text-align: center;
   }
 
+  &__status {
+    height: 4.3rem;
+    @include center;
+  }
+
   &--back {
     flex-direction: row;
     justify-content: space-between;
@@ -135,6 +140,8 @@
       transform: scale(1.03);
     }
   }
+
+  
 }
 
 .subjects {

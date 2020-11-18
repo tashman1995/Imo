@@ -26,14 +26,12 @@ const Discussion = ({
   }, [newCommentsVisible]);
 
   const [userHasLiked, setUserHasLiked] = useState(false);
-  const getElementHeight = (ref) => {
-    return ref.current ? ref.current.getBoundingClientRect().height : 0;
-  };
+
   const commentsRef = useRef(null);
 
   useEffect(() => {
     setUserHasLiked(likes.some((like) => like.user === auth.user._id));
-  }, [likes]);
+  }, [likes, auth.user._id]);
 
   const transitions = useTransition(comments, (comment) => comment._id, {
     from: { opacity: 0, transform: "translate3d(20px,0,0)",  },

@@ -1,4 +1,4 @@
-import React, { useState, useEffect, Fragment, useRef } from "react";
+import React, { useState, useEffect, useRef } from "react";
 import PropTypes from "prop-types";
 import { connect } from "react-redux";
 import { addPost } from "../../actions/post";
@@ -7,10 +7,9 @@ import Alert from "../layout/Alert";
 import Select from "../layout/Select";
 import CustomInputRange from "../layout/CustomInputRange";
 import { clearAlerts } from "../../actions/alert";
-import { useSpring } from "react-spring";
 // import "react-input-range/lib/css/index.css";
 
-const PostForm = ({ addPost, closeNewPostModal, alerts, clearAlerts }) => {
+const PostForm = ({ addPost, alerts, clearAlerts }) => {
   ////////////////////////////////////
   // CUSTOM FILE UPLOAD BUTTON
   ////////////////////////////////////
@@ -26,11 +25,13 @@ const PostForm = ({ addPost, closeNewPostModal, alerts, clearAlerts }) => {
   const previewImageRef = useRef();
   // creates a event that triggers click on fileButton
   useEffect(() => {
-    fakeButton.current.addEventListener("click", handleFileBtnClick);
-    previewRef.current.addEventListener("click", handleFileBtnClick);
+    const currentFakeButton = fakeButton.current;
+    const currentPreviewRef = previewRef.current;
+    currentFakeButton.addEventListener("click", handleFileBtnClick);
+    currentPreviewRef.addEventListener("click", handleFileBtnClick);
     return () => {
-      fakeButton.current.removeEventListener("click", handleFileBtnClick);
-      previewRef.current.removeEventListener("click", handleFileBtnClick);
+      currentFakeButton.removeEventListener("click", handleFileBtnClick);
+      currentPreviewRef.removeEventListener("click", handleFileBtnClick);
     };
   }, []);
 
@@ -102,13 +103,15 @@ const PostForm = ({ addPost, closeNewPostModal, alerts, clearAlerts }) => {
   }, [clearAlerts]);
 
   useEffect(() => {
-    console.log('run')
+    console.log("run");
     previewImageRef.current &&
-    setFormData({
-      ...formData,
-      height: previewImageRef.current.height/ previewImageRef.current.width > 1 ? 1350 : 770,
-    });
-    
+      setFormData({
+        ...formData,
+        height:
+          previewImageRef.current.height / previewImageRef.current.width > 1
+            ? 1350
+            : 770,
+      });
   }, [formData.image]);
 
   // HANDLE SUBMIT
@@ -127,7 +130,6 @@ const PostForm = ({ addPost, closeNewPostModal, alerts, clearAlerts }) => {
         </div>
       )}
 
-    
       <div className="modal__headings">
         <h1 className="heading-primary u-margin-bottom-smallest">
           Add New Location
@@ -158,7 +160,7 @@ const PostForm = ({ addPost, closeNewPostModal, alerts, clearAlerts }) => {
               <div
                 className="input-form__image-container u-margin-bottom-small"
                 ref={previewRef}>
-                {image != "" ? (
+                {image !== "" ? (
                   <img
                     src={image}
                     ref={previewImageRef}

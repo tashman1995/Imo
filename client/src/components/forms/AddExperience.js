@@ -1,8 +1,8 @@
-import React, { Fragment, useState, useEffect } from "react";
+import React, {  useState, useEffect } from "react";
 import PropTypes from "prop-types";
 import { withRouter } from "react-router-dom";
 import { connect } from "react-redux";
-import { addExperience } from "../../actions/profile";
+import { addExperience, closeAddExpModal } from "../../actions/profile";
 import "./forms.scss";
 import Alert from "../layout/Alert";
 import { clearAlerts } from "../../actions/alert";
@@ -164,6 +164,7 @@ const AddExperience = ({
 
 AddExperience.propTypes = {
   addExperience: PropTypes.func.isRequired,
+  closeAddExpModal: PropTypes.func.isRequired,
   clearAlerts: PropTypes.func.isRequired,
   alerts: PropTypes.array.isRequired,
 };
@@ -172,6 +173,6 @@ const mapStateToProps = (state) => ({
   alerts: state.alert,
 });
 
-export default connect(mapStateToProps, { addExperience, clearAlerts })(
+export default connect(mapStateToProps, { addExperience, clearAlerts, closeAddExpModal })(
   withRouter(AddExperience)
 );

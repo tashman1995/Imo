@@ -21,13 +21,7 @@ router.post(
     check("password", "Please enter a password with 6 or more characters")
       .trim()
       .isLength({ min: 6 }),
-      // .custom((password, {req}) => {
-      //   if(password != req.body.password2) {
-      //     throw new Error('Passwords Must Match')
-      //   }
-      // }),
-      check("password2").custom( async(password2, {req}) => {
-        
+      check("password2").custom( async(password2, {req}) => {  
         if( password2 != req.body.password) {
           throw new Error('Passwords Must Match')
         }

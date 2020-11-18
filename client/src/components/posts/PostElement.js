@@ -1,4 +1,4 @@
-import React, { Fragment, useEffect, useState, useRef } from "react";
+import React, { Fragment } from "react";
 import PropTypes from "prop-types";
 import { getPost, openShowPostModal } from "../../actions/post";
 import { connect } from "react-redux";

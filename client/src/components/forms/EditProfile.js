@@ -104,11 +104,12 @@ const EditProfile = ({
     const reader = new FileReader();
     // Convert image to string
     reader.readAsDataURL(file);
+    console.log(reader);
     reader.onloadend = () => {
-      setFormData({
-        ...formData,
-        avatar: reader.result,
-      });
+      // setFormData({
+      //   ...formData,
+      //   avatar: reader.result,
+      // });
     };
   };
 
@@ -120,8 +121,12 @@ const EditProfile = ({
         </h1>
       </div>
 
-      <form className="input-form" onSubmit={(e) => onSubmit(e)}>
+      <form
+        className="input-form"
+        
+        onSubmit={(e) => onSubmit(e)}>
         <div className="input-form__row">
+          {/* PHOTOGRAPHER LEVEL */}
           <div className="input-form__group u-margin-bottom-medium">
             <label className="form-label" htmlFor="status">
               What level photographer are you?
@@ -149,7 +154,7 @@ const EditProfile = ({
             </label>
             <Alert param="status" />
           </div>
-
+          {/* PORTFOLIO WEBSITE */}
           <div className="input-form__group u-margin-bottom-medium">
             <label className="form-label">
               Link us to your porfolio website.
@@ -165,7 +170,9 @@ const EditProfile = ({
             <Alert param="website" />
           </div>
         </div>
+
         <div className="input-form__row u-margin-bottom-medium">
+          {/* LOCATION */}
           <div className="input-form__group">
             <label className="form-label">
               Where are you based?
@@ -180,20 +187,23 @@ const EditProfile = ({
             </label>
             <Alert param="location" />
           </div>
+          {/* AVATAR UPLOAD */}
           <div className="input-form__group avatar-input">
             {/* HIDDEN INPUT */}
             <input
               ref={fileButton}
               type="file"
               name="avatar"
-              id=""
+              id="avatar"
               style={{ display: "none" }}
-              onChange={handleFileInputChange}
+              // onChange={handleFileInputChange}
+              onChange={(e) => setFormData({ ...formData, [e.target.name]: e.target.files[0] })}
+              // value={avatar}
             />
             {/* VISIBLE INPUT */}
             <div className="avatar-input__left">
               <div className="avatar-input__label">
-                <label className="form-label u-margin-bottom-smallest">
+                <label htmlFor="avatar" className="form-label u-margin-bottom-smallest">
                   Select Avatar File
                 </label>
               </div>
@@ -208,15 +218,15 @@ const EditProfile = ({
 
             <div className="avatar-input__right">
               <div className="avatar-input__preview" ref={previewRef}>
-                {avatar != "" ? (
+                {/* {avatar != "" ? (
                   <img
                     src={avatar}
                     ref={previewAvatarRef}
                     className="avatar-input__image"
                   />
-                ) : (
-                  <i className="fas fa-2x fa-user avatar-input__icon"></i>
-                )}
+                ) : ( */}
+                <i className="fas fa-2x fa-user avatar-input__icon"></i>
+                {/* )} */}
               </div>
               <div className="avatar-input__alert"></div>
               <Alert param="avatar" />

@@ -1,4 +1,4 @@
-import React, { useState, Fragment, useEffect } from "react";
+import React, { useState, useEffect } from "react";
 import { withRouter } from "react-router-dom";
 import PropTypes from "prop-types";
 import { connect } from "react-redux";
@@ -12,7 +12,6 @@ const EditSocialMedia = ({
   getCurrentProfile,
   history,
   clearAlerts,
-  
 }) => {
   const [formData, setFormData] = useState({
     youtube: "",
@@ -43,7 +42,12 @@ const EditSocialMedia = ({
   }, [
     loading,
     getCurrentProfile,
- 
+    profile.bio,
+    profile.equipment,
+    profile.location,
+    profile.status,
+    profile.subjects,
+    profile.website,
   ]);
 
   const { youtube, twitter, instagram, linkedin, facebook, behance } = formData;

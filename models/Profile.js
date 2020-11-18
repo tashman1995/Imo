@@ -19,9 +19,7 @@ const ProfileSchema = new mongoose.Schema({
     type: String,
     required: true,
   },
-  avatar: {
-    type: String,
-  },
+
   // What they shoot
   subjects: {
     type: [String],
