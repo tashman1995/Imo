@@ -55,11 +55,7 @@ router.post(
       }
 
       // Gets avatar for user if they have gravatar, defaults to mm option
-      const avatar = gravatar.url(email, {
-        s: "200",
-        r: "pg",
-        d: "mm",
-      });
+      const avatar = "/imgs/avatar.svg";
 
       user = new User({
         name,

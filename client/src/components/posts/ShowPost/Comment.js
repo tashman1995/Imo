@@ -20,8 +20,8 @@ const Comment = ({
 
   
   return (
-    <animated.div
-      style={{ opacity, transform }}
+    <div
+    //   style={{ opacity, transform }}
       className="discussion__comment comment">
       <Link to={`/profile/`}>
         <div className="comment__avatar">
@@ -50,7 +50,7 @@ const Comment = ({
           </p>
         </div>
       </div>
-    </animated.div>
+    </div>
   );
 };
 

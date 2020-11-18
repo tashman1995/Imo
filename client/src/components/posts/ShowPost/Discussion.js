@@ -1,10 +1,8 @@
 import React, { useState, useRef, useEffect } from "react";
-import { Link } from "react-router-dom";
-import PropTypes from "prop-types";
-import { useTransition, animated, useSpring } from "react-spring";
-import useComponentSize from "@rehooks/component-size";
 import SlideToggle from "../../layout/SlideToggle";
 import Comment from "./Comment";
+import { useTransition, animated } from "react-spring";
+
 
 const Discussion = ({
   user,
@@ -28,10 +26,23 @@ const Discussion = ({
   }, [newCommentsVisible]);
 
   const [userHasLiked, setUserHasLiked] = useState(false);
+  const getElementHeight = (ref) => {
+    return ref.current ? ref.current.getBoundingClientRect().height : 0;
+  };
+  const commentsRef = useRef(null);
 
   useEffect(() => {
     setUserHasLiked(likes.some((like) => like.user === auth.user._id));
   }, [likes]);
+
+  const transitions = useTransition(comments, (comment) => comment._id, {
+    from: { opacity: 0, transform: "translate3d(20px,0,0)",  },
+    enter: { opacity: 1, transform: "translate3d(0px,0,0)",  }, 
+    leave: { opacity: 0, transform: "translate3d(20px,0,0)", }, 
+    config: {
+      tension: 400
+    }
+  });
 
   return (
     <div className="discussion">
@@ -44,9 +55,11 @@ const Discussion = ({
           <p className="discussion__amounts--likes">No likes yet</p>
         )}
         {comments.length > 0 ? (
-          <p className="discussion__amounts--comments">
+          <button
+            onClick={() => setCommentsVisible(true)}
+            className="discussion__amounts--comments discussion__amounts--comments-btn">
             <span className="u-bold">{comments.length}</span> comments{" "}
-          </p>
+          </button>
         ) : (
           <p className="discussion__amounts--comments">No comments yet</p>
         )}
@@ -122,18 +135,20 @@ const Discussion = ({
 
       <div className="discussion__comments">
         <SlideToggle isVisible={commentsVisible}>
-          {comments.map((comment) => {
-            return (
-              <Comment
-                key={comment._id}
-                comment={comment}
-                currentUserId={auth.user._id}
-                commentsVisible={commentsVisible}
-                deleteComment={deleteComment}
-                postId={id}
-              />
-            );
-          })}
+          {transitions.map(({ item, props, key }) => (
+            <animated.div key={key} style={props}>
+              <div ref={commentsRef} className="">
+                <Comment
+                  // key={comment._id}
+                  comment={item}
+                  currentUserId={auth.user._id}
+                  commentsVisible={commentsVisible}
+                  deleteComment={deleteComment}
+                  postId={id}
+                />
+              </div>
+            </animated.div>
+          ))}
         </SlideToggle>
         {comments.length > 0 &&
           (commentsVisible ? (

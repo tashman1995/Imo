@@ -2,10 +2,11 @@ const express = require("express");
 const router = express.Router();
 const auth = require("../../middleware/auth");
 const { check, validationResult } = require("express-validator");
-
+const { cloudinary } = require("../../client/src/api/cloudinary");
 const Profile = require("../../models/Profile");
 const User = require("../../models/Users");
 const Post = require("../../models/Post");
+const Users = require("../../models/Users");
 
 // @route GET api/profile/me
 // @desc Get current users profile
@@ -13,7 +14,6 @@ const Post = require("../../models/Post");
 
 router.get("/me", auth, async (req, res) => {
   try {
-    console.log(req.user)
     const profile = await Profile.findOne({
       user: req.user.id,
     }).populate("user", ["name", "avatar"]);
@@ -52,6 +52,7 @@ router.post(
     }
     const {
       website,
+      avatar,
       location,
       status,
       subjects,
@@ -65,7 +66,21 @@ router.post(
       behance,
     } = req.body;
 
-    
+    // User Avatar
+    const uploadedAvatar = "";
+    if (avatar !== "") {
+      uploadedAvatar = await cloudinary.uploader.upload(avatar, {
+        upload_preset: "imoSocialMedia",
+        responsive_breakpoints: {
+          create_derived: true,
+          bytes_step: 20000,
+          min_width: 200,
+          max_width: 1080,
+          max_images: 4,
+        },
+        transformation: [{ width: 250, height: 250, crop: "fill" }],
+      });
+    }
 
     // Build profile object
     const profileFields = {};
@@ -99,8 +114,16 @@ router.post(
     if (behance) profileFields.social.behance = behance;
 
     try {
+      if (uploadedAvatar !== "") {
+        await Users.findOneAndUpdate(
+          { _id: req.user.id },
+          { avatar: uploadedAvatar.url }
+        );
+      }
+
       // UPDATE
       let profile = await Profile.findOne({ user: req.user.id });
+
       if (profile) {
         profile = await Profile.findOneAndUpdate(
           { user: req.user.id },
@@ -234,7 +257,6 @@ router.put(
     };
 
     try {
-      console.log("try");
       const profile = await Profile.findOne({ user: req.user.id });
       profile.experience.unshift(newExp);
       await profile.save();
@@ -309,8 +331,6 @@ router.put(
       const editIndex = profile.experience
         .map((item) => item.id)
         .indexOf(req.params.exp_id);
-
-      console.log( req.params);
 
       profile.experience[editIndex] = experienceFields;
 
@@ -465,8 +485,6 @@ router.put(
 
     educationFields.description = description;
 
-    console.log("current", current);
-
     if (educationFields.current) {
       educationFields.to = "";
     }
@@ -477,8 +495,6 @@ router.put(
       const editIndex = profile.education
         .map((item) => item.id)
         .indexOf(req.params.edu_id);
-
-        console.log(req.params);
 
       profile.education[editIndex] = educationFields;
 

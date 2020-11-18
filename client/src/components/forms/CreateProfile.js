@@ -1,4 +1,4 @@
-import React, { useState, Fragment, useEffect } from "react";
+import React, { useState, useRef, useEffect } from "react";
 import { withRouter } from "react-router-dom";
 import PropTypes from "prop-types";
 import { connect } from "react-redux";
@@ -20,9 +20,18 @@ const CreateProfile = ({ createProfile, history, clearAlerts }) => {
     linkedin: "",
     facebook: "",
     behance: "",
+    avatar: "",
   });
 
-  const { website, location, status, subjects, bio, equipment } = formData;
+  const {
+    website,
+    location,
+    status,
+    subjects,
+    bio,
+    avatar,
+    equipment,
+  } = formData;
 
   const onChange = (e) =>
     setFormData({ ...formData, [e.target.name]: e.target.value });
@@ -36,6 +45,47 @@ const CreateProfile = ({ createProfile, history, clearAlerts }) => {
     clearAlerts();
     createProfile(formData, history);
   };
+
+  // Avatar
+  const fileButton = useRef();
+  const fakeButton = useRef();
+  const previewRef = useRef();
+  const previewAvatarRef = useRef();
+  // creates a event that triggers click on fileButton
+  const handleFileBtnClick = (e) => {
+    // creates a event that triggers click on fileButton
+    var clickEvent = new MouseEvent("click", { bubbles: true });
+    fileButton.current.dispatchEvent(clickEvent);
+  };
+
+  useEffect(() => {
+    fakeButton.current.addEventListener("click", handleFileBtnClick);
+    previewRef.current.addEventListener("click", handleFileBtnClick);
+    return () => {
+      fakeButton.current.removeEventListener("click", handleFileBtnClick);
+      previewRef.current.removeEventListener("click", handleFileBtnClick);
+    };
+  }, []);
+
+  // Handle file selection
+  const handleFileInputChange = (e) => {
+    const file = e.target.files[0];
+    previewFile(file);
+  };
+
+  const previewFile = (file) => {
+    // Use file reader from built in JS Api
+    const reader = new FileReader();
+    // Convert image to string
+    reader.readAsDataURL(file);
+    reader.onloadend = () => {
+      setFormData({
+        ...formData,
+        avatar: reader.result,
+      });
+    };
+  };
+
   return (
     <div className="modal__container--70">
       <div className="modal__headings">
@@ -104,6 +154,48 @@ const CreateProfile = ({ createProfile, history, clearAlerts }) => {
               onChange={(e) => onChange(e)}
             />
             <Alert param="location" />
+          </div>
+          <div className="input-form__group avatar-input">
+            {/* HIDDEN INPUT */}
+            <input
+              ref={fileButton}
+              type="file"
+              name="avatar"
+              id=""
+              style={{ display: "none" }}
+              onChange={handleFileInputChange}
+            />
+            {/* VISIBLE INPUT */}
+            <div className="avatar-input__left">
+              <div className="avatar-input__label">
+                <label className="form-label u-margin-bottom-smallest">
+                  Select Avatar File
+                </label>
+              </div>
+
+              <button
+                type="button"
+                className="btn btn--table avatar-input__button"
+                ref={fakeButton}>
+                Select File &nbsp; <i className="far fa-file-image fa-lg"></i>
+              </button>
+            </div>
+
+            <div className="avatar-input__right">
+              <div className="avatar-input__preview" ref={previewRef}>
+                {avatar != "" ? (
+                  <img
+                    src={avatar}
+                    ref={previewAvatarRef}
+                    className="avatar-input__image"
+                  />
+                ) : (
+                  <i className="fas fa-2x fa-user avatar-input__icon"></i>
+                )}
+              </div>
+              <div className="avatar-input__alert"></div>
+              <Alert param="avatar" />
+            </div>
           </div>
         </div>
 

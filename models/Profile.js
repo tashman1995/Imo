@@ -50,10 +50,9 @@ const ProfileSchema = new mongoose.Schema({
       },
       to: {
         type: Date,
-
       },
       current: {
-        type: Boolean
+        type: Boolean,
       },
       paid: {
         type: Boolean,
@@ -84,12 +83,11 @@ const ProfileSchema = new mongoose.Schema({
       current: {
         type: Boolean,
         default: false,
-        required: true
-
+        required: true,
       },
       description: {
         type: String,
-        required: true
+        required: true,
       },
     },
   ],

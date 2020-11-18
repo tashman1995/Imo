@@ -233,6 +233,11 @@ export const openShowPostModal = (id) => async (dispatch) => {
     });
   }
 };
+// export const openShowPostModal = () => (dispatch) => {
+//   dispatch({
+//     type: OPEN_SHOW_POST_MODAL,
+//   });
+// };
 
 // Close add new post modal
 export const closeShowPostModal = () => (dispatch) => {

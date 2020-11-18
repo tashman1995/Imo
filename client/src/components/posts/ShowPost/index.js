@@ -28,9 +28,9 @@ const mapBoxToken =
 
 const ShowPost = ({
   getPost,
-  posts,
   post: {
     post,
+    posts,
     post: {
       _id,
       user,
@@ -58,10 +58,10 @@ const ShowPost = ({
   addComment,
   deleteComment,
 }) => {
-    //  useEffect(() => {
-    //      console.log('getpost')
-    //    getPost(_id);
-    //  }, [getPost,post]);
+     useEffect(() => {
+         console.log('getpost')
+       getPost(_id);
+     }, [posts]);
 
   
   // GENERATE MAP

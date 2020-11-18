@@ -1,4 +1,4 @@
-import React, { useState, Fragment, useEffect } from "react";
+import React, { useState, useRef, useEffect } from "react";
 import { withRouter } from "react-router-dom";
 import PropTypes from "prop-types";
 import { connect } from "react-redux";
@@ -12,7 +12,6 @@ const EditProfile = ({
   getCurrentProfile,
   history,
   clearAlerts,
-  closeEditProfileModal,
 }) => {
   const [formData, setFormData] = useState({
     website: "",
@@ -27,11 +26,13 @@ const EditProfile = ({
     linkedin: "",
     facebook: "",
     behance: "",
+    avatar: "",
   });
 
   useEffect(() => {
     getCurrentProfile();
     setFormData({
+      ...formData,
       website: loading || !profile.website ? "" : profile.website,
       location: loading || !profile.location ? "" : profile.location,
       status: loading || !profile.status ? "" : profile.status,
@@ -48,7 +49,15 @@ const EditProfile = ({
     });
   }, [loading, getCurrentProfile]);
 
-  const { website, location, status, subjects, bio, equipment } = formData;
+  const {
+    website,
+    location,
+    status,
+    subjects,
+    bio,
+    equipment,
+    avatar,
+  } = formData;
 
   const onChange = (e) =>
     setFormData({ ...formData, [e.target.name]: e.target.value });
@@ -61,6 +70,46 @@ const EditProfile = ({
     e.preventDefault();
     clearAlerts();
     createProfile(formData, history, true);
+  };
+
+  // Avatar
+  const fileButton = useRef();
+  const fakeButton = useRef();
+  const previewRef = useRef();
+  const previewAvatarRef = useRef();
+  // creates a event that triggers click on fileButton
+  const handleFileBtnClick = (e) => {
+    // creates a event that triggers click on fileButton
+    var clickEvent = new MouseEvent("click", { bubbles: true });
+    fileButton.current.dispatchEvent(clickEvent);
+  };
+
+  useEffect(() => {
+    fakeButton.current.addEventListener("click", handleFileBtnClick);
+    previewRef.current.addEventListener("click", handleFileBtnClick);
+    return () => {
+      fakeButton.current.removeEventListener("click", handleFileBtnClick);
+      previewRef.current.removeEventListener("click", handleFileBtnClick);
+    };
+  }, []);
+
+  // Handle file selection
+  const handleFileInputChange = (e) => {
+    const file = e.target.files[0];
+    previewFile(file);
+  };
+
+  const previewFile = (file) => {
+    // Use file reader from built in JS Api
+    const reader = new FileReader();
+    // Convert image to string
+    reader.readAsDataURL(file);
+    reader.onloadend = () => {
+      setFormData({
+        ...formData,
+        avatar: reader.result,
+      });
+    };
   };
 
   return (
@@ -121,7 +170,7 @@ const EditProfile = ({
             <label className="form-label">
               Where are you based?
               <input
-                className="input-form__input text-input"
+                className="input-form__input input-form__input--margin-top text-input"
                 type="text"
                 placeholder="For example 'London, Great Britain'"
                 name="location"
@@ -130,6 +179,48 @@ const EditProfile = ({
               />
             </label>
             <Alert param="location" />
+          </div>
+          <div className="input-form__group avatar-input">
+            {/* HIDDEN INPUT */}
+            <input
+              ref={fileButton}
+              type="file"
+              name="avatar"
+              id=""
+              style={{ display: "none" }}
+              onChange={handleFileInputChange}
+            />
+            {/* VISIBLE INPUT */}
+            <div className="avatar-input__left">
+              <div className="avatar-input__label">
+                <label className="form-label u-margin-bottom-smallest">
+                  Select Avatar File
+                </label>
+              </div>
+
+              <button
+                type="button"
+                className="btn btn--table avatar-input__button"
+                ref={fakeButton}>
+                Select File &nbsp; <i className="far fa-file-image fa-lg"></i>
+              </button>
+            </div>
+
+            <div className="avatar-input__right">
+              <div className="avatar-input__preview" ref={previewRef}>
+                {avatar != "" ? (
+                  <img
+                    src={avatar}
+                    ref={previewAvatarRef}
+                    className="avatar-input__image"
+                  />
+                ) : (
+                  <i className="fas fa-2x fa-user avatar-input__icon"></i>
+                )}
+              </div>
+              <div className="avatar-input__alert"></div>
+              <Alert param="avatar" />
+            </div>
           </div>
         </div>
 

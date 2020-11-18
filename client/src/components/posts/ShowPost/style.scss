@@ -82,6 +82,11 @@
     &--likes {
       font-size: 2rem;
       font-weight: 300;
+      &-btn {
+        &:focus, &:hover {
+          text-decoration: underline;
+        }
+      }
     }
   }
 
@@ -216,14 +221,14 @@
 
   &__sub-content {
     margin-top: 0.5rem;
-    margin-left: .5rem;
+    margin-left: 0.5rem;
     display: flex;
 
     &:first-child {
       margin-left: 1.8em;
     }
 
-    & :not(:first-child){
+    & :not(:first-child) {
       // Point between delete button and date
       display: flex;
       align-items: center;
@@ -235,13 +240,14 @@
         border-width: 5px;
         height: 0.4rem;
         width: 0.4rem;
-        margin: 0 .6rem;
+        margin: 0 0.6rem;
       }
     }
   }
 
   &__delete-btn {
-    &:focus, &:hover {
+    &:focus,
+    &:hover {
       text-decoration: underline;
     }
   }
