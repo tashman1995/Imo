@@ -66,21 +66,7 @@ router.post(
       behance,
     } = req.body;
 
-    // User Avatar
-    const uploadedAvatar = "";
-    if (avatar !== "") {
-      uploadedAvatar = await cloudinary.uploader.upload(avatar, {
-        upload_preset: "imoSocialMedia",
-        responsive_breakpoints: {
-          create_derived: true,
-          bytes_step: 20000,
-          min_width: 200,
-          max_width: 1080,
-          max_images: 4,
-        },
-        transformation: [{ width: 250, height: 250, crop: "fill" }],
-      });
-    }
+
 
     // Build profile object
     const profileFields = {};
@@ -114,6 +100,21 @@ router.post(
     if (behance) profileFields.social.behance = behance;
 
     try {
+      // User Avatar
+      const uploadedAvatar = "";
+      if (avatar !== "") {
+        uploadedAvatar = await cloudinary.uploader.upload(avatar, {
+          upload_preset: "imoSocialMedia",
+          responsive_breakpoints: {
+            create_derived: true,
+            bytes_step: 20000,
+            min_width: 200,
+            max_width: 1080,
+            max_images: 4,
+          },
+          transformation: [{ width: 250, height: 250, crop: "fill" }],
+        });
+      }
       if (uploadedAvatar !== "") {
         await Users.findOneAndUpdate(
           { _id: req.user.id },
@@ -140,7 +141,17 @@ router.post(
       await profile.save();
       res.json(profile);
     } catch (err) {
-      console.error(err.message);
+      if (
+        err.message.includes("File size too large")
+      ) {
+        console.log("File too large");
+        return res
+          .status(400)
+          .json({
+            msg: "File Too Large (<10mb)"
+          });
+      }
+        console.error(err.message);
       res.status(500).send("Server Error");
     }
   }
