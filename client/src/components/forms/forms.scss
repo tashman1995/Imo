@@ -335,6 +335,7 @@
     width: 5.5rem;
     height: 5.5rem;
     overflow: hidden;
+    margin-right: 2.4rem;
   }
 
   &__image {
@@ -343,7 +344,10 @@
 
   &__icon {
     color: $color-primary-light;
-    
+  }
 
+  &__file-name {
+    width: 7rem;
+    max-width: 7rem;
   }
 }

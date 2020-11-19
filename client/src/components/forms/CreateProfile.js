@@ -52,7 +52,7 @@ const CreateProfile = ({ createProfile, history, clearAlerts }) => {
   const previewAvatarRef = useRef();
   const [previewImage, setPreviewImage] = useState("");
   // creates a event that triggers click on fileButton
-  const handleFileBtnClick = (e) => {
+  const handleFileBtnClick = () => {
     // creates a event that triggers click on fileButton
     var clickEvent = new MouseEvent("click", { bubbles: true });
     fileButton.current.dispatchEvent(clickEvent);

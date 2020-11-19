@@ -11,7 +11,7 @@ cloudinary.config({
 const avatarStorage = new CloudinaryStorage({
   cloudinary,
   folder: "Imo-avatars",
-  allowedFormats: ["jpeg", "png", "jpg"],
+  
   params: {
     transformation: [{ width: 350, height: 350, crop: "fill" }],
   },

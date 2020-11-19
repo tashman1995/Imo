@@ -4,7 +4,7 @@ import PropTypes from "prop-types";
 import { connect } from "react-redux";
 import { createProfile, getCurrentProfile } from "../../actions/profile";
 import Alert from "../layout/Alert";
-import { clearAlerts } from "../../actions/alert";
+import { clearAlerts, setAlert } from "../../actions/alert";
 
 const EditProfile = ({
   profile: { profile, loading },
@@ -12,6 +12,7 @@ const EditProfile = ({
   getCurrentProfile,
   history,
   clearAlerts,
+  setAlert,
 }) => {
   const [formData, setFormData] = useState({
     website: "",
@@ -70,8 +71,9 @@ const EditProfile = ({
   const previewRef = useRef();
   const previewAvatarRef = useRef();
   const [previewImage, setPreviewImage] = useState("");
+  const [fileName, setFileName] = useState("");
   // creates a event that triggers click on fileButton
-  const handleFileBtnClick = (e) => {
+  const handleFileBtnClick = () => {
     // creates a event that triggers click on fileButton
     var clickEvent = new MouseEvent("click", { bubbles: true });
     fileButton.current.dispatchEvent(clickEvent);
@@ -91,6 +93,15 @@ const EditProfile = ({
   // Handle file selection
   const handleFileInputChange = (e) => {
     const file = e.target.files[0];
+    if (file) {
+      if (file.size > 10000000) {
+        setAlert("File too large (>10mb)", "danger", "avatar");
+        return;
+      }
+      setAlert("Correct File Size", "success", "avatar");
+      setFileName(e.target.files[0].name);
+    }
+
     setFormData({ ...formData, avatar: file });
     previewFile(file);
   };
@@ -207,6 +218,9 @@ const EditProfile = ({
                 ref={fakeButton}>
                 Select File &nbsp; <i className="far fa-file-image fa-lg"></i>
               </button>
+              <div>
+                <Alert param="avatar" />
+              </div>
             </div>
 
             <div className="avatar-input__right">
@@ -222,8 +236,11 @@ const EditProfile = ({
                   <i className="fas fa-2x fa-user avatar-input__icon"></i>
                 )}
               </div>
-              <div className="avatar-input__alert"></div>
-              <Alert param="avatar" />
+              <div className="avatar-input__file-name">
+                <p className="sub-paragraph paragraph--no-line-height">
+                  {fileName === "" ? "No file loaded" : fileName}
+                </p>
+              </div>
             </div>
           </div>
         </div>
@@ -287,6 +304,7 @@ EditProfile.propTypes = {
   getCurrentProfile: PropTypes.func.isRequired,
   profile: PropTypes.object.isRequired,
   clearAlerts: PropTypes.func.isRequired,
+  setAlert: PropTypes.func.isRequired,
   alerts: PropTypes.array.isRequired,
 };
 
@@ -299,4 +317,5 @@ export default connect(mapStateToProps, {
   createProfile,
   getCurrentProfile,
   clearAlerts,
+  setAlert,
 })(withRouter(EditProfile));

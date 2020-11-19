@@ -44,6 +44,10 @@ $font-size-smaller: 1.3rem;
   line-height: 1.6;
   font-weight: 200;
 
+  &--no-line-height {
+    line-height: 1.2;
+  }
+
   &--bold {
     font-weight: 500;
   }

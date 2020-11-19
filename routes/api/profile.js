@@ -10,6 +10,17 @@ const upload = multer({
   limits: {
     fileSize: 10000000,
   },
+  fileFilter: (req, file, cb) => {
+    if (
+      file.mimetype !== "image/png" &&
+      file.mimetype !== "image/jpg" &&
+      file.mimetype !== "image/jpeg"
+    ) {
+      req.file_error = "Invalid File Type";
+      return cb(null, false);
+    }
+    cb(null, true);
+  },
 });
 const Profile = require("../../models/Profile");
 const User = require("../../models/Users");
@@ -57,8 +68,15 @@ router.post(
     ],
   ],
   async (req, res) => {
-    console.log(req.file);
     const errors = validationResult(req);
+    if (req.hasOwnProperty("file_error")) {
+      errors.errors.push({
+        value: "",
+        msg: req.file_error,
+        param: "avatar",
+        location: "body",
+      });
+    }
     if (!errors.isEmpty()) {
       return res.status(400).json({ errors: errors.array() });
     }
@@ -141,12 +159,15 @@ router.post(
       await profile.save();
       res.json(profile);
     } catch (err) {
-  
-      // console.error(err.message);
+      console.log("error");
+      // console.log('error message', err.message);
+      console.error(err.message);
       res.status(500).send("Server Error");
     }
   }
 );
+
+
 
 // @route GET api/profile/
 // @desc Get all profiles

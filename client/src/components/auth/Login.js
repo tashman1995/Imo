@@ -1,4 +1,4 @@
-import React, { Fragment, useState } from "react";
+import React, { Fragment, useState, useEffect } from "react";
 import { Link, Redirect } from "react-router-dom";
 import { connect } from "react-redux";
 import PropTypes from "prop-types";
@@ -17,13 +17,14 @@ const Login = ({ clearAlerts, login, isAuthenticated }) => {
 
   const { email, password } = formData;
 
-  clearAlerts();
+  
 
   const onChange = (e) =>
     setFormData({ ...formData, [e.target.name]: e.target.value });
 
   const onSubmit = async (e) => {
     e.preventDefault();
+    clearAlerts();
     login(email, password);
   };
 
