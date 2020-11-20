@@ -14,10 +14,10 @@ const Education = ({
     <tr className="dashboard-table__name" key={edu._id}>
       <td className="paragraph">{edu.title}</td>
       <td className="paragraph">{edu.location}</td>
-      <td className="paragraph">
+      <td className="paragraph dashboard-table__date">
         <Moment format="YYYY/MM">{edu.from}</Moment>
       </td>
-      <td className="paragraph">
+      <td className="paragraph dashboard-table__date">
         {" "}
         {edu.to === null ? (
           "Current"
@@ -30,8 +30,7 @@ const Education = ({
           className="btn btn--table"
           onClick={() => {
             openEditEduModal(edu._id);
-          }}
-        >
+          }}>
           Edit
         </button>
       </td>
@@ -56,16 +55,18 @@ const Education = ({
             <tr>
               <th className="heading-tertiary">Course</th>
               <th className="heading-tertiary">Location</th>
-              <th className="heading-tertiary">Start Date</th>
-              <th className="heading-tertiary">End Date</th>
+              <th className="heading-tertiary dashboard-table__date">
+                Start Date
+              </th>
+              <th className="heading-tertiary dashboard-table__date">
+                End Date
+              </th>
               <th className="heading-tertiary"></th>
             </tr>
           </thead>
           <tbody>{educations}</tbody>
         </table>
       </section>
-
-  
     </Fragment>
   );
 };

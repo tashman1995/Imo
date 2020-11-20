@@ -28,6 +28,7 @@ const EditProfile = ({
     facebook: "",
     behance: "",
     avatar: "",
+  
   });
 
   useEffect(() => {
@@ -72,6 +73,7 @@ const EditProfile = ({
   const previewAvatarRef = useRef();
   const [previewImage, setPreviewImage] = useState("");
   const [fileName, setFileName] = useState("");
+
   // creates a event that triggers click on fileButton
   const handleFileBtnClick = () => {
     // creates a event that triggers click on fileButton
@@ -95,6 +97,7 @@ const EditProfile = ({
     const file = e.target.files[0];
     if (file) {
       if (file.size > 10000000) {
+        console.log('file too large')
         setAlert("File too large (>10mb)", "danger", "avatar");
         return;
       }
@@ -102,7 +105,7 @@ const EditProfile = ({
       setFileName(e.target.files[0].name);
     }
 
-    setFormData({ ...formData, avatar: file });
+    setFormData({ ...formData, avatar: file, });
     previewFile(file);
   };
 

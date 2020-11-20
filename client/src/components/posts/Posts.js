@@ -4,13 +4,12 @@ import { connect } from "react-redux";
 import { getPosts } from "../../actions/post";
 import Navbar from "../../components/layout/Navbar";
 import PostsHeader from "./PostsHeader";
-import PostElement from "./PostElement";
-import Grid from "../layout/Grid";
+import useMedia from "../../utils/useMedia";
+import PostsGrid from "./PostsGrid";
 
 import "./Posts.scss";
 
-
-const Posts = ({ getPosts,auth, post: { posts, loading } }) => {
+const Posts = ({ getPosts, auth, post: { posts, loading } }) => {
   // Initialise State
   const [scaleFactor, setScaleFactor] = useState(3.5);
   const [columns, setColumns] = useState(5);
@@ -19,8 +18,8 @@ const Posts = ({ getPosts,auth, post: { posts, loading } }) => {
 
   // GRID COLUMNS SCALING CONSTANTS
   const constants = {
-    1: 0.0004,
-    2: 0.00027,
+    1: 0.00075,
+    2: 0.0004,
     3: 0.000238,
     4: 0.000168,
     5: 0.000125,
@@ -29,46 +28,51 @@ const Posts = ({ getPosts,auth, post: { posts, loading } }) => {
   //GET POSTS
   useEffect(() => {
     getPosts();
+    // manageScaling();
   }, [getPosts]);
 
-  // MANAGE SCALING
-  const manageScaling = () => {
-    if (window.innerWidth <= 1800) {
-      if (window.innerWidth <= 900) {
-        setConstant(constants[columns]);
-        // Set scale factor
-        setScaleFactor(1 / (window.innerWidth * scaleConstant * 0.7));
-        // Handle scale factor on  Window resiizing
-        window.addEventListener("resize", () =>
-          setScaleFactor(1 / (window.innerWidth * scaleConstant * 0.7))
-        );
-      } else {
-        setConstant(constants[columns]);
-        // Set scale factor
-        setScaleFactor(1 / (window.innerWidth * scaleConstant));
-        // Handle scale factor on  Window resiizing
-        window.addEventListener("resize", () =>
-          setScaleFactor(1 / (window.innerWidth * scaleConstant))
-        );
-      }
-    } else if (window.innerWidth >= 1800) {
-      // Set scale factor
+  // useEffect(() => {
+  //   setOrderedPosts(posts);
+  //   manageScaling();
+  // }, [posts]);
 
-      setScaleFactor(columns > 3 ? 0.82 * columns : 2);
-      // Handle scale factor on  Window resiizing
-    }
-  };
+  // useEffect(() => {
+  //   manageScaling();
+  // }, [columns]);
 
-  // ON RERENDER
-  useEffect(() => {
-    // Set shown post array to equal posts
-    setOrderedPosts(posts);
-    manageScaling();
-    window.addEventListener("resize", () => manageScaling());
-    return () => {
-      window.removeEventListener("resize", () => manageScaling());
-    };
-  });
+  // // MANAGE SCALING
+  // const manageScaling = () => {
+  //   console.log("manages scaling");
+
+  //   if (window.innerWidth <= 1800 && window.innerWidth >= 900) {
+  //     setConstant(constants[columns]);
+  //     // Set scale factor
+  //     setScaleFactor(1 / (window.innerWidth * scaleConstant));
+  //   } else if (window.innerWidth <= 900 && window.innerWidth >= 600) {
+  //     console.log("ipad port");
+  //     setConstant(constants[columns]);
+  //     // Set scale factor
+  //     setScaleFactor(1 / (window.innerWidth * scaleConstant * 0.8));
+  //   } else if (window.innerWidth <= 600) {
+  //     console.log("under 600");
+  //     setConstant(constants[columns]);
+  //     // Set scale factor
+  //     setScaleFactor(1 / (window.innerWidth * 0.00072));
+  //   } else if (window.innerWidth >= 1800) {
+  //     // Set scale factor
+
+  //     setScaleFactor(columns > 3 ? 0.82 * columns : 2);
+  //   }
+  // };
+
+  // // ON RERENDER
+  // useEffect(() => {
+  //   // Set shown post array to equal posts
+  //   window.addEventListener("resize", () => manageScaling());
+  //   return () => {
+  //     window.removeEventListener("resize", () => manageScaling());
+  //   };
+  // }, []);
 
   // SHUFFLE ITEMS
   const shuffle = (array) => {
@@ -109,9 +113,10 @@ const Posts = ({ getPosts,auth, post: { posts, loading } }) => {
   const popoutImageRef = useRef();
   const popoutImageRefCurrent = popoutImageRef.current;
 
-  const height = (popoutImageRefCurrent ? popoutImageRefCurrent.clientHeight : 458)
-  const width = (popoutImageRefCurrent ? popoutImageRefCurrent.clientWidth : 458)
- 
+  const height = popoutImageRefCurrent
+    ? popoutImageRefCurrent.clientHeight
+    : 458;
+  const width = popoutImageRefCurrent ? popoutImageRefCurrent.clientWidth : 458;
 
   return (
     <Fragment>
@@ -136,10 +141,17 @@ const Posts = ({ getPosts,auth, post: { posts, loading } }) => {
       <Fragment>
         <div className="posts">
           <div className="u-grid">
-            <PostsHeader isAuthenticated={auth.isAuthenticated} setColumns={setColumns} shuffle={handleShuffle} />
+            <PostsHeader
+              columns={columns}
+              isAuthenticated={auth.isAuthenticated}
+              setColumns={setColumns}
+              shuffle={handleShuffle}
+            />
+
+            <PostsGrid posts={posts} columns={columns}/>
           </div>
 
-          <Grid
+          {/* <Grid
             className="posts__grid"
             columnWidth={1080 / scaleFactor}
             columns={columns}
@@ -164,11 +176,10 @@ const Posts = ({ getPosts,auth, post: { posts, loading } }) => {
                 </li>
               );
             })}
-          </Grid>
+          </Grid> */}
         </div>
         {/* )} */}
       </Fragment>
-      
     </Fragment>
   );
 };
@@ -181,7 +192,7 @@ Posts.propTypes = {
 
 const mapStateToProps = (state) => ({
   post: state.post,
-  auth: state.auth
+  auth: state.auth,
 });
 
 export default connect(mapStateToProps, { getPosts })(Posts);

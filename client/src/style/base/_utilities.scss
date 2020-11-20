@@ -56,6 +56,25 @@
     )
     [center-end] minmax(6rem, 1fr) [full-end];
   grid-column-gap: 4rem;
+
+  @include respond(smallest) {
+    grid-template-columns:
+      [full-start] minmax(2.4rem, 1fr) [center-start] repeat(
+        6,
+        [col-start] minmax(min-content, 16rem) [col-end]
+      )
+      [center-end] minmax(2.4rem, 1fr) [full-end];
+    grid-column-gap: 0rem;
+  }
+
+  @include respond(tiny) {
+    grid-template-columns:
+      [full-start] minmax(1.2rem, 1fr) [center-start] repeat(
+        6,
+        [col-start] minmax(min-content, 16rem) [col-end]
+      )
+      [center-end] minmax(1.2rem, 1fr) [full-end];
+  }
 }
 
 .u-rotate-180 {
@@ -69,4 +88,22 @@
 
 .u-bold {
   font-weight: bolder;
+}
+
+.u-dont-break-out {
+  /* These are technically the same, but use both */
+  overflow-wrap: break-word;
+  word-wrap: break-word;
+
+  -ms-word-break: break-all;
+  /* This is the dangerous one in WebKit, as it breaks things wherever */
+  word-break: break-all;
+  /* Instead use this non-standard one: */
+  word-break: break-word;
+
+  /* Adds a hyphen where the word breaks, if supported (No Blink) */
+  -ms-hyphens: auto;
+  -moz-hyphens: auto;
+  -webkit-hyphens: auto;
+  hyphens: auto;
 }

@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { Fragment, useState } from "react";
 import PropTypes from "prop-types";
 import { connect } from "react-redux";
 import { searchPosts } from "../../actions/post";
@@ -9,10 +9,12 @@ import Select from "../layout/Select";
 const PostsHeader = ({
   searchPosts,
   setColumns,
+  columns,
   shuffle,
   openNewPostModal,
   isAuthenticated,
 }) => {
+  console.log(columns)
   const [searchTerm, setSearchTerm] = useState("");
 
   const onChange = (e) => {
@@ -37,46 +39,51 @@ const PostsHeader = ({
   return (
     <div className="post-header">
       <h1 className="heading-primary">Posts</h1>
-
-      <form className="post-header__inputs">
+      {/* Large screen inputs */}
+      <form className="post-header__inputs screen-inputs">
         {isAuthenticated && (
-          <button
-            className="post-header__btn"
-            onClick={(e) => {
-              e.preventDefault();
-              openNewPostModal();
-              e.target.blur();
-            }}>
-            Add Post &nbsp; <i className="fas fa-plus"></i>
-          </button>
+          <Fragment>
+            <button
+              className="post-header__btn add-post add-post--word"
+              onClick={(e) => {
+                e.preventDefault();
+                openNewPostModal();
+                e.target.blur();
+              }}>
+              Add Post &nbsp; <i className="fas fa-plus"></i>
+            </button>
+          </Fragment>
         )}
-
         <button
-          className="post-header__btn"
+          className="post-header__btn shuffle"
           onClick={(e) => {
             e.preventDefault();
             shuffle();
             e.target.blur();
           }}>
-          Shuffle
+          <div className="shuffle__word">Shuffle</div>
         </button>
-        <Select
-          className="post-header__column-select"
-          label="Tag Selector"
-          placeholder="Select an Option"
-          options={[
-            { name: "2 Columns", value: 2 },
-            { name: "3 Columns", value: 3 },
-            { name: "4 Columns", value: 4 },
-            { name: "5 Columns", value: 5 },
-          ]}
-          initiallySelectedOption={3}
-          setFunction={setColumns}
-        />
-        <fieldset className="post-header__btn">
+        <div className="post-header__column-select">
+          <Select
+            label="Tag Selector"
+            placeholder="No. of Columns"
+            width="16rem"
+            options={[
+              { name: "1 Columns", value: 1 },
+              { name: "2 Columns", value: 2 },
+              { name: "3 Columns", value: 3 },
+              { name: "4 Columns", value: 4 },
+              { name: "5 Columns", value: 5 },
+            ]}
+            
+            setFunction={setColumns}
+          />
+        </div>
+
+        <fieldset className="post-header__btn post-header__search">
           <input
             type="text"
-            className="post-header__btn--input"
+            className="post-header__search--input"
             name="search"
             value={searchTerm}
             placeholder="Search Posts"
@@ -84,7 +91,7 @@ const PostsHeader = ({
               onChange(e);
             }}
           />
-          <div className="post-header__btn--icons">
+          <div className="post-header__search--icons">
             {searchTerm.length > 0 ? (
               <animated.i
                 className={`fas fa-times post-header__search--icon`}
@@ -95,11 +102,40 @@ const PostsHeader = ({
                 }}></animated.i>
             ) : (
               <animated.i
-                className={`fas fa-search post-header__btn--icon`}
+                className={`fas fa-search post-header__search--icon`}
                 style={{ opacity }}></animated.i>
             )}
           </div>
         </fieldset>
+      </form>
+      {/* // PHONE INPUTS */}
+      <form className="post-header__inputs phone-inputs">
+        {isAuthenticated && (
+          <Fragment>
+            <button
+              className="post-header__btn"
+              onClick={(e) => {
+                e.preventDefault();
+                openNewPostModal();
+                e.target.blur();
+              }}>
+              <i className="fas fa-plus fa-2x"></i>
+            </button>
+          </Fragment>
+        )}
+        <button
+          className="post-header__btn"
+          onClick={(e) => {
+            e.preventDefault();
+            shuffle();
+            e.target.blur();
+          }}>
+          <i className="fas fa-random fa-2x"></i>
+        </button>
+
+        <button className="post-header__btn">
+          <i className={`fas fa-search fa-2x`}></i>
+        </button>
       </form>
     </div>
   );

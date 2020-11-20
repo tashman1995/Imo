@@ -9,10 +9,10 @@ const Experience = ({ experience, openAddExpModal, openEditExpModal }) => {
     <tr className="dashboard-table__name" key={exp._id}>
       <td className="paragraph">{exp.title}</td>
 
-      <td className="paragraph">
+      <td className="paragraph dashboard-table__date">
         <Moment format="YYYY/MM">{exp.from}</Moment>
       </td>
-      <td className="paragraph">
+      <td className="paragraph dashboard-table__date">
         {" "}
         {exp.to === null ? " Now" : <Moment format="YYYY/MM">{exp.to}</Moment>}
       </td>
@@ -43,8 +43,12 @@ const Experience = ({ experience, openAddExpModal, openEditExpModal }) => {
           <thead>
             <tr>
               <th className="heading-tertiary">Title</th>
-              <th className="heading-tertiary">Start Date</th>
-              <th className="heading-tertiary">End Date</th>
+              <th className="heading-tertiary dashboard-table__date">
+                Start Date
+              </th>
+              <th className="heading-tertiary dashboard-table__date">
+                End Date
+              </th>
               <th className="heading-tertiary">Payment</th>
               <th className="heading-tertiary"></th>
             </tr>

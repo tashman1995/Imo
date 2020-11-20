@@ -83,10 +83,10 @@ const UserInfo = ({
       if (item.value) {
         return (
           <li key={item.item}>
-            <p className="heading-tertiary dashboard-table__profile-title">
+            <p className="heading-tertiary  dashboard-table__profile-title">
               <i className={item.icon}></i>
             </p>
-            <p className="paragraph dashboard-table__profile-data">
+            <p className="paragraph u-dont-break-out dashboard-table__profile-data">
               {item.value}
             </p>
           </li>
@@ -190,7 +190,7 @@ const UserInfo = ({
         <Fragment>
           {/* PROFILE */}
 
-          <div className="dashboard-table__heading">
+          <div className="user-info__heading">
             <h2 className="heading-primary">Profile</h2>
             <button
               className="btn btn--table"
@@ -230,7 +230,7 @@ const UserInfo = ({
 
           {/* SOCIAL MEDIA */}
 
-          <div className="dashboard-table__heading">
+          <div className="user-info__heading">
             <h2 className="heading-secondary">Social Media</h2>
 
             <button

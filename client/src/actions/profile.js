@@ -97,7 +97,6 @@ export const createProfile = (formData, history, edit = false) => async (
     data.append("facebook", formData.facebook);
     data.append("behance", formData.behance);
     data.append("avatar", formData.avatar);
-    console.log(data)
 
     const res = await axios.post("/api/profile", data, config);
 
@@ -122,6 +121,7 @@ export const createProfile = (formData, history, edit = false) => async (
       type: CLOSE_EDIT_SOCIALMEDIA_MODAL,
     });
   } catch (err) {
+    
     const errors = err.response.data.errors;
 
     if (errors) {

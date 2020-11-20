@@ -52,6 +52,16 @@ router.get("/me", auth, async (req, res) => {
 // @desc Create or update a user profile
 // @access Private
 
+// router.use(function (err, req, res, next) {
+//   if (err.code === "LIMIT_FILE_SIZE") {
+//     console.log('file too larfe')
+//     return res.status(400).json();
+//     return;
+//   }
+
+//   // Handle any other errors
+// });
+
 router.post(
   "/",
   [
@@ -69,6 +79,7 @@ router.post(
   ],
   async (req, res) => {
     const errors = validationResult(req);
+    console.log(req.errors)
     if (req.hasOwnProperty("file_error")) {
       errors.errors.push({
         value: "",

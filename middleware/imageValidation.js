@@ -1,29 +1,24 @@
-module.exports = (req, res, next) => {
-    console.log(req.file)
-    // if(typeof(req.file) === 'undefined') {
-    //     return res.status(400).json({
-    //         msg: 'Problem sending data', param: 'avatar'
-    //     })
-    // }
+const { avatarStorage } = require("../client/src/api/cloudinary");
+const multer = require("multer");
+const upload = multer({
+  storage: avatarStorage,
+  limits: {
+    fileSize: 10000000,
+  },
+  fileFilter: (req, file, cb) => {
+    if (
+      file.mimetype !== "image/png" &&
+      file.mimetype !== "image/jpg" &&
+      file.mimetype !== "image/jpeg"
+    ) {
+      req.file_error = "Invalid File Type";
+      return cb(null, false);
+    }
+    cb(null, true);
+  },
+});
 
-    // if(
-    //     !(req.file.mimetype).includes('jpeg') &&
-    //     !(req.file.mimetype).includes('jpg') &&
-    //     !(req.file.mimetype).includes('png')
-
-    // ){
-    //        return res.status(400).json({
-    //          msg: "Unsupported file type",
-    //          param: "avatar",
-    //        });
-    // }
-
-    // if(req.file.size >  10000000) {
-    //      return res.status(400).json({
-    //        msg: "File too large (>10mb)",
-    //        param: "avatar",
-    //      });
-    // }
-
-    next()
-}
+module.exports = async (req, res, next) => {
+  await upload.single("avatar");
+  next();
+};

@@ -21,7 +21,6 @@ const Select = ({
     initiallySelectedOption &&
     options[initiallySelectedOption].name
   );
-
   // Handling menu option click
 
   const handleBtnClick = (item) => {

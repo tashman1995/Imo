@@ -2,17 +2,26 @@
 
 .user-info {
   background-color: $color-primary-light;
-  grid-column: center-start / col-start 5;
-  grid-row: row-start / row-end;
+
   border-radius: $border-radius;
-  margin-bottom: 4rem;
-  // padding: 3rem;
+  padding: 0 5rem;
+  padding-bottom: 0.6rem;
+
+  @include respond(smallest) {
+    padding: 0 2.4rem 0.6rem 2.4rem;
+  }
+
+  &__heading {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 1.8rem 0;
+  }
 
   &__list {
     background-color: $color-primary-lighter;
     border-radius: $border-radius;
     overflow: hidden;
-    margin: 0rem 5rem;
 
     & > li {
       padding: 1rem 2rem;
@@ -35,7 +44,7 @@
   &__bio-icon {
     cursor: pointer;
     margin-top: 1rem;
-    transition: all .2s;
+    transition: all 0.2s;
     &::before {
       height: 100%;
       display: flex;

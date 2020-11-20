@@ -4,7 +4,7 @@ import PropTypes from "prop-types";
 import { connect } from "react-redux";
 import { createProfile } from "../../actions/profile";
 import Alert from "../layout/Alert";
-import { clearAlerts } from "../../actions/alert";
+import { clearAlerts, setAlert } from "../../actions/alert";
 
 const CreateProfile = ({ createProfile, history, clearAlerts }) => {
   const [formData, setFormData] = useState({
@@ -51,6 +51,8 @@ const CreateProfile = ({ createProfile, history, clearAlerts }) => {
   const previewRef = useRef();
   const previewAvatarRef = useRef();
   const [previewImage, setPreviewImage] = useState("");
+   const [fileName, setFileName] = useState("");
+
   // creates a event that triggers click on fileButton
   const handleFileBtnClick = () => {
     // creates a event that triggers click on fileButton
@@ -74,6 +76,15 @@ const CreateProfile = ({ createProfile, history, clearAlerts }) => {
   // Handle file selection
   const handleFileInputChange = (e) => {
   const file = e.target.files[0];
+   if (file) {
+     if (file.size > 10000000) {
+       console.log("file too large");
+       setAlert("File too large (>10mb)", "danger", "avatar");
+       return;
+     }
+     setAlert("Correct File Size", "success", "avatar");
+     setFileName(e.target.files[0].name);
+   }
   setFormData({ ...formData, avatar: file });
   previewFile(file);
   };
@@ -170,7 +181,9 @@ const CreateProfile = ({ createProfile, history, clearAlerts }) => {
             {/* VISIBLE INPUT */}
             <div className="avatar-input__left">
               <div className="avatar-input__label">
-                <label className="form-label u-margin-bottom-smallest">
+                <label
+                  htmlFor="avatar"
+                  className="form-label u-margin-bottom-smallest">
                   Select Avatar File
                 </label>
               </div>
@@ -181,6 +194,9 @@ const CreateProfile = ({ createProfile, history, clearAlerts }) => {
                 ref={fakeButton}>
                 Select File &nbsp; <i className="far fa-file-image fa-lg"></i>
               </button>
+              <div>
+                <Alert param="avatar" />
+              </div>
             </div>
 
             <div className="avatar-input__right">
@@ -196,8 +212,11 @@ const CreateProfile = ({ createProfile, history, clearAlerts }) => {
                   <i className="fas fa-2x fa-user avatar-input__icon"></i>
                 )}
               </div>
-              <div className="avatar-input__alert"></div>
-              <Alert param="avatar" />
+              <div className="avatar-input__file-name">
+                <p className="sub-paragraph paragraph--no-line-height">
+                  {fileName === "" ? "No file loaded" : fileName}
+                </p>
+              </div>
             </div>
           </div>
         </div>

@@ -49,7 +49,10 @@ const Dashboard = ({
             ////////////////////////////////////
 
             <Fragment>
-              <UserInfo user={user} />
+              <div className="dash__left">
+                <UserInfo user={user} />
+              </div>
+
               <div className="dash__right">
                 <Education
                   education={profile.education}
@@ -73,7 +76,6 @@ const Dashboard = ({
             </Fragment>
           )}
         </div>
-    
       </Fragment>
     </Fragment>
   );

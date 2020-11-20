@@ -7,6 +7,20 @@
 
   &__right {
     grid-column: col-start 5 / center-end;
+
+    @include respond(small) {
+      grid-column: center-start / center-end;
+      margin-bottom: 4rem;
+    }
+  }
+
+  &__left {
+    grid-column: center-start / col-start 5;
+    margin-bottom: 4rem;
+    @include respond(small) {
+      grid-column: center-start / center-end;
+      margin-bottom: 0;
+    }
   }
 }
 
@@ -31,6 +45,10 @@ $horizontal-padding: 4.8rem;
     display: flex;
     justify-content: space-between;
     align-items: center;
+
+    @include respond(smallest) {
+      padding: 1.8rem 2.4rem;
+    }
   }
 
   &__table {
@@ -39,6 +57,10 @@ $horizontal-padding: 4.8rem;
     width: 100.1%;
     border-radius: $border-radius;
     border-collapse: collapse;
+
+    @include respond(smallest) {
+      padding: 2rem 2.4rem;
+    }
 
     & tbody {
       & tr {
@@ -50,6 +72,9 @@ $horizontal-padding: 4.8rem;
 
     & tr {
       padding: 1.5rem $horizontal-padding;
+      @include respond(smallest) {
+        padding: 1.5rem 2.4rem;
+      }
 
       &:not(:last-of-type) {
         border-bottom: 1px solid rgba($color-black, 0.045);
@@ -64,6 +89,9 @@ $horizontal-padding: 4.8rem;
 
       &:first-of-type {
         padding-left: $horizontal-padding;
+        @include respond(smallest) {
+          padding-left: 2.4rem;
+        }
       }
     }
 
@@ -79,6 +107,9 @@ $horizontal-padding: 4.8rem;
       &:first-of-type {
         font-weight: 500;
         padding-left: $horizontal-padding;
+        @include respond(smallest) {
+          padding-left: 2.4rem;
+        }
       }
 
       &:last-of-type {
@@ -93,6 +124,8 @@ $horizontal-padding: 4.8rem;
 
   &__profile-title {
     display: inline;
+
+    hyphens: auto;
 
     &--bio {
       display: block;
@@ -114,6 +147,12 @@ $horizontal-padding: 4.8rem;
       max-height: 18rem;
       overflow-y: scroll;
       transition: all 0.2s;
+    }
+  }
+
+  &__date {
+    @include respond(tiny) {
+      display: none;
     }
   }
 }

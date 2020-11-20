@@ -9,19 +9,26 @@
     background-color: $color-primary-light;
     border-radius: $border-radius;
     padding: 2.4rem 5rem;
+
+    @include respond(smallest) {
+      text-align: center;
+    }
   }
 
   &__cards {
     grid-column: center-start / center-end;
+    margin-bottom: 2.4rem;
+    padding: 1.2rem 0;
+    @include respond(smallest) {
+      padding: 2.4rem 0;
+    }
   }
 
   &__grid {
-     grid-column: center-start / center-end;
-
+    grid-column: center-start / center-end;
   }
 
   &__item {
-    
   }
 }
 
@@ -31,15 +38,15 @@
   grid-template-rows: repeat(3, min-content);
   grid-template-columns: repeat(auto-fit, minmax(23rem, 1fr));
   grid-gap: 2.4rem;
-  padding: 1.2rem 0;
-//   align-self: center;
-//   justify-self: center;
+
+  //   align-self: center;
+  //   justify-self: center;
 }
 
 .profile-card {
   height: 80%;
   width: 100%;
- 
+
   background-color: $color-primary-light;
   border-radius: $border-radius;
   padding: 2.4rem;
@@ -51,14 +58,16 @@
   bottom: 0;
   left: 0;
   background-size: cover;
- 
 
   &__container {
     position: relative;
     height: 38rem;
     margin-top: 3rem;
-     max-width: 36rem;
-  
+    max-width: 36rem;
+
+    @include respond(smallest) {
+      margin: 4.8rem;
+    }
   }
 
   &__details {
@@ -108,12 +117,12 @@
       color: $color-black;
       opacity: 0.7;
       transform: scale(0.75);
-    //   transition: all 0.2s ease-out;
+      //   transition: all 0.2s ease-out;
 
       &:hover {
         transform: scale(0.85);
         opacity: 100%;
-        animation: scaleoverIcon .2s ease-out;
+        animation: scaleoverIcon 0.2s ease-out;
       }
     }
 
@@ -123,7 +132,7 @@
   }
 
   &__btn {
-      display: block;
+    display: block;
     letter-spacing: 1px;
     font-weight: 500;
     background-color: $color-white;
@@ -136,12 +145,10 @@
 
     &:hover {
       color: rgba($color-black, 1);
-      animation: scaleover .2s ease-out;
+      animation: scaleover 0.2s ease-out;
       transform: scale(1.03);
     }
   }
-
-  
 }
 
 .subjects {
