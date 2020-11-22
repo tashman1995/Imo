@@ -46,7 +46,8 @@
     "react-stonecutter": "^0.3.10",
     "request": "^2.88.2",
     "resize-observer-polyfill": "^1.5.1",
-    "styled-components": "^5.2.0"
+    "styled-components": "^5.2.0",
+    "use-measure": "^0.3.0"
   },
   "devDependencies": {
     "concurrently": "^5.2.0",

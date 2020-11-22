@@ -1,13 +1,15 @@
-import React, {  useMemo } from "react";
+import React, {  useMemo, useRef } from "react";
 import { useTransition, a } from "react-spring";
-import useMeasure from "./useMeasure";
+// import useMeasure from "./useMeasure";
+import useMeasure from "use-measure";
 
 import "./styles.scss";
 
 const PostsGrid = ({ posts, columns, setPopoutImage, openShowPostModal }) => {
     
   //  Measure the width of the container element
-  const [bind, { width }] = useMeasure();
+  const nodeRef = useRef();
+  const {width}= useMeasure(nodeRef);
   
   //  Form a grid of stacked items using width & columns we got from hooks 1 & 2
   const [heights, gridItems] = useMemo(() => {
@@ -40,7 +42,8 @@ const PostsGrid = ({ posts, columns, setPopoutImage, openShowPostModal }) => {
   // Render the grid
   return (
     <div
-      {...bind}
+      // {...bind}
+      ref={nodeRef}
       className="list posts__grid"
       style={{ height: Math.max(...heights) }}>
       {transitions.map(({ item, props: { xy, ...rest }, key }) => (
