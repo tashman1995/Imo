@@ -41,7 +41,7 @@ const Navbar = ({
   const guestLinks = (
     <ul className="nav__links">
       <li className="nav__link">
-        <Link to="#!" className="nav__link-text ">
+        <Link to="/posts" className="nav__link-text ">
           Browse
         </Link>
       </li>

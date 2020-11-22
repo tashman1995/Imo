@@ -1,78 +1,43 @@
 import React, { useState, useEffect, useRef, Fragment } from "react";
 import PropTypes from "prop-types";
 import { connect } from "react-redux";
-import { getPosts } from "../../actions/post";
+import { getPosts, openShowPostModal } from "../../actions/post";
 import Navbar from "../../components/layout/Navbar";
 import PostsHeader from "./PostsHeader";
 import useMedia from "../../utils/useMedia";
 import PostsGrid from "./PostsGrid";
+import PopoutImage from './PopoutImage'
 
 import "./Posts.scss";
 
-const Posts = ({ getPosts, auth, post: { posts, loading } }) => {
+const Posts = ({ getPosts, openShowPostModal, auth, post: { posts, loading } }) => {
   // Initialise State
-  const [scaleFactor, setScaleFactor] = useState(3.5);
   const [columns, setColumns] = useState(5);
-  const [scaleConstant, setConstant] = useState(0.001);
   const [orderedPosts, setOrderedPosts] = useState(posts);
+  useEffect(() => {
+    setOrderedPosts(posts);
+  }, [posts]);
 
-  // GRID COLUMNS SCALING CONSTANTS
-  const constants = {
-    1: 0.00075,
-    2: 0.0004,
-    3: 0.000238,
-    4: 0.000168,
-    5: 0.000125,
-  };
+  console.log('posts rerendered')
 
+  const initialColumns = useMedia(
+    [
+      "(min-width: 1500px)",
+      "(min-width: 1000px)",
+      "(min-width: 600px)",
+      "(min-width: 450px)",
+    ],
+    [5, 4, 3, 2],
+    1
+  );
+
+  useEffect(() => {
+    setColumns(initialColumns);
+  }, []);
   //GET POSTS
   useEffect(() => {
     getPosts();
-    // manageScaling();
   }, [getPosts]);
-
-  // useEffect(() => {
-  //   setOrderedPosts(posts);
-  //   manageScaling();
-  // }, [posts]);
-
-  // useEffect(() => {
-  //   manageScaling();
-  // }, [columns]);
-
-  // // MANAGE SCALING
-  // const manageScaling = () => {
-  //   console.log("manages scaling");
-
-  //   if (window.innerWidth <= 1800 && window.innerWidth >= 900) {
-  //     setConstant(constants[columns]);
-  //     // Set scale factor
-  //     setScaleFactor(1 / (window.innerWidth * scaleConstant));
-  //   } else if (window.innerWidth <= 900 && window.innerWidth >= 600) {
-  //     console.log("ipad port");
-  //     setConstant(constants[columns]);
-  //     // Set scale factor
-  //     setScaleFactor(1 / (window.innerWidth * scaleConstant * 0.8));
-  //   } else if (window.innerWidth <= 600) {
-  //     console.log("under 600");
-  //     setConstant(constants[columns]);
-  //     // Set scale factor
-  //     setScaleFactor(1 / (window.innerWidth * 0.00072));
-  //   } else if (window.innerWidth >= 1800) {
-  //     // Set scale factor
-
-  //     setScaleFactor(columns > 3 ? 0.82 * columns : 2);
-  //   }
-  // };
-
-  // // ON RERENDER
-  // useEffect(() => {
-  //   // Set shown post array to equal posts
-  //   window.addEventListener("resize", () => manageScaling());
-  //   return () => {
-  //     window.removeEventListener("resize", () => manageScaling());
-  //   };
-  // }, []);
 
   // SHUFFLE ITEMS
   const shuffle = (array) => {
@@ -96,47 +61,11 @@ const Posts = ({ getPosts, auth, post: { posts, loading } }) => {
 
   // HANDLE IMAGE POPUPS
   const [popoutImage, setPopoutImage] = useState("");
-  const [mousePosition, setMousePosition] = useState({ x: 0, y: 0 });
-
-  const { x, y } = mousePosition;
-  // Mouse over event listeners
-  useEffect(() => {
-    window.addEventListener("mousemove", (e) =>
-      setMousePosition({ x: e.clientX, y: e.clientY })
-    );
-
-    return window.removeEventListener("mousemove", (e) =>
-      setMousePosition({ x: e.clientX, y: e.clientY })
-    );
-  }, []);
-  // Image size measuring
-  const popoutImageRef = useRef();
-  const popoutImageRefCurrent = popoutImageRef.current;
-
-  const height = popoutImageRefCurrent
-    ? popoutImageRefCurrent.clientHeight
-    : 458;
-  const width = popoutImageRefCurrent ? popoutImageRefCurrent.clientWidth : 458;
+  
 
   return (
     <Fragment>
-      {popoutImage !== "" && (
-        <div className="popout-image">
-          <img
-            className="popout-image__element"
-            ref={popoutImageRef}
-            src={popoutImage}
-            alt=""
-            style={{
-              transform: `translate(${
-                x < window.innerWidth / 2 ? x : x - width
-              }px,${y - height / 2}px)`,
-              height: `${height / width > 1 ? "80%" : "auto"}`,
-              width: `${height / width > 1 ? "auto" : "50%"}`,
-            }}
-          />
-        </div>
-      )}
+      <PopoutImage popoutImage={popoutImage} />
       <Navbar stage="2" />
       <Fragment>
         <div className="posts">
@@ -148,7 +77,12 @@ const Posts = ({ getPosts, auth, post: { posts, loading } }) => {
               shuffle={handleShuffle}
             />
 
-            <PostsGrid posts={posts} columns={columns}/>
+            <PostsGrid
+              posts={orderedPosts}
+              setPopoutImage={setPopoutImage}
+              columns={columns}
+              openShowPostModal={openShowPostModal}
+            />
           </div>
 
           {/* <Grid
@@ -186,6 +120,7 @@ const Posts = ({ getPosts, auth, post: { posts, loading } }) => {
 
 Posts.propTypes = {
   getPosts: PropTypes.func.isRequired,
+  openShowPostModal: PropTypes.func.isRequired,
   post: PropTypes.object.isRequired,
   auth: PropTypes.object.isRequired,
 };
@@ -195,4 +130,4 @@ const mapStateToProps = (state) => ({
   auth: state.auth,
 });
 
-export default connect(mapStateToProps, { getPosts })(Posts);
+export default connect(mapStateToProps, { getPosts, openShowPostModal })(Posts);

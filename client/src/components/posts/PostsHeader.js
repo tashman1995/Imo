@@ -14,7 +14,7 @@ const PostsHeader = ({
   openNewPostModal,
   isAuthenticated,
 }) => {
-  console.log(columns)
+  
   const [searchTerm, setSearchTerm] = useState("");
 
   const onChange = (e) => {
@@ -113,7 +113,7 @@ const PostsHeader = ({
         {isAuthenticated && (
           <Fragment>
             <button
-              className="post-header__btn"
+              className="post-header__phone-btn"
               onClick={(e) => {
                 e.preventDefault();
                 openNewPostModal();
@@ -124,7 +124,7 @@ const PostsHeader = ({
           </Fragment>
         )}
         <button
-          className="post-header__btn"
+          className="post-header__phone-btn"
           onClick={(e) => {
             e.preventDefault();
             shuffle();
@@ -133,7 +133,7 @@ const PostsHeader = ({
           <i className="fas fa-random fa-2x"></i>
         </button>
 
-        <button className="post-header__btn">
+        <button className="post-header__phone-btn">
           <i className={`fas fa-search fa-2x`}></i>
         </button>
       </form>
