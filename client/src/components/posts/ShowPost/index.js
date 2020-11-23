@@ -57,11 +57,10 @@ const ShowPost = ({
   addComment,
   deleteComment,
 }) => {
-     useEffect(() => {
-       getPost(_id);
-     }, [posts, getPost, __dirname]);
+  useEffect(() => {
+    getPost(_id);
+  }, [posts, getPost, __dirname]);
 
-  
   // GENERATE MAP
   const [viewport, setViewport] = useState({
     latitude: 38.8951,
@@ -72,8 +71,6 @@ const ShowPost = ({
     display: "block",
     position: "relative",
   });
-
-  
 
   useEffect(() => {
     setViewport({
@@ -95,120 +92,160 @@ const ShowPost = ({
       ) : (
         <div className="modal__container--95">
           <div className="show-modal">
-            <div className="show-modal__image-container">
-              <img src={image[0]} alt="Post" className="show-modal__image" />
+            <div
+              className={` show-modal__header, show-modal__header--full-width show-modal__header${
+                height === 1350 ? "--hidden" : ""
+              }`}>
+              <div className="show-modal__header--left">
+                <h1 className="heading-primary ">{title}</h1>
+                <h3 className="paragraph">
+                  Posted{" "}
+                  <span className="u-bold">
+                    <Moment fromNow>{date}</Moment>
+                  </span>
+                </h3>
+              </div>
+              <div className="show-modal__header--right">
+                <div className="user-block">
+                  <div className="user-block__avatar">
+                    <img
+                      alt="Users Avatar"
+                      src={avatar}
+                      className="user-block__avatar--image"
+                    />
+                  </div>
+                  <h2 className="paragraph user-block__text">
+                    Posted by{" "}
+                    <span className="u-bold user-block__text--name">
+                      {name}
+                    </span>
+                  </h2>
+                </div>
+              </div>
             </div>
 
-            <Scrollbars
-              style={{
-                height: "100%",
-              }}>
-              <div className="show-modal__info ">
-                <div className="show-modal__header">
-                  <div className="show-modal__header--left">
-                    <h1 className="heading-primary ">{title}</h1>
-                    <h3 className="paragraph">
-                      Posted{" "}
-                      <span className="u-bold">
-                        <Moment fromNow>{date}</Moment>
-                      </span>
-                    </h3>
-                  </div>
-                  <div className="show-modal__header--right">
-                    <div className="user-block">
-                      <div className="user-block__avatar">
-                        <img
-                          alt="Users Avatar"
-                          src={avatar}
-                          className="user-block__avatar--image"
-                        />
-                      </div>
-                      <h2 className="paragraph user-block__text">
-                        Posted by{" "}
-                        <span className="u-bold user-block__text--name">
-                          {name}
-                        </span>
-                      </h2>
-                    </div>
-                  </div>
-                </div>
-                <Measure
-                  bounds
-                  onResize={(contentRect) => {
-                    contentRect.entry &&
-                      setViewport({
-                        ...viewport,
-                        width: contentRect.entry.width,
-                      });
-                    // setViewport({ ...viewport, width: info.current.clientWidth });
-                  }}>
-                  {({ measureRef }) => (
-                    <div
-                      ref={measureRef}
-                      className="show-modal__description description">
-                      <div className="description__title u-margin-bottom-tiny">
-                        <h2 className="heading-secondary ">Description</h2>
-                      </div>
-                      <div className="description__content u-margin-bottom-small">
-                        <p className="paragraph">{description}</p>
-                      </div>
-                    </div>
-                  )}
-                </Measure>
-
-                <div className="show-modal__specific-info specific-info">
-                  <div className="specific-info__item">
-                    <h2 className="heading-secondary ">Best Time</h2>
-                    <p className="paragraph">{bestTime}</p>
-                  </div>
-                  <div className="specific-info__item">
-                    <h2 className="heading-secondary ">
-                      Suggested Focal Lengths
-                    </h2>
-                    <p className="paragraph">{focalLengthRangeText}</p>
-                  </div>
-                </div>
-                <div className="show-modal__map map ">
-                  <div className="map__overlay">
-                    <h4 className="paragraph ">
-                      <span className="u-bold">Location:</span>
-                    </h4>
-                    <p className="paragraph">{locationName}</p>
-                  </div>
-                  <ReactMapGl
-                    {...viewport}
-                    // LONG AND LAT NEED PUTTING BACK INTO VIEWPOST AS IT ALLOWS MOVING, OR FIX ON VIEWPORT CHANGE
-
-                    // latitude={location.coordinates[1]}
-                    // longitude={location.coordinates[0]}
-                    width={viewport.width}
-                    onViewportChange={(viewport) => {
-                      setViewport(viewport);
-                    }}
-                    mapStyle="mapbox://styles/tomashman1995/ckhfcz6yx0dpy19o5nz8bz9gb"
-                    mapboxApiAccessToken={mapBoxToken}>
-                    <Marker
-                      latitude={location.coordinates[1]}
-                      longitude={location.coordinates[0]}>
-                      <div className="pin"></div>
-                    </Marker>
-                  </ReactMapGl>
-                </div>
-                {auth.isAuthenticated && (
-                  <Discussion
-                    id={_id}
-                    addLike={addLike}
-                    removeLike={removeLike}
-                    addComment={addComment}
-                    likes={likes}
-                    comments={comments}
-                    user={user}
-                    auth={auth}
-                    deleteComment={deleteComment}
-                  />
-                )}
+            <div className="show-modal__main-content">
+              <div className='show-modal__image-container'>
+                {/* <img
+                  src={image[0]}
+                  alt="Post"
+                  className={`show-modal__image show-modal__image${
+                    height === 1350 ? "--portrait" : "--landscape"
+                  }`}
+                /> */}
               </div>
-            </Scrollbars>
+              <div className="show-modal__info-container">
+                {/* <Scrollbars
+                  style={{
+                    height: "100%",
+                  }}>
+                  <div className="show-modal__info ">
+                    <div
+                      className={`show-modal__header show-modal__header${
+                        height !== 1350 ? "--hidden" : ""
+                      }`}>
+                      <div className="show-modal__header--left">
+                        <h1 className="heading-primary ">{title}</h1>
+                        <h3 className="paragraph">
+                          Posted{" "}
+                          <span className="u-bold">
+                            <Moment fromNow>{date}</Moment>
+                          </span>
+                        </h3>
+                      </div>
+                      <div className="show-modal__header--right">
+                        <div className="user-block">
+                          <div className="user-block__avatar">
+                            <img
+                              alt="Users Avatar"
+                              src={avatar}
+                              className="user-block__avatar--image"
+                            />
+                          </div>
+                          <h2 className="paragraph user-block__text">
+                            Posted by{" "}
+                            <span className="u-bold user-block__text--name">
+                              {name}
+                            </span>
+                          </h2>
+                        </div>
+                      </div>
+                    </div>
+                    <Measure
+                      bounds
+                      onResize={(contentRect) => {
+                        contentRect.entry &&
+                          setViewport({
+                            ...viewport,
+                            width: contentRect.entry.width,
+                          });
+                        // setViewport({ ...viewport, width: info.current.clientWidth });
+                      }}>
+                      {({ measureRef }) => (
+                        <div
+                          ref={measureRef}
+                          className="show-modal__description description">
+                          <div className="description__title u-margin-bottom-tiny">
+                            <h2 className="heading-secondary ">Description</h2>
+                          </div>
+                          <div className="description__content u-margin-bottom-small">
+                            <p className="paragraph">{description}</p>
+                          </div>
+                        </div>
+                      )}
+                    </Measure>
+
+                    <div className="show-modal__specific-info specific-info">
+                      <div className="specific-info__item">
+                        <h2 className="heading-secondary ">Best Time</h2>
+                        <p className="paragraph">{bestTime}</p>
+                      </div>
+                      <div className="specific-info__item">
+                        <h2 className="heading-secondary ">
+                          Suggested Focal Lengths
+                        </h2>
+                        <p className="paragraph">{focalLengthRangeText}</p>
+                      </div>
+                    </div>
+                    <div className="show-modal__map map ">
+                      <div className="map__overlay">
+                        <h4 className="paragraph ">
+                          <span className="u-bold">Location:</span>
+                        </h4>
+                        <p className="paragraph">{locationName}</p>
+                      </div>
+                      <ReactMapGl
+                        {...viewport}
+                        width={viewport.width}
+                        onViewportChange={(viewport) => {
+                          setViewport(viewport);
+                        }}
+                        mapStyle="mapbox://styles/tomashman1995/ckhfcz6yx0dpy19o5nz8bz9gb"
+                        mapboxApiAccessToken={mapBoxToken}>
+                        <Marker
+                          latitude={location.coordinates[1]}
+                          longitude={location.coordinates[0]}>
+                          <div className="pin"></div>
+                        </Marker>
+                      </ReactMapGl>
+                    </div>
+                    {auth.isAuthenticated && (
+                      <Discussion
+                        id={_id}
+                        addLike={addLike}
+                        removeLike={removeLike}
+                        addComment={addComment}
+                        likes={likes}
+                        comments={comments}
+                        user={user}
+                        auth={auth}
+                        deleteComment={deleteComment}
+                      />
+                    )}
+                  </div>
+                </Scrollbars> */}
+              </div>
+            </div>
           </div>
         </div>
       )}

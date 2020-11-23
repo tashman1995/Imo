@@ -1,36 +1,74 @@
 @import "../../../style/main.scss";
 
 .show-modal {
-  display: flex;
-  align-items: center;
   height: 90vh;
   max-height: 90vh;
   padding: 4.8rem 4.6rem 4.8rem 4.8rem;
+  display: flex;
+  flex-direction: column;
+
+  &__main-content {
+    height: 100%;
+    display: flex;
+    align-items: stretch;
+    background-color: yellow;
+    // align-items: center;
+  }
+
+    &__info-container {
+      height: 100%;
+    // min-width: 60rem;
+    // width: min-content;
+    background-color: rebeccapurple;
+  }
+  &__image-container {
+    height: 100%;
+    // width: min-content;
+    // max-width: min-content;
+    background-color: yellowgreen;
+  }
 
   &__scroll-container {
     margin-right: 2rem;
   }
 
-  &__image-container {
-    height: 100%;
-    max-height: 90vh;
-  }
+
 
   &__image {
-    height: 100%;
     margin-right: 4.8rem;
+    &--portrait {
+      max-height: 90vh;
+      height: 100%;
+    }
+
+    &--landscape {
+      // max-height: 68vh;
+      max-height: 60%;
+      // height: 55vh;
+    }
   }
 
   &__info {
     border-radius: $border-radius;
     margin-right: 2rem;
     overflow-x: hidden;
+    @include center;
+    flex-direction: column;
+    align-items: stretch;
   }
 
   &__header {
     display: flex;
     align-items: center;
     justify-content: space-between;
+
+    &--full-width {
+      margin-bottom: 0.6rem !important;
+    }
+
+    &--hidden {
+      display: none;
+    }
   }
 
   &__description,
@@ -83,7 +121,8 @@
       font-size: 2rem;
       font-weight: 300;
       &-btn {
-        &:focus, &:hover {
+        &:focus,
+        &:hover {
           text-decoration: underline;
         }
       }

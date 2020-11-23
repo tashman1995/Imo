@@ -10,6 +10,10 @@
   position: absolute;
   will-change: transform, width, height, opacity;
   padding: 1rem;
+
+      @include respond(smaller) {
+      padding: 1.2rem 0;
+    }
 }
 
 .list > div > div {

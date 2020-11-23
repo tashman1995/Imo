@@ -10,6 +10,7 @@ const PostsGrid = ({ posts, columns, setPopoutImage, openShowPostModal }) => {
   //  Measure the width of the container element
   const nodeRef = useRef();
   const {width}= useMeasure(nodeRef);
+  console.log(width)
   
   //  Form a grid of stacked items using width & columns we got from hooks 1 & 2
   const [heights, gridItems] = useMemo(() => {
@@ -35,7 +36,7 @@ const PostsGrid = ({ posts, columns, setPopoutImage, openShowPostModal }) => {
     from: ({ xy, width, height }) => ({ xy, width, height, opacity: 0 }),
     enter: ({ xy, width, height }) => ({ xy, width, height, opacity: 1 }),
     update: ({ xy, width, height }) => ({ xy, width, height }),
-    leave: { height: 0, opacity: 0 },
+    leave: {  opacity: 0 },
     config: { mass: 5, tension: 500, friction: 100 },
     // trail: 25,
   });

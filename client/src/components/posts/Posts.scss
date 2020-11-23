@@ -16,10 +16,13 @@
 .post-header {
   grid-column: center-start / center-end;
   @include container;
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-  z-index: 10;
+
+  &__main {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    z-index: 10;
+  }
 
   &__btn {
     display: flex;
@@ -33,31 +36,31 @@
     font-family: $font-family;
     border: none;
 
-
-      &:focus,
-      &:focus-within {
-        -webkit-box-shadow: 0px 2px 3px 0px rgba(0, 0, 0, 0.35);
-        -moz-box-shadow: 0px 2px 3px 0px rgba(0, 0, 0, 0.35);
-        box-shadow: 0px 2px 3px 0px rgba(0, 0, 0, 0.35);
-      }
+    &:focus,
+    &:focus-within {
+      -webkit-box-shadow: 0px 2px 3px 0px rgba(0, 0, 0, 0.35);
+      -moz-box-shadow: 0px 2px 3px 0px rgba(0, 0, 0, 0.35);
+      box-shadow: 0px 2px 3px 0px rgba(0, 0, 0, 0.35);
+    }
   }
 
   &__phone-btn {
     transform: scale(0.8);
-    opacity: .6;
+    opacity: 0.6;
 
-    &:hover, &:focus {
+    &:hover,
+    &:focus {
       opacity: 1;
     }
-
   }
 
   &__search {
-    // font-size: inherit;
-    // line-height: inherit;
-    // font-weight: inherit;
-    // font-family: inherit;
     border: none;
+
+    @include respond(smaller) {
+      margin-top: 0.8rem;
+      font-size: $font-size-small-medium;
+    }
 
     &:focus,
     &:hover {
@@ -69,6 +72,9 @@
       width: 1.6rem;
       overflow: hidden;
       position: relative;
+      @include respond(smaller) {
+        width: 3.2rem;
+      }
     }
 
     &--icon {
@@ -84,6 +90,10 @@
 
       @include respond(small) {
         max-width: 11rem;
+      }
+      @include respond(smaller) {
+        width: 100%;
+        max-width: 100%;
       }
 
       &:focus,

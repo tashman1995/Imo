@@ -106,7 +106,7 @@ const Discussion = ({
       <SlideToggle isVisible={newCommentsVisible}>
         <div className="discussion__add-comment">
           <div className="discussion__add-comment--avatar">
-            <img src={user.avatar} alt="" />
+            <img src={auth.user.avatar} alt="" />
           </div>
           <form
             className="discussion__add-comment--form"
