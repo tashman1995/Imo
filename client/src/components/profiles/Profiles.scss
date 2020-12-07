@@ -9,6 +9,7 @@
     background-color: $color-primary-light;
     border-radius: $border-radius;
     padding: 2.4rem 5rem;
+    @include shadow;
 
     @include respond(smallest) {
       text-align: center;
@@ -58,6 +59,7 @@
   bottom: 0;
   left: 0;
   background-size: cover;
+  @include shadow;
 
   &__container {
     position: relative;
@@ -67,6 +69,7 @@
 
     @include respond(smallest) {
       margin: 4.8rem;
+      height: 47rem;
     }
   }
 
@@ -83,6 +86,7 @@
     max-width: 20rem;
     border-radius: $border-radius;
     object-fit: cover;
+    @include shadow;
   }
 
   &__btn {
@@ -147,6 +151,15 @@
       color: rgba($color-black, 1);
       animation: scaleover 0.2s ease-out;
       transform: scale(1.03);
+    }
+  }
+
+  &__button-container {
+    display: none;
+    @media (hover: none) {
+      @include center;
+      width: 100%;
+      margin-top: 1.2rem;
     }
   }
 }

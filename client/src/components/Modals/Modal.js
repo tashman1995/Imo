@@ -18,8 +18,7 @@ const Modal = ({
     },
   };
   
- 
-  console.log('run')
+
 
   const fade = useTransition(modal, null, transitionConfig1);
 

@@ -1,8 +1,7 @@
-import React, {  useState } from "react";
+import React, { useState } from "react";
 import { Link } from "react-router-dom";
 import PropTypes from "prop-types";
 import { useSpring, animated as a } from "react-spring";
-
 
 const ProfileItem = ({
   profile: {
@@ -11,9 +10,7 @@ const ProfileItem = ({
     location,
     subjects,
     website,
-    equipment,
-    bio,
-    social
+    social,
   },
 }) => {
   const [flipped, setFlip] = useState(false);
@@ -46,7 +43,6 @@ const ProfileItem = ({
             {location && ` from ${location}`}
           </p>
           <p className="sub-paragraph"></p>
-  
           <section className="subjects">
             {subjects.slice(0, 3).map((subject, index) => {
               return (
@@ -56,6 +52,9 @@ const ProfileItem = ({
               );
             })}
           </section>
+          <div className="profile-card__button-container">
+            <button className="btn btn--table">View More</button>
+          </div>
         </div>
       </a.div>
       <a.div

@@ -18,7 +18,6 @@ const Posts = ({ getPosts, openShowPostModal, auth, post: { posts, loading } }) 
     setOrderedPosts(posts);
   }, [posts]);
 
-  console.log('posts rerendered')
 
   const initialColumns = useMedia(
     [

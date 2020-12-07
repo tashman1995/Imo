@@ -10,7 +10,7 @@
 
     @include respond(small) {
       grid-column: center-start / center-end;
-      margin-bottom: 4rem;
+      margin-bottom: 8rem;
     }
   }
 
@@ -39,6 +39,7 @@ $horizontal-padding: 4.8rem;
   background-color: $color-primary-light;
   border-radius: $border-radius;
   overflow: hidden;
+  @include shadow;
 
   &__heading {
     padding: 1.8rem $horizontal-padding;
@@ -117,6 +118,10 @@ $horizontal-padding: 4.8rem;
           width: 15rem;
           text-align: center;
           padding-right: $horizontal-padding;
+          @include respond(smallest) {
+            width: min-content;
+            padding-right: 2.4rem;
+          }
         }
       }
     }

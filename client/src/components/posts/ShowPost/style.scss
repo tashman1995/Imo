@@ -1,82 +1,149 @@
 @import "../../../style/main.scss";
 
-.show-modal {
-  height: 90vh;
-  max-height: 90vh;
-  padding: 4.8rem 4.6rem 4.8rem 4.8rem;
-  display: flex;
-  flex-direction: column;
+// Landscape settings are under --alt options
 
-  &__main-content {
-    height: 100%;
-    display: flex;
-    align-items: stretch;
-    background-color: yellow;
-    // align-items: center;
+.show-modal {
+  padding: 4.8rem 4.6rem 4.8rem 4.8rem;
+  display: grid;
+  height: 100%;
+  width: 100%;
+  max-width: 100%;
+
+  grid-template-columns: [full-start] 60vh [modal-center] 1fr [full-end];
+  grid-template-rows: [header-top] min-content [header-bottom] min-content [content-middle] 1fr [full-bottom];
+  column-gap: 2.4rem;
+  row-gap: 1.2rem;
+
+
+
+  &__portrait {
+    grid-column: full-start / full-end;
+    height: 70vh;
   }
 
-    &__info-container {
-      height: 100%;
-    // min-width: 60rem;
-    // width: min-content;
-    background-color: rebeccapurple;
+  &--alt {
+    grid-template-columns: [full-start] min-content [modal-center] 1fr [full-end];
+  }
+
+  @media (orientation: portrait) {
+    height: 90vh;
+    grid-template-rows: [header-top] min-content [header-bottom] min-content [content-middle] 40rem [full-bottom];
+
+    @include respond(smallest) {
+     height: min-content;
+    overflow-y: auto;
+    height: 100%;
+      padding: 2.4rem;
+      grid-template-rows: [header-top] min-content [header-bottom] min-content [content-middle] min-content [full-bottom];
+      grid-template-columns: [full-start] 1fr [modal-center] 1fr [full-end];
+    }
+  }
+
+  &__info-container {
+    grid-column: modal-center / full-end;
+    grid-row: header-bottom / full-bottom;
+    overflow: hidden;
+
+    // Landscape image
+    &--alt {
+      grid-column: modal-center / full-end;
+      grid-row: header-bottom / full-bottom;
+    }
+
+    // Portrait Screen
   }
   &__image-container {
-    height: 100%;
-    // width: min-content;
-    // max-width: min-content;
-    background-color: yellowgreen;
+    grid-column: full-start / modal-center;
+    grid-row: header-top / full-bottom;
+
+    //Landscape Image
+    &--alt {
+      // grid-column: full-start / full-end;
+      grid-row: header-bottom / full-bottom;
+    }
+
+    // Portrait Screen
+    @media (orientation: portrait) {
+      @include center;
+      margin-bottom: 2.4rem;
+      margin-top: 1.2rem;
+    }
+  }
+
+  &__header {
+    grid-column: modal-center / full-end;
+    grid-row: header-top / header-bottom;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+
+    &--alt {
+      grid-column: full-start / full-end;
+    }
+
+    &--left {
+      @include respond(smallest) {
+        margin-bottom: 1.2rem;
+      }
+    }
+
+    @media (orientation: portrait) {
+      grid-column: full-start / full-end;
+    }
+
+    @include respond(smallest) {
+      flex-direction: column;
+      align-items: stretch;
+    }
   }
 
   &__scroll-container {
     margin-right: 2rem;
   }
 
-
-
   &__image {
-    margin-right: 4.8rem;
     &--portrait {
-      max-height: 90vh;
-      height: 100%;
+      max-width: 100%;
+      max-height: 100%;
+      display: block; /* remove extra space below image */
+      @media (orientation: portrait) {
+        max-width: 60%;
+        @include respond(smallest) {
+          max-width: 100%;
+        }
+      }
     }
 
     &--landscape {
       // max-height: 68vh;
-      max-height: 60%;
+      // max-height: 60%;
       // height: 55vh;
+      max-width: 50vw;
+
+      @media (orientation: portrait) {
+        max-width: 100%;
+      }
     }
   }
 
   &__info {
+    max-width: 100%;
     border-radius: $border-radius;
-    margin-right: 2rem;
-    overflow-x: hidden;
+    overflow: hidden;
     @include center;
     flex-direction: column;
     align-items: stretch;
   }
 
-  &__header {
-    display: flex;
-    align-items: center;
-    justify-content: space-between;
-
-    &--full-width {
-      margin-bottom: 0.6rem !important;
-    }
-
-    &--hidden {
-      display: none;
-    }
-  }
-
   &__description,
   &__specific-info,
-  &__header,
   &__map {
     margin-bottom: 2.4rem;
   }
+}
+
+.description {
+  padding-right: 1.2rem;
 }
 
 .user-block {
@@ -86,6 +153,11 @@
   border-radius: $border-radius;
   padding: 1.2rem;
   margin-left: 2.4rem;
+
+  @include respond(smallest) {
+    margin-left: 0;
+  }
+
   &__avatar {
     cursor: pointer;
     &--image {
@@ -109,6 +181,7 @@
   background-color: $color-primary-lighter;
   border-radius: $border-radius;
   padding: 2.4rem;
+  margin-bottom: 4.8rem;
 
   &__amounts {
     display: flex;

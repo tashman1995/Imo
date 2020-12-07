@@ -67,7 +67,6 @@ const PostForm = ({ addPost, alerts, clearAlerts }) => {
   const handleFileInputChange = (e) => {
     const file = e.target.files[0];
     previewFile(file);
-    console.log();
   };
 
   const previewFile = (file) => {
@@ -103,7 +102,6 @@ const PostForm = ({ addPost, alerts, clearAlerts }) => {
   }, [clearAlerts]);
 
   useEffect(() => {
-    console.log("run");
     previewImageRef.current &&
       setFormData({
         ...formData,
@@ -135,174 +133,179 @@ const PostForm = ({ addPost, alerts, clearAlerts }) => {
           Add New Location
         </h1>
       </div>
-
-      <form className="input-form" onSubmit={handleSubmit}>
-        <div className="input-form__row">
-          {/* /////////////////////////////////////////
+      <div className="input-form__container">
+        <form className="input-form" onSubmit={handleSubmit}>
+          <div className="input-form__row">
+            {/* /////////////////////////////////////////
            // FILE INPUT
           ///////////////////////////////////////// */}
-          <div className="input-form__group input-form__group--image">
-            {/* HIDDEN INPUT */}
-            <input
-              ref={fileButton}
-              type="file"
-              name="image"
-              id=""
-              style={{ display: "none" }}
-              // value={image}
-              onChange={handleFileInputChange}
-            />
-            {/* VISIBLE INPUT */}
-            <label className="form-label u-margin-bottom-smallest">
-              Select Image File
-            </label>
-            <div className=" input-form__input--image ">
-              <div
-                className="input-form__image-container u-margin-bottom-small"
-                ref={previewRef}>
-                {image !== "" ? (
-                  <img
-                    src={image}
-                    ref={previewImageRef}
-                    className="input-form__image"
-                  />
-                ) : (
-                  <i className="fas fa-image fa-10x input-form__image--icon"></i>
-                )}
-              </div>
-              <button type="button" className="btn btn--table" ref={fakeButton}>
-                Select File &nbsp; <i className="far fa-file-image fa-lg"></i>
-              </button>
-              <div className="input-form__image-alert">
-                <Alert param="image" />
-              </div>
-            </div>
-          </div>
-
-          <div className="input-form__area">
-            <div className="input-form__row u-margin-bottom-medium">
-              {/* ///////////////////////////////////////// // TITLE INPUT
-              ///////////////////////////////////////// */}
-              <div className="input-form__group">
-                <label
-                  className="form-label input-form__label u-margin-bottom-smallest"
-                  htmlFor="title">
-                  Location Title
-                </label>
-                <input
-                  className="input-form__input text-input"
-                  type="text"
-                  placeholder="Location Title"
-                  onChange={(e) => onChange(e)}
-                  value={title}
-                  name="title"
-                  // required
-                />
-                <Alert param="title" />
-              </div>
-              {/* ///////////////////////////////////////// // BEST TIME INPUT
-              ///////////////////////////////////////// */}
-              <div className="input-form__group">
-                <label
-                  className="form-label input-form__label u-margin-bottom-smallest"
-                  htmlFor="title">
-                  Select the best time to shoot this location
-                </label>
-                <Select
-                  placeholder="Select Time"
-                  options={[
-                    { name: "Morning Blue Hour", value: "Morning Blue Hour" },
-                    { name: "Sunrise", value: "Sunrise" },
-                    { name: "Morning", value: "Morning" },
-                    { name: "Noon", value: "Noon" },
-                    { name: "Afternoon", value: "Afternoon" },
-                    { name: "Sunset", value: "Sunset" },
-                    { name: "Evening Blue Hour", value: "Evening Blue Hour" },
-                    { name: "Night Time", value: "Night Time" },
-                  ]}
-                  width="100%"
-                  setFunction={setBestTime}
-                />
-                <div className="div" style={{ marginTop: "3px" }}>
-                  <Alert param="bestTime" />
+            <div className="input-form__group input-form__group--image">
+              {/* HIDDEN INPUT */}
+              <input
+                ref={fileButton}
+                type="file"
+                name="image"
+                id=""
+                style={{ display: "none" }}
+                // value={image}
+                onChange={handleFileInputChange}
+              />
+              {/* VISIBLE INPUT */}
+              <label className="form-label u-margin-bottom-smallest">
+                Select Image File
+              </label>
+              <div className=" input-form__input--image ">
+                <div
+                  className="input-form__image-container u-margin-bottom-small"
+                  ref={previewRef}>
+                  {image !== "" ? (
+                    <img
+                      src={image}
+                      ref={previewImageRef}
+                      className="input-form__image"
+                    />
+                  ) : (
+                    <i className="fas fa-image fa-10x input-form__image--icon"></i>
+                  )}
+                </div>
+                <button
+                  type="button"
+                  className="btn btn--table"
+                  ref={fakeButton}>
+                  Select File &nbsp; <i className="far fa-file-image fa-lg"></i>
+                </button>
+                <div className="input-form__image-alert">
+                  <Alert param="image" />
                 </div>
               </div>
             </div>
-            <div className="input-form__row u-margin-bottom-medium">
-              {/* /////////////////////////////////////////
+
+            <div className="input-form__area">
+              <div className="input-form__row u-margin-bottom-medium">
+                {/* ///////////////////////////////////////// // TITLE INPUT
+              ///////////////////////////////////////// */}
+                <div className="input-form__group">
+                  <label
+                    className="form-label input-form__label u-margin-bottom-smallest"
+                    htmlFor="title">
+                    Location Title
+                  </label>
+                  <input
+                    className="input-form__input text-input"
+                    type="text"
+                    placeholder="Location Title"
+                    onChange={(e) => onChange(e)}
+                    value={title}
+                    name="title"
+                    // required
+                  />
+                  <Alert param="title" />
+                </div>
+                {/* ///////////////////////////////////////// // BEST TIME INPUT
+              ///////////////////////////////////////// */}
+                <div className="input-form__group">
+                  <label
+                    className="form-label input-form__label u-margin-bottom-smallest"
+                    htmlFor="title">
+                    Select the best time to shoot this location
+                  </label>
+                  <Select
+                    placeholder="Select Time"
+                    options={[
+                      { name: "Morning Blue Hour", value: "Morning Blue Hour" },
+                      { name: "Sunrise", value: "Sunrise" },
+                      { name: "Morning", value: "Morning" },
+                      { name: "Noon", value: "Noon" },
+                      { name: "Afternoon", value: "Afternoon" },
+                      { name: "Sunset", value: "Sunset" },
+                      { name: "Evening Blue Hour", value: "Evening Blue Hour" },
+                      { name: "Night Time", value: "Night Time" },
+                    ]}
+                    width="100%"
+                    setFunction={setBestTime}
+                  />
+                  <div className="div" style={{ marginTop: "3px" }}>
+                    <Alert param="bestTime" />
+                  </div>
+                </div>
+              </div>
+              <div className="input-form__row u-margin-bottom-medium">
+                {/* /////////////////////////////////////////
                //FOCAL LENGTH INPUT
               ///////////////////////////////////////// */}
-              <div className={`input-form__group`}>
-                <label className="form-label input-form__label" htmlFor="title">
-                  Suggested Focal Length (Full Frame Equivalent)
-                </label>
-                <div
-                  style={{
-                    width: "100%",
-                    display: "flex",
-                    justifyContent: "center",
-                  }}>
-                  <CustomInputRange
-                    maxValue={400}
-                    minValue={7}
-                    value={focalLengthRange}
-                    formatLabel={(value) => `${value}mm`}
-                    onChange={(value) => {
-                      setFocalLengthRange(value);
-                      setFormData({
-                        ...formData,
-                        focalLengthRange: value,
-                      });
-                    }}
+                <div className={`input-form__group`}>
+                  <label
+                    className="form-label input-form__label"
+                    htmlFor="title">
+                    Suggested Focal Length (Full Frame Equivalent)
+                  </label>
+                  <div
+                    style={{
+                      width: "100%",
+                      display: "flex",
+                      justifyContent: "center",
+                    }}>
+                    <CustomInputRange
+                      maxValue={400}
+                      minValue={7}
+                      value={focalLengthRange}
+                      formatLabel={(value) => `${value}mm`}
+                      onChange={(value) => {
+                        setFocalLengthRange(value);
+                        setFormData({
+                          ...formData,
+                          focalLengthRange: value,
+                        });
+                      }}
+                    />
+                  </div>
+                </div>
+              </div>
+              <div className="input-form__row">
+                {/* ///////////////////////////////////////// 
+              // GEO LOCATION INPUT
+              ///////////////////////////////////////// */}
+                <div className="input-form__group">
+                  <label className="form-label" htmlFor="location">
+                    Geographical Location
+                  </label>
+                  <input
+                    className="input-form__input text-input"
+                    type="text"
+                    placeholder="e.g. Yosemite, California"
+                    onChange={(e) => onChange(e)}
+                    value={location}
+                    name="location"
+                    // required
                   />
+                  <Alert param="location" />
                 </div>
               </div>
             </div>
-            <div className="input-form__row">
-              {/* ///////////////////////////////////////// 
-              // GEO LOCATION INPUT
-              ///////////////////////////////////////// */}
-              <div className="input-form__group">
-                <label className="form-label" htmlFor="location">
-                  Geographical Location
-                </label>
-                <input
-                  className="input-form__input text-input"
-                  type="text"
-                  placeholder="Provide us with the name of the area or the address of the location"
-                  onChange={(e) => onChange(e)}
-                  value={location}
-                  name="location"
-                  // required
-                />
-                <Alert param="location" />
-              </div>
-            </div>
-            <div className="input-form"></div>
           </div>
-        </div>
-        {/* ///////////////////////////////////////// 
+          {/* ///////////////////////////////////////// 
           // DESCRIPTION LOCATION INPUT
           ///////////////////////////////////////// */}
-        <div className="input-form__group u-margin-bottom-medium ">
-          <label className="form-label" htmlFor="email">
-            Description
-          </label>
-          <textarea
-            className="input-form__input text-input input-form__input input-form__input--text-area"
-            placeholder="Use this space to give IMO users a better idea of the location, include any tips you may have"
-            onChange={(e) => onChange(e)}
-            value={description}
-            name="description"
-            rows="3"
-            cols="50"
-            // required
-          ></textarea>
-          <Alert param="description" />
-        </div>
+          <div className="input-form__group u-margin-bottom-medium ">
+            <label className="form-label" htmlFor="email">
+              Description
+            </label>
+            <textarea
+              className="input-form__input text-input input-form__input input-form__input--text-area"
+              placeholder="Use this space to give IMO users a better idea of the location, include any tips you may have"
+              onChange={(e) => onChange(e)}
+              value={description}
+              name="description"
+              rows="3"
+              cols="50"
+              // required
+            ></textarea>
+            <Alert param="description" />
+          </div>
 
-        <input type="submit" className="btn btn-dark my-1" value="Submit" />
-      </form>
+          <input type="submit" className="btn btn-dark my-1" value="Submit" />
+        </form>
+      </div>
     </div>
   );
 };

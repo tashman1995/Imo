@@ -14,7 +14,11 @@
   margin-top: 2.4rem;
   display: flex;
   align-items: center;
-  margin-bottom: 4.8rem;
+  margin-bottom: 2.4rem;
+
+  @include respond(small) {
+    flex-direction: column;
+  }
 
   &__info {
     display: flex;
@@ -26,11 +30,19 @@
 
     margin-left: -10rem;
     padding-left: 14.8rem;
+
+    @include respond(small) {
+      height: min-content;
+      margin-left: 0;
+      padding-left: 4.8rem;
+      margin-top: 2.4rem;
+      width: 100%;
+    }
   }
 
   &__avatar {
-    width: 100%;
     height: 100%;
+   
   }
 
   &__avatar-container {
@@ -41,6 +53,7 @@
     object-fit: cover;
     overflow: hidden;
     position: relative;
+     @include shadow;
   }
 
   &__edit-btn {
@@ -68,14 +81,14 @@
       margin-right: 4.8rem;
     }
 
-    &--right {
+    &--socials {
       display: flex;
       align-items: center;
 
       & > a {
         opacity: 0.7;
         &:not(:first-child) {
-          margin-left: 2.4rem;
+          margin-left: 1.2rem;
         }
 
         &:hover {
@@ -86,6 +99,8 @@
       }
     }
   }
+
+ 
 }
 
 $horizontal-padding: 4.8rem;
@@ -96,6 +111,8 @@ $horizontal-padding: 4.8rem;
 
   max-height: 1000rem;
   margin-bottom: 2.4rem;
+
+  @include shadow;
 
   &--minimized {
     max-height: 6.6rem;
@@ -177,21 +194,6 @@ $horizontal-padding: 4.8rem;
   }
 }
 
-.bioModal {
-  @include container;
-  padding: 4.8rem;
-
-  &__list {
-    display: flex;
-  }
-
-  &__list-item {
-    padding: 0.6rem 2rem;
-    width: max-content;
-    background-color: $color-primary-lighter;
-    border-radius: $border-radius/2;
-    &:not(:last-child) {
-      margin-right: 1.2rem;
-    }
-  }
+.bio{
+ width: 100% !important;
 }

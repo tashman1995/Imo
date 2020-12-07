@@ -4,10 +4,17 @@
   justify-content: center;
 }
 
+@mixin shadow {
+   -webkit-box-shadow: 0px 10px 50px -10px rgba(0, 0, 0, 0.2);
+  -moz-box-shadow: 0px 10px 50px -10px rgba(0, 0, 0, 0.2);
+  box-shadow: 0px 10px 50px -10px rgba(0, 0, 0, 0.2);
+}
+
 @mixin container {
   background-color: $color-primary-light;
   border-radius: $border-radius;
   padding: 2.4rem 4.8rem;
+  @include shadow;
 
   @include respond(smaller) {
     padding: 1.2rem 1.2rem;

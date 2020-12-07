@@ -104,6 +104,14 @@
     }
   }
 
+  &__phone-search {
+    display: none;
+
+    @include respond(smaller) {
+      display: block;
+    }
+  }
+
   &__inputs {
     display: flex;
     align-items: center;

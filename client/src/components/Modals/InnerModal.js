@@ -42,7 +42,6 @@ const InnerModal = ({
     // }
 
     if (e.shiftKey && document.activeElement !== lastElement) {
-      console.log("moved focus to last element");
       lastElement.focus();
       e.preventDefault();
     }

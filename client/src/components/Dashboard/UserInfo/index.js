@@ -160,29 +160,27 @@ const UserInfo = ({
 
   return (
     <section className="user-info">
-      <section className="user-info__intro">
-        {/* User Has not set up a profile yet */}
-        {profile === null && (
-          <Fragment>
-            <div className="dashboard-table__table">
-              <h1 className="heading-primary u-margin-bottom-tiny">
-                Welcome {user && user.name}
-              </h1>
-              <h2 className="heading-secondary  u-margin-bottom-smaller">
-                It doesn't look like you've set up your profile yet
-              </h2>
-              {/* <Link to="/create-profile">Create Profile</Link> */}
-              <button
-                className="btn btn--table u-margin-bottom-smaller"
-                onClick={() => {
-                  openAddProfileModal();
-                }}>
-                Create Profile
-              </button>
-            </div>
-          </Fragment>
-        )}
-      </section>
+      {/* User Has not set up a profile yet */}
+      {profile === null && (
+        <div className="user-info__no-profile">
+          
+            <h1 className="heading-primary">
+              Welcome {user && user.name}
+            </h1>
+            <h2 className="heading-secondary  u-margin-bottom-smaller">
+              It doesn't look like you've set up your profile yet
+            </h2>
+            {/* <Link to="/create-profile">Create Profile</Link> */}
+            <button
+              className="btn btn--table "
+              onClick={() => {
+                openAddProfileModal();
+              }}>
+              Create Profile
+            </button>
+        
+        </div>
+      )}
 
       {/* User has set up a profile */}
 

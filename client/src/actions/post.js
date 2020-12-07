@@ -5,6 +5,7 @@ import {
   POST_ERROR,
   UPDATE_LIKES,
   DELETE_POST,
+  DELETE_POSTS,
   ADD_POST,
   GET_POST,
   GET_SEARCH_POSTS,
@@ -122,6 +123,25 @@ export const deletePost = (id) => async (dispatch) => {
     });
   }
 };
+
+// Delete All Posts
+export const deleteAllPosts = () => async (dispatch) => {
+   try {
+
+     await axios.delete(`/api/posts/all`);
+
+     dispatch({
+       type: DELETE_POSTS,
+     });
+
+     dispatch(setAlert("All Posts Removed", "success"));
+   } catch (err) {
+     dispatch({
+       type: POST_ERROR,
+       payload: { msg: err.response.statusText, status: err.response.status },
+     });
+   }
+}
 
 // Add post
 export const addPost = (formData) => async (dispatch) => {

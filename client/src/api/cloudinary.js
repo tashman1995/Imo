@@ -11,9 +11,17 @@ cloudinary.config({
 const avatarStorage = new CloudinaryStorage({
   cloudinary,
   folder: "Imo-avatars",
-  
+
   params: {
-    transformation: [{ width: 350, height: 350, crop: "fill" }],
+    upload_preset: "imoSocialMedia",
+    responsive_breakpoints: {
+      create_derived: true,
+      bytes_step: 20000,
+      min_width: 100,
+      max_width: 600,
+      max_images: 3,
+    },
+    transformation: [{ width: 600, height: 600, crop: "fill" }],
   },
 });
 

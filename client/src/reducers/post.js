@@ -3,6 +3,7 @@ import {
   POST_ERROR,
   UPDATE_LIKES,
   DELETE_POST,
+  DELETE_POSTS,
   ADD_POST,
   GET_POST,
   GET_SEARCH_POSTS,
@@ -51,6 +52,12 @@ export default function (state = initialState, action) {
       return {
         ...state,
         posts: state.posts.filter((post) => post._id !== payload),
+        loading: false,
+      };
+    case DELETE_POSTS:
+      return {
+        ...state,
+        posts: [],
         loading: false,
       };
     case POST_ERROR:

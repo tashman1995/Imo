@@ -36,8 +36,8 @@ const Register = ({  clearAlerts, register, isAuthenticated }) => {
 
   return (
     <Fragment>
-      <Navbar stage="2" noLinks={true} />
-      <div className="login">
+      <Navbar stage="2" />
+      <div className="login u-grid">
         <div className="login__left">
           <div className="login__form">
             <form className="auth-form" onSubmit={(e) => onSubmit(e)}>

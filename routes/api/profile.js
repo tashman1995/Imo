@@ -141,6 +141,7 @@ router.post(
     if (behance) profileFields.social.behance = behance;
 
     try {
+      console.log(uploadedAvatar)
       if (uploadedAvatar !== "") {
         await Users.findOneAndUpdate(
           { _id: req.user.id },

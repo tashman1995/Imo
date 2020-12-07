@@ -1,11 +1,9 @@
 import React, { Fragment, useState, useEffect, useRef } from "react";
-import './styles.scss';
-import PropTypes from "prop-types";
+import "./styles.scss";
+import { isBrowser } from "react-device-detect";
 
-const PopoutImage = ({popoutImage}) => {
-  // HANDLE IMAGE POPUPS
-  
-  const [mousePosition, setMousePosition] = useState({ x: 0, y: 0 });
+const PopoutImage = ({ popoutImage }) => {
+   const [mousePosition, setMousePosition] = useState({ x: 0, y: 0 });
 
   const { x, y } = mousePosition;
   // Mouse over event listeners
@@ -28,25 +26,27 @@ const PopoutImage = ({popoutImage}) => {
   const width = popoutImageRefCurrent ? popoutImageRefCurrent.clientWidth : 458;
 
   return (
-    <Fragment>
-      {popoutImage !== "" && (
-        <div className="popout-image">
-          <img
-            className="popout-image__element"
-            ref={popoutImageRef}
-            src={popoutImage}
-            alt=""
-            style={{
-              transform: `translate(${
-                x < window.innerWidth / 2 ? x : x - width
-              }px,${y - height / 2}px)`,
-              height: `${height / width > 1 ? "80%" : "auto"}`,
-              width: `${height / width > 1 ? "auto" : "50%"}`,
-            }}
-          />
-        </div>
-      )}
-    </Fragment>
+    isBrowser && (
+      <Fragment>
+        {popoutImage !== "" && (
+          <div className="popout-image">
+            <img
+              className="popout-image__element"
+              ref={popoutImageRef}
+              src={popoutImage}
+              alt=""
+              style={{
+                transform: `translate(${
+                  x < window.innerWidth / 2 ? x : x - width
+                }px,${y - height / 2}px)`,
+                height: `${height / width > 1 ? "80%" : "auto"}`,
+                width: `${height / width > 1 ? "auto" : "50%"}`,
+              }}
+            />
+          </div>
+        )}
+      </Fragment>
+    )
   );
 };
 

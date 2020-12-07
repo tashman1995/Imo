@@ -70,7 +70,12 @@ const Dashboard = ({
             ////////////////////////////////////
 
             <Fragment>
-              <UserInfo user={user} openAddProfileModal={openAddProfileModal} />
+              <div className="dash__left">
+                <UserInfo
+                  user={user}
+                  openAddProfileModal={openAddProfileModal}
+                />
+              </div>
 
               <div className="dash__right"></div>
             </Fragment>

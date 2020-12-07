@@ -58,6 +58,7 @@ router.post(
         }
       );
 
+
       // Geocoding
       const geoData = await geocoder
         .forwardGeocode({
@@ -70,6 +71,7 @@ router.post(
       /////////////////////////////////////////////
       // TO DO ADD RESPONSIVE IMAGE LOADING
       /////////////////////////////////////////////
+      console.log(uploadedResponse.responsive_breakpoints[0].breakpoints);
 
       const newPost = new Post({
         user: req.user.id,
@@ -77,7 +79,7 @@ router.post(
         avatar: user.avatar,
         title: req.body.title,
         description: req.body.description,
-        image: uploadedResponse.url,
+        image: uploadedResponse.responsive_breakpoints[0].breakpoints,
         height: req.body.height,
         bestTime: req.body.bestTime,
         focalLengthRange: req.body.focalLengthRange,
@@ -98,7 +100,7 @@ router.post(
 // @route GET api/posts
 // @desc GET all posts
 // @access Private
-router.get("/",  async (req, res) => {
+router.get("/", async (req, res) => {
   try {
     const posts = await Post.find().sort({ date: -1 });
     res.json(posts);
@@ -170,6 +172,29 @@ router.delete("/:id", auth, async (req, res) => {
     await post.remove();
 
     res.json({ msg: "Post Removed" });
+  } catch (err) {
+    // Checking Error type, if err.kind is ObjectId it meand an ID was present but it wasnt in the form expected
+    if (err.kind == "ObjectId") {
+      return res.status(400).json({ msg: "Post not found" });
+    }
+    console.error(err.message);
+    res.status(500).send("Server Error");
+  }
+});
+
+// @route DELETE api/posts/:id
+// @desc Delete All Posts by ID
+// @access Private
+router.delete("/",auth, async (req, res) => {
+  console.log("attempted");
+  try {
+    const posts = await Post.find().sort({ date: -1 });
+
+    for (const post of posts) {
+      await post.remove();
+    }
+
+    res.json({ msg: "Posts Removed" });
   } catch (err) {
     // Checking Error type, if err.kind is ObjectId it meand an ID was present but it wasnt in the form expected
     if (err.kind == "ObjectId") {

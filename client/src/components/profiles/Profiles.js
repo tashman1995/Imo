@@ -25,7 +25,7 @@ const Profiles = ({ getProfiles, profile: { profiles, loading } }) => {
               <h1 className="heading-primary u-margin-bottom-tiny">
                 Photographer Profiles
               </h1>
-              <h2 className="heading-tertiary u-margin-bottom-tiny">
+              <h2 className="profiles__sub-header heading-tertiary u-margin-bottom-tiny">
                 Browse and connect with other photographers
               </h2>
             </div>

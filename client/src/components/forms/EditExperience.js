@@ -37,8 +37,6 @@ const EditExperience = ({
       .map((item) => item._id)
       .indexOf(experienceId);
 
-    console.log("editindex", editIndex);
-
     setFormData({
       title:
         loading || !profile.experience[editIndex].title
@@ -92,133 +90,136 @@ const EditExperience = ({
         </h3>
         <p className="subtext">* = required field</p>
       </div>
-
-      <form
-        onSubmit={(e) => {
-          e.preventDefault();
-          clearAlerts();
-          editExperience(formData, history, experienceId);
-        }}
-        className="input-form">
-        <div className="input-form__row">
-          <div className="input-form__group u-margin-bottom-medium">
-            <label className="form-label" htmlFor="title">
-              Experience Title
-            </label>
-            <input
-              className="input-form__input text-input"
-              type="text"
-              placeholder="Course Name"
-              onChange={(e) => onChange(e)}
-              value={title}
-              name="title"
-              // required
-            />
-            <Alert param="title" />
-          </div>
-
-          <div className="input-form__group input-form__group--checkbox u-margin-bottom-medium checkbox">
-            <div className="form-label">Was this work paid?</div>
-            <label htmlFor="paid" className="checkbox-label checkbox__label">
+      <div className="input-form__container">
+        <form
+          onSubmit={(e) => {
+            e.preventDefault();
+            clearAlerts();
+            editExperience(formData, history, experienceId);
+          }}
+          className="input-form">
+          <div className="input-form__row">
+            <div className="input-form__group ">
+              <label className="form-label" htmlFor="title">
+                Experience Title
+              </label>
               <input
-                className="checkbox__input"
-                type="checkbox"
-                name="paid"
-                id="paid"
-                value={paid}
-                checked={paid}
-                onChange={(e) => {
-                  setFormData({ ...formData, paid: !paid });
-                }}
+                className="input-form__input text-input"
+                type="text"
+                placeholder="Course Name"
+                onChange={(e) => onChange(e)}
+                value={title}
+                name="title"
+                // required
               />
-              <span className="checkbox__custom checkbox-custom"></span>
-            </label>
-          </div>
-        </div>
-        <div className="input-form__row">
-          <div className="input-form__group input-form__group--start-date u-margin-bottom-medium">
-            <label className="form-label" htmlFor="from">
-              Start Date
-            </label>
-            <input
-              className="input-form__input text-input"
-              type="date"
-              onChange={(e) => onChange(e)}
-              value={from}
-              name="from"
-              // required
-            />
-            <Alert param="from" />
-          </div>
+              <Alert param="title" />
+            </div>
 
-          <div
-            className={`input-form__group u-margin-bottom-medium ${
-              current && "input-form__group--disabled"
-            }`}>
-            <label className="form-label form-label--no-wrap" htmlFor="to">
-              End Date
-            </label>
-            <input
-              className="input-form__input text-input"
-              type="date"
-              onChange={(e) => onChange(e)}
-              disabled={current ? true : ""}
-              value={to}
-              name="to"
-              // required
-            />
-            <Alert param="to" />
+            <div className="input-form__group input-form__group--checkbox  checkbox">
+              <div className="form-label">Was this work paid?</div>
+              <label htmlFor="paid" className="checkbox-label checkbox__label">
+                <input
+                  className="checkbox__input"
+                  type="checkbox"
+                  name="paid"
+                  id="paid"
+                  value={paid}
+                  checked={paid}
+                  onChange={(e) => {
+                    setFormData({ ...formData, paid: !paid });
+                  }}
+                />
+                <span className="checkbox__custom checkbox-custom"></span>
+              </label>
+            </div>
           </div>
-
-          <div className="input-form__group input-form__group--checkbox u-margin-bottom-medium checkbox">
-            <div className="form-label">Current?</div>
-            <label htmlFor="current" className="checkbox-label checkbox__label">
+          <div className="input-form__row">
+            <div className="input-form__group input-form__group--start-date ">
+              <label className="form-label" htmlFor="from">
+                Start Date
+              </label>
               <input
-                className="checkbox__input"
-                type="checkbox"
-                name="current"
-                id="current"
-                value={current}
-                checked={current}
-                onChange={(e) => {
-                  setFormData({ ...formData, current: !current });
-                  toggleDisabled(!toDateDisabled);
-                }}
+                className="input-form__input text-input"
+                type="date"
+                onChange={(e) => onChange(e)}
+                value={from}
+                name="from"
+                // required
               />
-              <span className="checkbox__custom checkbox-custom"></span>
-            </label>
-          </div>
-        </div>
+              <Alert param="from" />
+            </div>
 
-        <div className="input-form__group u-margin-bottom-medium ">
-          <label className="form-label" htmlFor="email">
-            Description
-          </label>
-          <textarea
-            className="input-form__input text-input input-form__input input-form__input--text-area"
-            placeholder="Add some more detail about your studies"
-            onChange={(e) => onChange(e)}
-            value={description}
-            name="description"
-            rows="5"
-            cols="50"
-            // required
-          ></textarea>
-          <Alert param="description" />
-        </div>
-        <div className="input-form__row">
-          <input type="submit" className="btn btn--full-width" />
-          <button
-            type="button"
-            onClick={() => {
-              deleteExperience(experienceId);
-              closeEditExpModal();
-            }}
-            className="btn btn--delete input-form__delete-btn">
-            Delete
-          </button>
-        </div>
-      </form>
+            <div
+              className={`input-form__group  ${
+                current && "input-form__group--disabled"
+              }`}>
+              <label className="form-label form-label--no-wrap" htmlFor="to">
+                End Date
+              </label>
+              <input
+                className="input-form__input text-input"
+                type="date"
+                onChange={(e) => onChange(e)}
+                disabled={current ? true : ""}
+                value={to}
+                name="to"
+                // required
+              />
+              <Alert param="to" />
+            </div>
+
+            <div className="input-form__group input-form__group--checkbox  checkbox">
+              <div className="form-label">Current?</div>
+              <label
+                htmlFor="current"
+                className="checkbox-label checkbox__label">
+                <input
+                  className="checkbox__input"
+                  type="checkbox"
+                  name="current"
+                  id="current"
+                  value={current}
+                  checked={current}
+                  onChange={(e) => {
+                    setFormData({ ...formData, current: !current });
+                    toggleDisabled(!toDateDisabled);
+                  }}
+                />
+                <span className="checkbox__custom checkbox-custom"></span>
+              </label>
+            </div>
+          </div>
+
+          <div className="input-form__group  ">
+            <label className="form-label" htmlFor="email">
+              Description
+            </label>
+            <textarea
+              className="input-form__input text-input input-form__input input-form__input--text-area"
+              placeholder="Add some more detail about your studies"
+              onChange={(e) => onChange(e)}
+              value={description}
+              name="description"
+              rows="5"
+              cols="50"
+              // required
+            ></textarea>
+            <Alert param="description" />
+          </div>
+          <div className="input-form__row">
+            <input type="submit" className="btn btn--full-width" />
+            <button
+              type="button"
+              onClick={() => {
+                deleteExperience(experienceId);
+                closeEditExpModal();
+              }}
+              className="btn btn--delete input-form__delete-btn">
+              Delete
+            </button>
+          </div>
+        </form>
+      </div>
     </div>
   );
 };

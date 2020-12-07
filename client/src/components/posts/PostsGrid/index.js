@@ -10,7 +10,6 @@ const PostsGrid = ({ posts, columns, setPopoutImage, openShowPostModal }) => {
   //  Measure the width of the container element
   const nodeRef = useRef();
   const {width}= useMeasure(nodeRef);
-  console.log(width)
   
   //  Form a grid of stacked items using width & columns we got from hooks 1 & 2
   const [heights, gridItems] = useMemo(() => {
@@ -56,7 +55,7 @@ const PostsGrid = ({ posts, columns, setPopoutImage, openShowPostModal }) => {
           }}>
           <div
             onClick={() => {
-              console.log('click')
+             
               openShowPostModal(item._id);
             }}
             onMouseOver={() => {

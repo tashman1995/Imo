@@ -1,77 +1,247 @@
-@import '../../../style/main.scss';
+@import "../../../style/main.scss";
 
 .nav {
-    // POSITION
-    position: fixed;
+  // POSITION
+  position: fixed;
+  top: 0;
+  transition: top 0.6s;
+  overflow: hidden;
+  // Solves scrollbar shift issue
+  width: calc(100% + 100vw - 100%);
+  z-index: 98;
+
+  // GRID SETUP
+  display: grid;
+  grid-template-columns:
+    [full-start] minmax(6rem, 1fr) [center-start] repeat(
+      8,
+      [col-start] minmax(min-content, 16rem) [col-end]
+    )
+    [center-end] minmax(6rem, 1fr) [full-end];
+  grid-column-gap: 4rem;
+
+  // STYLING
+  background-color: $color-white;
+  padding: 1.6rem 0;
+  font-weight: 400;
+  font-size: $font-size-small;
+  color: $color-white;
+
+  -webkit-box-shadow: 0px 2px 6px 0px rgba(0, 0, 0, 0.1);
+  -moz-box-shadow: 0px 2px 6px 0px rgba(0, 0, 0, 0.1);
+  box-shadow: 0px 2px 6px 0px rgba(0, 0, 0, 0.1);
+
+  // HIDING OPTIONS
+  &--hidden {
+    top: -$nav-height;
+  }
+
+  &--sticky {
     top: 0;
-    transition: top .6s;
-    overflow: hidden;
-    // Solves scrollbar shift issue
-    width: calc(100% + 100vw - 100%);
-    z-index: 98;
-   
-  
-    // GRID SETUP
-    
-    display: grid;
-    grid-template-columns: [full-start] minmax(6rem, 1fr) [center-start] repeat(8, [col-start] minmax(min-content, 16rem) [col-end]) [center-end] minmax(6rem, 1fr) [full-end];
-    grid-column-gap: 4rem;
-  
-    // STYLING
-    padding: 1.6rem 0;
-    font-weight: 400;
-    font-size: $font-size-small;
-    color: $color-white;
-  
-    // HIDING OPTIONS
-    &--hidden {
-      top: -$nav-height;
-    }
-  
-    &--sticky {
-      top: 0;
-      z-index: 99;
-    }
-    // INTERNAL ELEMENTS
-  
-    &__logo {
-      display: inline-block;
-      grid-column: center-start ;
-      width: 12rem;
-    }
-  
-    &__nav-element {
-      grid-column: 3 / center-end;
-      display: flex;
-      align-items: center;
-    }
-  
-    &__links {
-      display: flex;
-      width: 100%;
-    }
-  
-    &__link {
-      cursor: pointer;
-  
-      &:not(:first-child) {
-        margin-left: 5rem;
-      }
-      &:first-child {
-        margin-left: auto;
-      }
-  
-      &--right  {
-        margin-right: auto;
-      }
-    }
+    z-index: 99;
+  }
 
-    &__link-text {
-      color: inherit;
-      text-decoration: inherit;
-    }
+  // RESPONSIVE STYLING
+  @include respond(smallest) {
+    grid-template-columns:
+      [full-start] 0 [center-start] repeat(
+        8,
+        [col-start] minmax(min-content, 16rem) [col-end]
+      )
+      [center-end] 0 [full-end];
+    grid-column-gap: 1.2rem;
+  }
+  // INTERNAL ELEMENTS
 
-    &--dark {
-      color: $color-black !important;
+  &__logo-container {
+    display: inline-block;
+    grid-column: center-start;
+    width: 12rem;
+    @include center;
+
+    @include respond(smallest) {
+      width: 10rem;
     }
   }
+
+  &__logo {
+    width: 100%;
+  }
+
+  &__nav-element {
+    grid-column: 3 / center-end;
+    display: flex;
+    align-items: center;
+  }
+
+  &__links {
+    display: flex;
+    width: 100%;
+
+    @include respond(smallest) {
+      display: none;
+    }
+  }
+
+  &__link {
+    cursor: pointer;
+    background-color: $color-white;
+    border-radius: $border-radius;
+    padding: 1.2rem 2.4rem;
+
+    &:not(:first-child) {
+      margin-left: 2.4rem;
+    }
+    &:first-child {
+      margin-left: auto;
+    }
+
+    &--right {
+      margin-right: auto;
+    }
+  }
+
+  &__link-text {
+    color: inherit;
+    text-decoration: inherit;
+  }
+
+  &--dark {
+    color: $color-black !important;
+  }
+
+  &__button--cross &__toggle-icon {
+    background-color: transparent;
+    transform: translateX(5px);
+  }
+
+  &__button--cross &__toggle-icon::before {
+    transform: rotate(45deg) translateY(10px);
+  }
+
+  &__button--cross &__toggle-icon::after {
+    transform: rotate(-45deg) translateY(-10px);
+  }
+}
+
+.nav-icon {
+  display: none;
+  width: 4rem;
+  height: 2.25rem;
+  position: relative;
+  // margin: 5rem auto;
+  -webkit-transform: rotate(0deg);
+  -moz-transform: rotate(0deg);
+  -o-transform: rotate(0deg);
+  transform: rotate(0deg);
+  -webkit-transition: 0.5s ease-in-out;
+  -moz-transition: 0.5s ease-in-out;
+  -o-transition: 0.5s ease-in-out;
+  transition: 0.5s ease-in-out;
+  cursor: pointer;
+
+  transition: all 0.2s ease-out;
+
+  &__hover,
+  &__focus {
+    transform: scale(1.05);
+  }
+
+  &__container {
+    @include center;
+    height: 100%;
+    margin: 0 2.4rem 0.5rem auto;
+  }
+
+  @include respond(smallest) {
+    display: block;
+  }
+}
+
+.nav-icon span {
+  display: block;
+  position: absolute;
+  height: 0.4rem;
+  width: 100%;
+  background: $color-black;
+  border-radius: 9px;
+  opacity: 1;
+  left: 0;
+  -webkit-transform: rotate(0deg);
+  -moz-transform: rotate(0deg);
+  -o-transform: rotate(0deg);
+  transform: rotate(0deg);
+  -webkit-transition: 0.25s ease-in-out;
+  -moz-transition: 0.25s ease-in-out;
+  -o-transition: 0.25s ease-in-out;
+  transition: 0.25s ease-in-out;
+}
+.nav-icon span:nth-child(1) {
+  top: 0px;
+}
+
+.nav-icon span:nth-child(2),
+.nav-icon span:nth-child(3) {
+  top: 1.2rem;
+}
+
+.nav-icon span:nth-child(4) {
+  top: 2.4rem;
+}
+
+.nav-icon.open span:nth-child(1) {
+  top: 1.2rem;
+  width: 0%;
+  left: 50%;
+}
+
+.nav-icon.open span:nth-child(2) {
+  -webkit-transform: rotate(45deg);
+  -moz-transform: rotate(45deg);
+  -o-transform: rotate(45deg);
+  transform: rotate(45deg);
+}
+
+.nav-icon.open span:nth-child(3) {
+  -webkit-transform: rotate(-45deg);
+  -moz-transform: rotate(-45deg);
+  -o-transform: rotate(-45deg);
+  transform: rotate(-45deg);
+}
+
+.nav-icon.open span:nth-child(4) {
+  top: 18px;
+  width: 0%;
+  left: 50%;
+}
+
+.mobile-nav {
+  width: 100%;
+  background-color: $color-white;
+  position: fixed;
+  // height: 24rem;
+  top: 0;
+  margin-top: 7rem;
+  z-index: 9999;
+
+  -webkit-box-shadow: 0px 2px 6px 0px rgba(0, 0, 0, 0.1);
+  -moz-box-shadow: 0px 2px 6px 0px rgba(0, 0, 0, 0.1);
+  box-shadow: 0px 2px 6px 0px rgba(0, 0, 0, 0.1);
+
+  &__links {
+    padding: 1.2rem;
+  }
+
+  &__link {
+    padding: 1.2rem;
+    font-size: $font-size-small;
+    background-color: $color-primary-lightest;
+    border-radius: $border-radius;
+    transition: all .2s;
+
+    &:not(:last-child) {
+      margin-bottom: 1.2rem;
+    }
+
+  }
+}

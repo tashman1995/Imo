@@ -7,6 +7,7 @@ import { getProfileById } from "../../actions/profile";
 import ProfileTop from "./ProfileTop";
 import ProfileExperience from "./ProfileExperience";
 import ProfileEducation from "./ProfileEducation";
+import ProfileBio from "./ProfileBio";
 
 import "./Profile.scss";
 
@@ -40,16 +41,17 @@ const Profile = ({
               <ProfileTop profile={profile} profileOwned={isProfile} />
             </div>
             <div className="profile__experience">
-              <ProfileExperience profile={profile}/>
+              <ProfileBio profile={profile} />
             </div>
             <div className="profile__experience">
-              <ProfileEducation profile={profile}/>
+              <ProfileExperience profile={profile} />
             </div>
-           
+            <div className="profile__experience">
+              <ProfileEducation profile={profile} />
+            </div>
           </div>
         </Fragment>
       )}
-     
     </Fragment>
   );
 };

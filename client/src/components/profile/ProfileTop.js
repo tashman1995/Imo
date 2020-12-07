@@ -1,57 +1,24 @@
-import React, { Fragment, useState, useEffect } from "react";
+import React, { Fragment,  } from "react";
 import PropTypes from "prop-types";
 import { connect } from "react-redux";
-import { CenterModal } from "react-spring-modal";
-import { animated, useTransition } from "react-spring";
 import "react-spring-modal/dist/index.css";
 import { openEditProfileModal } from "../../actions/profile";
 
 const ProfileTop = ({
   profileOwned,
   profile: {
-    profile,
+
     status,
     website,
     location,
     bio,
     social,
-    subjects,
-    equipment,
+   
     user: { name, avatar },
   },
   openEditProfileModal,
 }) => {
-  const [screenWidth, setWidth] = React.useState(window.innerWidth);
-
-  const updateWidthAndHeight = () => {
-    setWidth(window.innerWidth);
-  };
-
-  useEffect(() => {
-    window.addEventListener("resize", updateWidthAndHeight);
-    return () => window.removeEventListener("resize", updateWidthAndHeight);
-  });
-
-  ///////////////////////////////
-  // BIO MODAL
-  //////////////////////////
-  const [bioModal, setBioModal] = useState(false);
-  const openBioModal = () => {
-    setBioModal(true);
-  };
-  const closeBioModal = () => {
-    setBioModal(false);
-  };
-
-  const transitionConfig = {
-    from: { opacity: 0 },
-    enter: { opacity: 1 },
-    leave: { opacity: 0 },
-  };
-
-  const fade = useTransition(openBioModal, null, transitionConfig);
-
-  console.log(profileOwned);
+  
 
   return (
     <Fragment>
@@ -68,7 +35,7 @@ const ProfileTop = ({
           )}
           <img
             className="profile-top__avatar"
-            src="https://www.gravatar.com/avatar/205e460b479e2e5b48aec07710c08d50?s=200"
+            src={avatar}
             alt=""
           />
         </div>
@@ -85,70 +52,70 @@ const ProfileTop = ({
                 {status && status}
               </h2>
             </div>
-
-            <div className="profile-top__headings--right">
-              {website && (
-                <a
-                  href={`//${website}`}
-                  target="_blank"
-                  rel="noopener noreferrer">
-                  <i className="fas fa-globe fa-3x"></i>
-                </a>
-              )}
-              {social && social.instagram && (
-                <a
-                  href={`//${social.instagram}`}
-                  target="_blank"
-                  rel="noopener noreferrer">
-                  <i className="fab fa-instagram-square fa-3x"></i>
-                </a>
-              )}
-              {social && social.facebook && (
-                <a
-                  href={`//${social.facebook}`}
-                  target="_blank"
-                  rel="noopener noreferrer">
-                  <i className="fab fa-facebook-square fa-3x"></i>
-                </a>
-              )}
-              {social && social.twitter && (
-                <a
-                  href={`//${social.twitter}`}
-                  target="_blank"
-                  rel="noopener noreferrer">
-                  <i className="fab fa-twitter-square fa-3x"></i>
-                </a>
-              )}
-              {social && social.youtube && (
-                <a
-                  href={`//${social.youtube}`}
-                  target="_blank"
-                  rel="noopener noreferrer">
-                  <i className="fab fa-youtube-square fa-3x"></i>
-                </a>
-              )}
-              {social && social.behance && (
-                <a
-                  href={`//${social.behance}`}
-                  target="_blank"
-                  rel="noopener noreferrer">
-                  <i className="fab fa-behance-square fa-3x"></i>
-                </a>
-              )}
-              {social && social.linkedin && (
-                <a
-                  href={`//${social.linkedin}`}
-                  target="_blank"
-                  rel="noopener noreferrer">
-                  <i className="fab fa-linkedin-square fa-3x"></i>
-                </a>
-              )}
-            </div>
           </div>
-          <h3 className="heading-tertiary u-margin-bottom-smallest">
+          <h3 className="heading-tertiary u-margin-bottom-small">
             {location && location}
           </h3>
-          <div className="profile-top__bio">
+          <div className="profile-top__headings--socials">
+            {website && (
+              <a
+                href={`//${website}`}
+                target="_blank"
+                rel="noopener noreferrer">
+                <i className="fas fa-globe fa-3x"></i>
+              </a>
+            )}
+            {social && social.instagram && (
+              <a
+                href={`//${social.instagram}`}
+                target="_blank"
+                rel="noopener noreferrer">
+                <i className="fab fa-instagram-square fa-3x"></i>
+              </a>
+            )}
+            {social && social.facebook && (
+              <a
+                href={`//${social.facebook}`}
+                target="_blank"
+                rel="noopener noreferrer">
+                <i className="fab fa-facebook-square fa-3x"></i>
+              </a>
+            )}
+            {social && social.twitter && (
+              <a
+                href={`//${social.twitter}`}
+                target="_blank"
+                rel="noopener noreferrer">
+                <i className="fab fa-twitter-square fa-3x"></i>
+              </a>
+            )}
+            {social && social.youtube && (
+              <a
+                href={`//${social.youtube}`}
+                target="_blank"
+                rel="noopener noreferrer">
+                <i className="fab fa-youtube-square fa-3x"></i>
+              </a>
+            )}
+            {social && social.behance && (
+              <a
+                href={`//${social.behance}`}
+                target="_blank"
+                rel="noopener noreferrer">
+                <i className="fab fa-behance-square fa-3x"></i>
+              </a>
+            )}
+            {social && social.linkedin && (
+              <a
+                href={`//${social.linkedin}`}
+                target="_blank"
+                rel="noopener noreferrer">
+                <i className="fab fa-linkedin-square fa-3x"></i>
+              </a>
+            )}
+          </div>
+
+          {/* <div className="profile-top__bio">
             <p className="paragraph u-margin-bottom-smallest">
               {bio &&
                 (bio.length > screenWidth / 8
@@ -166,53 +133,12 @@ const ProfileTop = ({
                 Read More
               </button>
             )}
-          </div>
+          </div> */}
+          {/* <div className="profile-top__bio-portrait">
+            <p className="paragraph u-margin-bottom-smallest">{bio && bio}</p>
+          </div> */}
         </div>
       </div>
-
-    
-
-      <CenterModal isOpen={bioModal} onRequestClose={closeBioModal}>
-        {fade.map(
-          ({ item, key, props }) =>
-            item && (
-              <animated.div className="bioModal" key={key} style={props}>
-                <h3 className="heading-secondary u-margin-bottom-smaller">
-                  Bio
-                </h3>
-                <p className="paragraph u-margin-bottom-smaller">{bio}</p>
-                <h3 className="heading-tertiary u-margin-bottom-smaller">
-                  Subjects:{" "}
-                </h3>
-                <div className="bioModal__list u-margin-bottom-small">
-                  {subjects.map((item, index) => {
-                    return (
-                      <div
-                        key={index}
-                        className=" paragraph bioModal__list-item">
-                        {item}
-                      </div>
-                    );
-                  })}
-                </div>
-                <h3 className="heading-tertiary u-margin-bottom-smaller">
-                  Equipment:{" "}
-                </h3>
-                <div className="bioModal__list u-margin-bottom-small">
-                  {equipment.map((item, index) => {
-                    return (
-                      <div
-                        key={index}
-                        className="paragraph bioModal__list-item">
-                        {item}
-                      </div>
-                    );
-                  })}
-                </div>
-              </animated.div>
-            )
-        )}
-      </CenterModal>
     </Fragment>
   );
 };
