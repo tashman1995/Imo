@@ -1,16 +1,15 @@
-import React, {  useMemo, useRef } from "react";
+import React, { useMemo, useRef } from "react";
 import { useTransition, a } from "react-spring";
-// import useMeasure from "./useMeasure";
+import ImageLoad from "../../layout/ImageLoad";
 import useMeasure from "use-measure";
 
 import "./styles.scss";
 
 const PostsGrid = ({ posts, columns, setPopoutImage, openShowPostModal }) => {
-    
   //  Measure the width of the container element
   const nodeRef = useRef();
-  const {width}= useMeasure(nodeRef);
-  
+  const { width } = useMeasure(nodeRef);
+
   //  Form a grid of stacked items using width & columns we got from hooks 1 & 2
   const [heights, gridItems] = useMemo(() => {
     let heights = new Array(columns).fill(0); // Each column gets a height starting with zero
@@ -35,7 +34,7 @@ const PostsGrid = ({ posts, columns, setPopoutImage, openShowPostModal }) => {
     from: ({ xy, width, height }) => ({ xy, width, height, opacity: 0 }),
     enter: ({ xy, width, height }) => ({ xy, width, height, opacity: 1 }),
     update: ({ xy, width, height }) => ({ xy, width, height }),
-    leave: {  opacity: 0 },
+    leave: { opacity: 0 },
     config: { mass: 5, tension: 500, friction: 100 },
     // trail: 25,
   });
@@ -55,16 +54,21 @@ const PostsGrid = ({ posts, columns, setPopoutImage, openShowPostModal }) => {
           }}>
           <div
             onClick={() => {
-             
               openShowPostModal(item._id);
             }}
             onMouseOver={() => {
-              setPopoutImage(item.image[0]);
+              setPopoutImage(item.image[0].url);
             }}
             onMouseLeave={() => {
               setPopoutImage("");
             }}>
-            <img className="image" src={item.image[0]} alt="" />
+            <ImageLoad
+              className="image"
+              src={item.image[1].url}
+              alt={item.title}
+              placeholder={item.image[3].url}
+            />
+            <img className="image" src={item.image[0].url} alt="" />
           </div>
           {/* <div style={{ backgroundImage: item.css }} /> */}
         </a.div>
@@ -73,5 +77,4 @@ const PostsGrid = ({ posts, columns, setPopoutImage, openShowPostModal }) => {
   );
 };
 
-
-export default (PostsGrid);
+export default PostsGrid;

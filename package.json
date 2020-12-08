@@ -43,6 +43,7 @@
     "react-map-gl": "^5.2.10",
     "react-measure": "^2.5.2",
     "react-modal": "^3.11.2",
+    "react-responsive-carousel": "^3.2.11",
     "react-spring": "^8.0.27",
     "react-spring-modal": "^1.0.8",
     "react-stonecutter": "^0.3.10",

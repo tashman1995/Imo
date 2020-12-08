@@ -1,10 +1,13 @@
 import React, { Fragment, useState, useEffect } from "react";
 import { Link, Redirect } from "react-router-dom";
 import { connect } from "react-redux";
+import ImageLoad from "../layout/ImageLoad";
 import PropTypes from "prop-types";
 import { login } from "../../actions/auth";
 import { clearAlerts } from "../../actions/alert";
 import Alert from "../layout/Alert";
+import "react-responsive-carousel/lib/styles/carousel.min.css"; // requires a loader
+import { Carousel } from "react-responsive-carousel";
 
 import "./auth.scss";
 import Navbar from "../layout/Navbar";
@@ -17,8 +20,6 @@ const Login = ({ clearAlerts, login, isAuthenticated }) => {
 
   const { email, password } = formData;
 
-  
-
   const onChange = (e) =>
     setFormData({ ...formData, [e.target.name]: e.target.value });
 
@@ -29,13 +30,16 @@ const Login = ({ clearAlerts, login, isAuthenticated }) => {
   };
 
   // Redirect if logged in
+
+  // Carousel
+
   if (isAuthenticated) {
     return <Redirect to="/dashboard" />;
   }
 
   return (
     <Fragment>
-      <Navbar stage="2"  />
+      <Navbar stage="2" />
       <div className="login u-grid">
         <div className="login__left">
           <div className="login__form">
@@ -91,9 +95,9 @@ const Login = ({ clearAlerts, login, isAuthenticated }) => {
         <div className="login__right">
           <div className="login__carousel">
             <div className="carousel">
-              <img
-                src="/imgs/slider12.jpg"
-                alt=""
+              <ImageLoad
+                src="/imgs/AuthLarge.jpg"
+                placeholder="/imgs/AuthSmall.jpg"
                 className="carousel__image"
               />
             </div>

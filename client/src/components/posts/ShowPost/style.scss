@@ -26,16 +26,14 @@
   }
 
   @media (orientation: portrait) {
-    height: 90vh;
-    grid-template-rows: [header-top] min-content [header-bottom] min-content [content-middle] 40rem [full-bottom];
-
-    @include respond(smallest) {
-     height: min-content;
+    height: min-content;
     overflow-y: auto;
     height: 100%;
-      padding: 2.4rem;
+     
       grid-template-rows: [header-top] min-content [header-bottom] min-content [content-middle] min-content [full-bottom];
       grid-template-columns: [full-start] 1fr [modal-center] 1fr [full-end];
+    @include respond(smallest) {
+     padding: 2.4rem;
     }
   }
 

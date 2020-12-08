@@ -157,7 +157,7 @@ const ShowPost = ({
                   height !== 1350 ? "--alt" : ""
                 }`}>
                 <img
-                  src={image[0]}
+                  src={image[0].url}
                   alt="Post"
                   className={`show-modal__image show-modal__image${
                     height === 1350 ? "--portrait" : "--landscape"
@@ -300,7 +300,7 @@ const ShowPost = ({
                       height !== 1350 ? "--alt" : ""
                     }`}>
                     <img
-                      src={image[0]}
+                      src={image[0].url}
                       alt="Post"
                       className={`show-modal__image show-modal__image${
                         height === 1350 ? "--portrait" : "--landscape"

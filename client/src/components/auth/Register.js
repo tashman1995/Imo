@@ -3,6 +3,7 @@ import { connect } from "react-redux";
 import { Link, Redirect } from "react-router-dom";
 import {  clearAlerts } from "../../actions/alert";
 import { register } from "../../actions/auth";
+import ImageLoad from "../layout/ImageLoad";
 import Alert from "../layout/Alert";
 import Navbar from "../layout/Navbar";
 import PropTypes from "prop-types";
@@ -125,9 +126,9 @@ const Register = ({  clearAlerts, register, isAuthenticated }) => {
         <div className="login__right">
           <div className="login__carousel">
             <div className="carousel">
-              <img
-                src="/imgs/slider12.jpg"
-                alt=""
+              <ImageLoad
+                src="/imgs/AuthLarge.jpg"
+                placeholder="/imgs/AuthSmall.jpg"
                 className="carousel__image"
               />
             </div>
