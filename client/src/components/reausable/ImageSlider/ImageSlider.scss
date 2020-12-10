@@ -1,18 +1,17 @@
 @import "../../../style/main.scss";
 
 .image-slider {
-  width: 100%;
+  
   overflow: hidden;
-  @include center;
+  margin-top: 0 !important;
   // flex-direction: column;
 
   z-index: 203;
 
   &__container {
-    width: 100%;
-    display: grid;
-    grid-template-columns: repeat(4, [col-start] min-content [col-end]);
-    grid-gap: 2vw;
+    grid-column: center-start / center-end;
+       width: 100%;
+    display: flex;
     padding: 2vw 2vw;
     justify-content: center;
     pointer-events: none;
@@ -35,8 +34,11 @@
 
   &__image-container {
     transition: all .2s;
-    width: 21vw;
-    height: 28vw;
+    // width: 21vw;
+    // height: 28vw;
+    flex: 1;
+    padding: 1.2rem;
+   
   }
 }
 

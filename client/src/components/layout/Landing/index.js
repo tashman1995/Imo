@@ -180,13 +180,9 @@ const Landing = ({ isAuthenticated }) => {
   const navBar2 = useSpring({
     from: {
       opacity: 0,
-      // opacity: phase === "imo" ? "0" : "1",
-      // transform: phase === "imo" ? "translateY(100%)" : "translateY(0)",
     },
     to: {
       opacity: 1,
-      // opacity: phase === "imo" ? "1" : "0",
-      // transform: phase === "imo" ? "translateY(0)" : "translateY(0)",
     },
     config: {
       duration: 300,
@@ -215,7 +211,6 @@ const Landing = ({ isAuthenticated }) => {
   }
 
   return (
-   
     <div
       className="Landing"
       onClick={() => {
@@ -223,9 +218,7 @@ const Landing = ({ isAuthenticated }) => {
       }}
       onScroll={() => {
         setPhase("imo");
-      }}
-    >
-       
+      }}>
       <Navbar animation={navBar1} stage="1" />
       <Navbar animation={navBar2} stage="2" />
       {phase === "imo" && (

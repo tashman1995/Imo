@@ -9,6 +9,7 @@
     background-color: $color-primary-light;
     border-radius: $border-radius;
     padding: 2.4rem 5rem;
+    margin-bottom: 2.4rem;
     @include shadow;
 
     @include respond(smallest) {
@@ -29,25 +30,31 @@
     grid-column: center-start / center-end;
   }
 
-  &__item {
+  &__measure {
+    grid-column: center-start / center-end;
   }
 }
 
 .profile-cards {
   display: grid;
-  height: min-content;
-  grid-template-rows: repeat(3, min-content);
-  grid-template-columns: repeat(auto-fit, minmax(23rem, 1fr));
-  grid-gap: 2.4rem;
+  grid-template-columns: repeat(auto-fit, minmax(25rem, 1fr));
 
-  //   align-self: center;
-  //   justify-self: center;
+  grid-gap: 2.4rem;
+  @include respond(smallest) {
+    grid-gap: 0rem;
+    align-items: center;
+    justify-content: center;
+  }
+}
+
+.profile {
+  @include center;
 }
 
 .profile-card {
-  height: 80%;
+  height: 100%;
   width: 100%;
-
+  
   background-color: $color-primary-light;
   border-radius: $border-radius;
   padding: 2.4rem;
@@ -62,14 +69,14 @@
   @include shadow;
 
   &__container {
+    margin: 0 auto;
     position: relative;
-    height: 38rem;
-    margin-top: 3rem;
-    max-width: 36rem;
+    height: 45rem;
+    width: min-content;
+    max-width: 40rem;
 
     @include respond(smallest) {
-      margin: 4.8rem;
-      height: 47rem;
+      width: 80%;
     }
   }
 
@@ -81,7 +88,6 @@
   }
 
   &__avatar {
-    margin-top: -40%;
     width: 70%;
     max-width: 20rem;
     border-radius: $border-radius;

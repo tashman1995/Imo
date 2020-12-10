@@ -1,14 +1,14 @@
 import React, { Fragment, useState } from "react";
 import { connect } from "react-redux";
 import { Link, Redirect } from "react-router-dom";
-import {  clearAlerts } from "../../actions/alert";
+import { clearAlerts } from "../../actions/alert";
 import { register } from "../../actions/auth";
 import ImageLoad from "../layout/ImageLoad";
 import Alert from "../layout/Alert";
 import Navbar from "../layout/Navbar";
 import PropTypes from "prop-types";
 
-const Register = ({  clearAlerts, register, isAuthenticated }) => {
+const Register = ({ clearAlerts, register, isAuthenticated }) => {
   const [formData, setFormData] = useState({
     name: "",
     email: "",
@@ -16,9 +16,8 @@ const Register = ({  clearAlerts, register, isAuthenticated }) => {
     password2: "",
   });
 
+  clearAlerts();
 
-  clearAlerts()
-  
   const { name, email, password, password2 } = formData;
 
   const onChange = (e) =>
@@ -26,7 +25,7 @@ const Register = ({  clearAlerts, register, isAuthenticated }) => {
 
   const onSubmit = async (e) => {
     e.preventDefault();
-
+    clearAlerts();
     register({ name, email, password, password2 });
   };
 

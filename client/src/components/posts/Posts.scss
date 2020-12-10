@@ -1,9 +1,7 @@
 @import "../../style/main.scss";
 
 .posts {
-  margin: 9rem 0;
-
-  &__grid {
+    &__grid {
     grid-column: center-start / center-end;
     margin: 1.2rem auto;
   }

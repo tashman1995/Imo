@@ -10,6 +10,7 @@ import {
   LOGOUT,
   CLEAR_PROFILE,
   REMOVE_ALL_ALERTS,
+  ANIMATION_DONE
 } from "../actions/types";
 import setAuthToken from "../utils/setAuthToken";
 
@@ -104,4 +105,9 @@ export const login = (email, password) => async (dispatch) => {
 export const logout = () => (dispatch) => {
   dispatch({ type: CLEAR_PROFILE });
   dispatch({ type: LOGOUT });
+};
+
+// Homepage Visited
+export const animationDone = () => (dispatch) => {
+  dispatch({ type: ANIMATION_DONE });
 };

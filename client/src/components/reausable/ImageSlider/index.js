@@ -8,7 +8,7 @@ import "./ImageSlider.scss";
 const ImageSlider = ({ imageGridAnim }) => {
   return (
     <Fragment>
-      <div className="image-slider">
+      <div className="image-slider u-grid">
         <div className="image-slider__container">
           {imageGridAnim.map(({props, item, key}) => (
             <animated.div

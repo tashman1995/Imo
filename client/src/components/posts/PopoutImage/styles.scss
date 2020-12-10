@@ -5,12 +5,11 @@
   left: 0;
   width: 100vw;
   height: 100vh;
-  z-index: 11;
+  z-index: 99;
   pointer-events: none;
 
   &__element {
     position: absolute;
-    z-index: 999000;
     pointer-events: none;
   }
 }

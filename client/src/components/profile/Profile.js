@@ -29,6 +29,9 @@ const Profile = ({
       ? true
       : false;
 
+  console.log(profile && profile.experience)
+  console.log(profile && profile.education)
+
   return (
     <Fragment>
       {profile === null || loading ? (
@@ -40,15 +43,22 @@ const Profile = ({
             <div className="profile__top">
               <ProfileTop profile={profile} profileOwned={isProfile} />
             </div>
-            <div className="profile__experience">
-              <ProfileBio profile={profile} />
-            </div>
-            <div className="profile__experience">
-              <ProfileExperience profile={profile} />
-            </div>
-            <div className="profile__experience">
-              <ProfileEducation profile={profile} />
-            </div>
+            {profile && profile.bio && (
+              <div className="profile__experience">
+                <ProfileBio profile={profile} />
+              </div>
+            )}
+
+            {profile && profile.experience.length > 0 && (
+              <div className="profile__experience">
+                <ProfileExperience profile={profile} />
+              </div>
+            )}
+            {profile && profile.education.length > 0 && (
+              <div className="profile__experience">
+                <ProfileEducation profile={profile} />
+              </div>
+            )}
           </div>
         </Fragment>
       )}

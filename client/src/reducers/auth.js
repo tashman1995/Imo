@@ -6,13 +6,15 @@ import {
   LOGIN_SUCCESS,
   LOGIN_FAIL,
   LOGOUT,
-  ACCOUNT_DELETED
+  ACCOUNT_DELETED,
+  ANIMATION_DONE,
 } from "../actions/types";
 
 const initialState = {
   token: localStorage.getItem("token"),
   isAuthenticated: null,
   loading: true,
+  animation: false,
   user: null,
 };
 
@@ -48,6 +50,12 @@ export default function (state = initialState, action) {
         token: null,
         isAuthenticated: false,
         loading: false,
+      };
+    case ANIMATION_DONE:
+      
+      return {
+        ...state,
+        animation: true
       };
     default:
       return state;

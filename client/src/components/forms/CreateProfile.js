@@ -130,7 +130,7 @@ const CreateProfile = ({ createProfile, history, clearAlerts }) => {
               <Alert param="status" />
             </div>
 
-            <div className="input-form__group u-margin-bottom-medium">
+            <div className="input-form__group ">
               <label className="form-label">
                 Link us to your porfolio website.
               </label>
@@ -145,7 +145,7 @@ const CreateProfile = ({ createProfile, history, clearAlerts }) => {
               <Alert param="website" />
             </div>
           </div>
-          <div className="input-form__row u-margin-bottom-medium">
+          <div className="input-form__row ">
             <div className="input-form__group">
               <label className="form-label">Where are you based?</label>
               <input
@@ -211,7 +211,7 @@ const CreateProfile = ({ createProfile, history, clearAlerts }) => {
             </div>
           </div>
 
-          <div className="input-form__row u-margin-bottom-medium">
+          <div className="input-form__row">
             <div className="input-form__group">
               <label className="form-label">
                 Let us know what type of subjects you like to shoot, please use
@@ -246,7 +246,7 @@ const CreateProfile = ({ createProfile, history, clearAlerts }) => {
             </div>
           </div>
 
-          <div className="input-form__group u-margin-bottom-medium">
+          <div className="input-form__group ">
             <label className="form-label">Biography</label>
             <textarea
               className="input-form__input  input-form__input--text-area"

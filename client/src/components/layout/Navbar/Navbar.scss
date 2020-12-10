@@ -108,6 +108,7 @@
 
   &--dark {
     color: $color-black !important;
+    
   }
 
   &__button--cross &__toggle-icon {
@@ -216,6 +217,7 @@
 }
 
 .mobile-nav {
+  display: none;
   width: 100%;
   background-color: $color-white;
   position: fixed;
@@ -223,6 +225,9 @@
   top: 0;
   margin-top: 7rem;
   z-index: 9999;
+    @include respond(smallest) {
+    display: block;
+  }
 
   -webkit-box-shadow: 0px 2px 6px 0px rgba(0, 0, 0, 0.1);
   -moz-box-shadow: 0px 2px 6px 0px rgba(0, 0, 0, 0.1);

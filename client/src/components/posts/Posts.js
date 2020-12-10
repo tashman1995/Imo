@@ -6,18 +6,22 @@ import Navbar from "../../components/layout/Navbar";
 import PostsHeader from "./PostsHeader";
 import useMedia from "../../utils/useMedia";
 import PostsGrid from "./PostsGrid";
-import PopoutImage from './PopoutImage'
+import PopoutImage from "./PopoutImage";
 
 import "./Posts.scss";
 
-const Posts = ({ getPosts, openShowPostModal, auth, post: { posts, loading } }) => {
+const Posts = ({
+  getPosts,
+  openShowPostModal,
+  auth,
+  post: { posts, loading },
+}) => {
   // Initialise State
   const [columns, setColumns] = useState(5);
   const [orderedPosts, setOrderedPosts] = useState(posts);
   useEffect(() => {
     setOrderedPosts(posts);
   }, [posts]);
-
 
   const initialColumns = useMedia(
     [
@@ -60,56 +64,26 @@ const Posts = ({ getPosts, openShowPostModal, auth, post: { posts, loading } }) 
 
   // HANDLE IMAGE POPUPS
   const [popoutImage, setPopoutImage] = useState("");
-  
 
   return (
     <Fragment>
       <PopoutImage popoutImage={popoutImage} />
       <Navbar stage="2" />
       <Fragment>
-        <div className="posts">
-          <div className="u-grid">
-            <PostsHeader
-              columns={columns}
-              isAuthenticated={auth.isAuthenticated}
-              setColumns={setColumns}
-              shuffle={handleShuffle}
-            />
-
-            <PostsGrid
-              posts={orderedPosts}
-              setPopoutImage={setPopoutImage}
-              columns={columns}
-              openShowPostModal={openShowPostModal}
-            />
-          </div>
-
-          {/* <Grid
-            className="posts__grid"
-            columnWidth={1080 / scaleFactor}
+        <div className="posts u-grid">
+          <PostsHeader
             columns={columns}
-            scaleFactor={scaleFactor}>
-            {orderedPosts.map((post) => {
-              return (
-                <li
-                  onMouseOver={() => {
-                    setPopoutImage(post.image[0]);
-                  }}
-                  onMouseLeave={() => {
-                    setPopoutImage("");
-                  }}
-                  key={post._id}
-                  className="posts__item"
-                  itemHeight={post.height / scaleFactor}
-                  style={{
-                    width: 1080 / scaleFactor,
-                    height: post.height / scaleFactor,
-                  }}>
-                  <PostElement post={post} />
-                </li>
-              );
-            })}
-          </Grid> */}
+            isAuthenticated={auth.isAuthenticated}
+            setColumns={setColumns}
+            shuffle={handleShuffle}
+          />
+
+          <PostsGrid
+            posts={orderedPosts}
+            setPopoutImage={setPopoutImage}
+            columns={columns}
+            openShowPostModal={openShowPostModal}
+          />
         </div>
         {/* )} */}
       </Fragment>
