@@ -1,4 +1,5 @@
 import React, { Fragment, useEffect } from "react";
+import { useHistory } from "react-router-dom";
 import PropTypes from "prop-types";
 import { connect } from "react-redux";
 import Spinner from "../reausable/Loading";
@@ -25,41 +26,54 @@ const Profile = ({
   const isProfile =
     profile !== null &&
     auth.isAuthenticated &&
+    auth.loading === false &&
     auth.user._id === profile.user._id
       ? true
       : false;
 
-  console.log(profile && profile.experience)
-  console.log(profile && profile.education)
+  const history = useHistory();
 
   return (
     <Fragment>
-      {profile === null || loading ? (
+      {profile === null ? (
         <Spinner />
       ) : (
         <Fragment>
           <Navbar stage="2" />
-          <div className="u-grid profile">
-            <div className="profile__top">
-              <ProfileTop profile={profile} profileOwned={isProfile} />
+          {profile === "not found" ? (
+            <div className="u-grid profile">
+              <div className="profile__not-found">
+                <h1 className="heading-primary u-margin-bottom-small">
+                  Profile not found
+                </h1>
+                <button className="btn btn--table" onClick={() => {history.push("/profiles");}}>
+                  View All Profiles
+                </button>
+              </div>
             </div>
-            {profile && profile.bio && (
-              <div className="profile__experience">
-                <ProfileBio profile={profile} />
+          ) : (
+            <div className="u-grid profile">
+              <div className="profile__top">
+                <ProfileTop profile={profile} profileOwned={isProfile} />
               </div>
-            )}
+              {profile && profile.bio && (
+                <div className="profile__experience">
+                  <ProfileBio profile={profile} />
+                </div>
+              )}
 
-            {profile && profile.experience.length > 0 && (
-              <div className="profile__experience">
-                <ProfileExperience profile={profile} />
-              </div>
-            )}
-            {profile && profile.education.length > 0 && (
-              <div className="profile__experience">
-                <ProfileEducation profile={profile} />
-              </div>
-            )}
-          </div>
+              {profile && profile.experience.length > 0 && (
+                <div className="profile__experience">
+                  <ProfileExperience profile={profile} />
+                </div>
+              )}
+              {profile && profile.education.length > 0 && (
+                <div className="profile__experience">
+                  <ProfileEducation profile={profile} />
+                </div>
+              )}
+            </div>
+          )}
         </Fragment>
       )}
     </Fragment>

@@ -26,10 +26,9 @@ const InitialHeading = ({letsExpAnim, fadeOut, subtitleAnim}) => {
         >
           <animated.h2 style={fadeOut} className=" initial-heading__subtitle">
             Share your favourite photography locations
-          </animated.h2>
-          <animated.h2 style={fadeOut} className=" initial-heading__subtitle">
             with like minded adventurers
           </animated.h2>
+   
         </animated.div>
       </div>
     </Fragment>

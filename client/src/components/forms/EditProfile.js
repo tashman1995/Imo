@@ -6,15 +6,7 @@ import { createProfile, getCurrentProfile } from "../../actions/profile";
 import Alert from "../layout/Alert";
 import { clearAlerts, setAlert } from "../../actions/alert";
 
-const EditProfile = ({
-  profile: { profile, loading },
-  createProfile,
-  getCurrentProfile,
-  history,
-  clearAlerts,
-  setAlert,
-}) => {
-  const [formData, setFormData] = useState({
+const initialState = {
     website: "",
     location: "",
     status: "",
@@ -28,27 +20,84 @@ const EditProfile = ({
     facebook: "",
     behance: "",
     avatar: "",
-  });
+  }
+
+const EditProfile = ({
+  profile: { profile, loading },
+  createProfile,
+  getCurrentProfile,
+  history,
+  clearAlerts,
+  setAlert,
+}) => {
+  // const [formData, setFormData] = useState({
+  //   website: "",
+  //   location: "",
+  //   status: "",
+  //   subjects: "",
+  //   bio: "",
+  //   equipment: "",
+  //   youtube: "",
+  //   twitter: "",
+  //   instagram: "",
+  //   linkedin: "",
+  //   facebook: "",
+  //   behance: "",
+  //   avatar: "",
+  // });
+
+  // useEffect(() => {
+  //   getCurrentProfile();
+  //   setFormData({
+  //     ...formData,
+  //     website: loading || !profile.website ? "" : profile.website,
+  //     location: loading || !profile.location ? "" : profile.location,
+  //     status: loading || !profile.status ? "" : profile.status,
+  //     subjects: loading || !profile.subjects ? "" : profile.subjects.join(","),
+  //     bio: loading || !profile.bio ? "" : profile.bio,
+  //     equipment:
+  //       loading || !profile.equipment ? "" : profile.equipment.join(","),
+  //     youtube: loading || !profile.social ? "" : profile.social.youtube,
+  //     twitter: loading || !profile.social ? "" : profile.social.twitter,
+  //     instagram: loading || !profile.social ? "" : profile.social.instagram,
+  //     linkedin: loading || !profile.social ? "" : profile.social.eqipment,
+  //     facebook: loading || !profile.social ? "" : profile.social.facebook,
+  //     behance: loading || !profile.social ? "" : profile.social.behance,
+  //   });
+  // }, [
+  //   loading,
+  //   getCurrentProfile,
+  //   // formData,
+  //   profile.bio,
+  //   profile.equipment,
+  //   profile.location,
+  //   profile.social,
+  //   profile.status,
+  //   profile.subjects,
+  //   profile.website,
+  // ]);
+
+  const [formData, setFormData] = useState(initialState);
+
+
 
   useEffect(() => {
-    getCurrentProfile();
-    setFormData({
-      ...formData,
-      website: loading || !profile.website ? "" : profile.website,
-      location: loading || !profile.location ? "" : profile.location,
-      status: loading || !profile.status ? "" : profile.status,
-      subjects: loading || !profile.subjects ? "" : profile.subjects.join(","),
-      bio: loading || !profile.bio ? "" : profile.bio,
-      equipment:
-        loading || !profile.equipment ? "" : profile.equipment.join(","),
-      youtube: loading || !profile.social ? "" : profile.social.youtube,
-      twitter: loading || !profile.social ? "" : profile.social.twitter,
-      instagram: loading || !profile.social ? "" : profile.social.instagram,
-      linkedin: loading || !profile.social ? "" : profile.social.eqipment,
-      facebook: loading || !profile.social ? "" : profile.social.facebook,
-      behance: loading || !profile.social ? "" : profile.social.behance,
-    });
-  }, [loading, getCurrentProfile]);
+    if (!profile) getCurrentProfile();
+    if (!loading && profile) {
+      const profileData = { ...initialState };
+      for (const key in profile) {
+        if (key in profileData) profileData[key] = profile[key];
+      }
+      for (const key in profile.social) {
+        if (key in profileData) profileData[key] = profile.social[key];
+      }
+      if (Array.isArray(profileData.subjects))
+        profileData.subjects = profileData.subjects.join(", ");
+      if (Array.isArray(profileData.equipment))
+        profileData.equipment = profileData.equipment.join(", ");
+      setFormData(profileData);
+    }
+  }, [loading, getCurrentProfile, profile]);
 
   const { website, location, status, subjects, bio, equipment } = formData;
 

@@ -32,14 +32,14 @@ const Profiles = ({ getProfiles, profile: { profiles, loading } }) => {
     }
   };
 
-    useEffect(() => {
-      window.addEventListener("resize", manageColumns());
-      return () => window.removeEventListener("resize", manageColumns());
-    });
+  useEffect(() => {
+    window.addEventListener("resize", manageColumns);
+    return () => window.removeEventListener("resize", manageColumns);
+  });
 
   useEffect(() => {
     manageColumns();
-  }, [width]);
+  });
 
   //  Form a grid of stacked items using width & columns we got from hooks 1 & 2
   const [heights, gridItems] = useMemo(() => {
@@ -55,7 +55,7 @@ const Profiles = ({ getProfiles, profile: { profiles, loading } }) => {
       return { ...child, xy, width: width / columns, height: height };
     });
     return [heights, gridItems];
-  }, [3, profiles, width, profiles]);
+  }, [profiles, width, columns]);
   // Hook6: Turn the static grid values into animated transitions, any addition, removal or change will be animated
   const transitions = useTransition(gridItems, (item) => item._id, {
     from: ({ xy, width, height }) => ({ xy, width, height, opacity: 0 }),

@@ -163,6 +163,7 @@ const PostForm = ({ addPost, alerts, clearAlerts }) => {
                       src={image}
                       ref={previewImageRef}
                       className="input-form__image"
+                      alt="Selected Preview"
                     />
                   ) : (
                     <i className="fas fa-image fa-10x input-form__image--icon"></i>

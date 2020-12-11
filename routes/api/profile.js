@@ -1,7 +1,6 @@
 const express = require("express");
 const router = express.Router();
 const auth = require("../../middleware/auth");
-const imageValidation = require("../../middleware/imageValidation");
 const { check, validationResult } = require("express-validator");
 const { avatarStorage } = require("../../client/src/api/cloudinary");
 const multer = require("multer");
@@ -52,16 +51,6 @@ router.get("/me", auth, async (req, res) => {
 // @desc Create or update a user profile
 // @access Private
 
-// router.use(function (err, req, res, next) {
-//   if (err.code === "LIMIT_FILE_SIZE") {
-//     console.log('file too larfe')
-//     return res.status(400).json();
-//     return;
-//   }
-
-//   // Handle any other errors
-// });
-
 router.post(
   "/",
   [
@@ -79,7 +68,7 @@ router.post(
   ],
   async (req, res) => {
     const errors = validationResult(req);
-    console.log(req.errors)
+    console.log(req.errors);
     if (req.hasOwnProperty("file_error")) {
       errors.errors.push({
         value: "",
@@ -141,7 +130,7 @@ router.post(
     if (behance) profileFields.social.behance = behance;
 
     try {
-      console.log(uploadedAvatar)
+      console.log(uploadedAvatar);
       if (uploadedAvatar !== "") {
         await Users.findOneAndUpdate(
           { _id: req.user.id },
@@ -171,15 +160,12 @@ router.post(
       await profile.save();
       res.json(profile);
     } catch (err) {
-      console.log("error");
       // console.log('error message', err.message);
       console.error(err.message);
       res.status(500).send("Server Error");
     }
   }
 );
-
-
 
 // @route GET api/profile/
 // @desc Get all profiles

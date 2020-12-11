@@ -21,15 +21,11 @@
   grid-column-gap: 4rem;
 
   // STYLING
-  background-color: $color-white;
+
   padding: 1.6rem 0;
   font-weight: 400;
   font-size: $font-size-small;
   color: $color-white;
-
-  -webkit-box-shadow: 0px 2px 6px 0px rgba(0, 0, 0, 0.1);
-  -moz-box-shadow: 0px 2px 6px 0px rgba(0, 0, 0, 0.1);
-  box-shadow: 0px 2px 6px 0px rgba(0, 0, 0, 0.1);
 
   // HIDING OPTIONS
   &--hidden {
@@ -85,8 +81,7 @@
 
   &__link {
     cursor: pointer;
-    background-color: $color-white;
-    border-radius: $border-radius;
+
     padding: 1.2rem 2.4rem;
 
     &:not(:first-child) {
@@ -108,7 +103,10 @@
 
   &--dark {
     color: $color-black !important;
-    
+    background-color: $color-white;
+    -webkit-box-shadow: 0px 2px 6px 0px rgba(0, 0, 0, 0.1);
+    -moz-box-shadow: 0px 2px 6px 0px rgba(0, 0, 0, 0.1);
+    box-shadow: 0px 2px 6px 0px rgba(0, 0, 0, 0.1);
   }
 
   &__button--cross &__toggle-icon {
@@ -143,8 +141,8 @@
 
   transition: all 0.2s ease-out;
 
-  &__hover,
-  &__focus {
+  &:hover,
+  &:focus {
     transform: scale(1.05);
   }
 
@@ -157,38 +155,43 @@
   @include respond(smallest) {
     display: block;
   }
+
+  & span {
+    display: block;
+    position: absolute;
+    height: 0.4rem;
+    width: 100%;
+    background: $color-black;
+    border-radius: 9px;
+    opacity: 1;
+    left: 0;
+    -webkit-transform: rotate(0deg);
+    -moz-transform: rotate(0deg);
+    -o-transform: rotate(0deg);
+    transform: rotate(0deg);
+    -webkit-transition: 0.25s ease-in-out;
+    -moz-transition: 0.25s ease-in-out;
+    -o-transition: 0.25s ease-in-out;
+    transition: 0.25s ease-in-out;
+
+    &:nth-child(1) {
+      top: 0px;
+    }
+
+    &:nth-child(2),
+    &:nth-child(3) {
+      top: 1.2rem;
+    }
+
+    &:nth-child(4) {
+      top: 2.4rem;
+    }
+
+   
+  }
 }
 
-.nav-icon span {
-  display: block;
-  position: absolute;
-  height: 0.4rem;
-  width: 100%;
-  background: $color-black;
-  border-radius: 9px;
-  opacity: 1;
-  left: 0;
-  -webkit-transform: rotate(0deg);
-  -moz-transform: rotate(0deg);
-  -o-transform: rotate(0deg);
-  transform: rotate(0deg);
-  -webkit-transition: 0.25s ease-in-out;
-  -moz-transition: 0.25s ease-in-out;
-  -o-transition: 0.25s ease-in-out;
-  transition: 0.25s ease-in-out;
-}
-.nav-icon span:nth-child(1) {
-  top: 0px;
-}
 
-.nav-icon span:nth-child(2),
-.nav-icon span:nth-child(3) {
-  top: 1.2rem;
-}
-
-.nav-icon span:nth-child(4) {
-  top: 2.4rem;
-}
 
 .nav-icon.open span:nth-child(1) {
   top: 1.2rem;
@@ -225,7 +228,7 @@
   top: 0;
   margin-top: 7rem;
   z-index: 9999;
-    @include respond(smallest) {
+  @include respond(smallest) {
     display: block;
   }
 
@@ -242,11 +245,10 @@
     font-size: $font-size-small;
     background-color: $color-primary-lightest;
     border-radius: $border-radius;
-    transition: all .2s;
+    transition: all 0.2s;
 
     &:not(:last-child) {
       margin-bottom: 1.2rem;
     }
-
   }
 }

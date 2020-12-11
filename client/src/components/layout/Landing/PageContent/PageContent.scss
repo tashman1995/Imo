@@ -3,22 +3,29 @@
 .main-content {
   position: absolute;
   top: 0;
-  width: 100%;
+  width: 100vw;
   overflow: hidden;
   min-height: 100vh;
   z-index: 97;
+  @media (orientation: portrait) {
+    max-height: 100vh;
+    overflow: hidden;
+  }
 }
 
 .secondary-text {
   @include center;
   flex-direction: column;
   z-index: 201;
-  margin-top: 49vh;
+  // margin-top: 50rem;
 
   & p,
   h2 {
     z-index: 201;
     width: 50vw;
+      @include respond(smaller) {
+      width: 75vw;
+    }
     text-align: center;
   }
 
@@ -28,13 +35,33 @@
     width: 35vw;
     justify-content: space-evenly;
     margin-bottom: 2rem;
+
+    @include respond(smaller) {
+      @include center;
+      width: 75vw;
+      flex-direction: column;
+    }
+  }
+
+  &__btn {
+    &:last-child {
+      margin-left: 2.4rem;
+      @include respond(smaller) {
+        margin-left: 0;
+        margin-top: 2.4rem;
+      }
+    }
   }
 
   &__heading {
     font-size: 2.8rem;
     color: $color-black;
     font-weight: 300;
-    line-height: 1.6;    
+    line-height: 1.6;
+
+    @include respond(small) {
+      font-size: 2.4rem;
+    }
   }
 }
 
@@ -42,11 +69,70 @@
   position: absolute;
   top: 0;
   width: 100vw;
-  height: 100vh;
+  // height: 100vh;
   overflow: hidden;
   @include center;
 
   &__image {
-    width: 5000vw;
+    width: 160rem;
+    margin-top: -33rem;
+  }
+
+  &__image2 {
+    width: 50vw;
+    // outline: 25vw solid $color-white;
+    // margin-top: -15vh;
+  }
+}
+
+.title2 {
+  margin-top: -35rem;
+  min-height: 100vh;
+  display: grid;
+  grid-template-columns: [start] 1fr [middle-start] 100rem [middle-end] 1fr [end];
+  grid-template-rows: [top] 40rem [middle-top] min-content [middle-bottom] 50vw [bottom];
+  // transform: scale(35) translate3d(4.5rem,70rem,0);
+
+  @media (orientation: portrait) {
+    margin-top: -70rem;
+
+    grid-template-rows: [top] 80rem [middle-top] min-content [middle-bottom] 90vh[bottom];
+  }
+
+  @include respond(small) {
+    grid-template-columns: [start] 1fr [middle-start] 75rem [middle-end] 1fr [end];
+  }
+
+  @include respond(smaller) {
+    grid-template-columns: [start] 1fr [middle-start] 45rem [middle-end] 1fr [end];
+  }
+
+  &__image {
+    grid-column: middle-start / middle-end;
+    grid-row: middle-top / middle-bottom;
+    padding: -0.1rem;
+  }
+
+  &__left {
+    background-color: $color-white;
+    grid-column: start / middle-start;
+    grid-row: middle-top / middle-bottom;
+  }
+
+  &__right {
+    background-color: $color-white;
+    grid-column: middle-end/ end;
+    grid-row: middle-top / middle-bottom;
+  }
+
+  &__under {
+    background-color: $color-white;
+    grid-column: start / end;
+    grid-row: middle-bottom / bottom;
+  }
+  &__above {
+    background-color: $color-white;
+    grid-column: start / end;
+    grid-row: top / middle-top;
   }
 }

@@ -2,6 +2,7 @@ import React, { Fragment, useEffect, useState } from "react";
 import "./style.scss";
 import PropTypes from "prop-types";
 import { connect } from "react-redux";
+import { Link } from "react-router-dom";
 import "react-spring-modal/dist/index.css";
 import { Scrollbars } from "react-custom-scrollbars";
 import Moment from "react-moment";
@@ -59,7 +60,7 @@ const ShowPost = ({
 }) => {
   useEffect(() => {
     getPost(_id);
-  }, [posts, getPost, __dirname]);
+  }, [posts, getPost, _id]);
 
   // GENERATE MAP
   const [viewport, setViewport] = useState({
@@ -136,11 +137,15 @@ const ShowPost = ({
                 <div className="show-modal__header--right">
                   <div className="user-block">
                     <div className="user-block__avatar">
-                      <img
-                        alt="Users Avatar"
-                        src={avatar}
-                        className="user-block__avatar--image"
-                      />
+                      <Link to={`/profile/${_id}`}>
+                        <div className="comment__avatar">
+                          <img
+                            alt="Users Avatar"
+                            src={avatar}
+                            className="user-block__avatar--image"
+                          />
+                        </div>
+                      </Link>
                     </div>
                     <h2 className="paragraph user-block__text">
                       Posted by{" "}
@@ -278,11 +283,13 @@ const ShowPost = ({
                 <div className="show-modal__header--right">
                   <div className="user-block">
                     <div className="user-block__avatar">
-                      <img
-                        alt="Users Avatar"
-                        src={avatar}
-                        className="user-block__avatar--image"
-                      />
+                      <Link to={`/profile/${_id}`}>
+                        <img
+                          alt="Users Avatar"
+                          src={avatar}
+                          className="user-block__avatar--image"
+                        />
+                      </Link>
                     </div>
                     <h2 className="paragraph user-block__text">
                       Posted by{" "}
@@ -294,100 +301,96 @@ const ShowPost = ({
                 </div>
               </div>
               <div className="show-modal__portrait">
-       
-                  <div
-                    className={`show-modal__image-container show-modal__image-container${
-                      height !== 1350 ? "--alt" : ""
-                    }`}>
-                    <img
-                      src={image[0].url}
-                      alt="Post"
-                      className={`show-modal__image show-modal__image${
-                        height === 1350 ? "--portrait" : "--landscape"
-                      }`}
-                    />
-                  </div>
-                  <div
-                    className={`show-modal__info-container show-modal__info-container${
-                      height !== 1350 ? "--alt" : ""
-                    }`}>
-                    <div className="show-modal__info ">
-                      <div className="show-modal__description description">
-                        <div className="description__title u-margin-bottom-tiny">
-                          <h2 className="heading-secondary ">Description</h2>
-                        </div>
-                        <div className="description__content u-margin-bottom-small">
-                          <p className="paragraph">{description}</p>
-                        </div>
+                <div
+                  className={`show-modal__image-container show-modal__image-container${
+                    height !== 1350 ? "--alt" : ""
+                  }`}>
+                  <img
+                    src={image[0].url}
+                    alt="Post"
+                    className={`show-modal__image show-modal__image${
+                      height === 1350 ? "--portrait" : "--landscape"
+                    }`}
+                  />
+                </div>
+                <div
+                  className={`show-modal__info-container show-modal__info-container${
+                    height !== 1350 ? "--alt" : ""
+                  }`}>
+                  <div className="show-modal__info ">
+                    <div className="show-modal__description description">
+                      <div className="description__title u-margin-bottom-tiny">
+                        <h2 className="heading-secondary ">Description</h2>
                       </div>
-                      <Measure
-                        bounds
-                        onResize={(contentRect) => {
-                          contentRect.entry &&
-                            setViewport({
-                              ...viewport,
-                              width: contentRect.entry.width,
-                            });
-                          // setViewport({ ...viewport, width: info.current.clientWidth });
-                        }}>
-                        {({ measureRef }) => (
-                          <div
-                            ref={measureRef}
-                            className="show-modal__specific-info specific-info">
-                            <div className="specific-info__item">
-                              <h2 className="heading-secondary ">Best Time</h2>
-                              <p className="paragraph">{bestTime}</p>
-                            </div>
-                            <div className="specific-info__item">
-                              <h2 className="heading-secondary ">
-                                Suggested Focal Lengths
-                              </h2>
-                              <p className="paragraph">
-                                {focalLengthRangeText}
-                              </p>
-                            </div>
-                          </div>
-                        )}
-                      </Measure>
-
-                      <div className="show-modal__map map ">
-                        <div className="map__overlay">
-                          <h4 className="paragraph ">
-                            <span className="u-bold">Location:</span>
-                          </h4>
-                          <p className="paragraph">{locationName}</p>
-                        </div>
-                        <ReactMapGl
-                          {...viewport}
-                          width={viewport.width}
-                          onViewportChange={(viewport) => {
-                            setViewport(viewport);
-                          }}
-                          mapStyle="mapbox://styles/tomashman1995/ckhfcz6yx0dpy19o5nz8bz9gb"
-                          mapboxApiAccessToken={mapBoxToken}>
-                          <Marker
-                            latitude={location.coordinates[1]}
-                            longitude={location.coordinates[0]}>
-                            <div className="pin"></div>
-                          </Marker>
-                        </ReactMapGl>
+                      <div className="description__content u-margin-bottom-small">
+                        <p className="paragraph">{description}</p>
                       </div>
-                      {auth.isAuthenticated && (
-                        <Discussion
-                          id={_id}
-                          addLike={addLike}
-                          removeLike={removeLike}
-                          addComment={addComment}
-                          likes={likes}
-                          comments={comments}
-                          user={user}
-                          auth={auth}
-                          deleteComment={deleteComment}
-                        />
-                      )}
                     </div>
+                    <Measure
+                      bounds
+                      onResize={(contentRect) => {
+                        contentRect.entry &&
+                          setViewport({
+                            ...viewport,
+                            width: contentRect.entry.width,
+                          });
+                        // setViewport({ ...viewport, width: info.current.clientWidth });
+                      }}>
+                      {({ measureRef }) => (
+                        <div
+                          ref={measureRef}
+                          className="show-modal__specific-info specific-info">
+                          <div className="specific-info__item">
+                            <h2 className="heading-secondary ">Best Time</h2>
+                            <p className="paragraph">{bestTime}</p>
+                          </div>
+                          <div className="specific-info__item">
+                            <h2 className="heading-secondary ">
+                              Suggested Focal Lengths
+                            </h2>
+                            <p className="paragraph">{focalLengthRangeText}</p>
+                          </div>
+                        </div>
+                      )}
+                    </Measure>
+
+                    <div className="show-modal__map map ">
+                      <div className="map__overlay">
+                        <h4 className="paragraph ">
+                          <span className="u-bold">Location:</span>
+                        </h4>
+                        <p className="paragraph">{locationName}</p>
+                      </div>
+                      <ReactMapGl
+                        {...viewport}
+                        width={viewport.width}
+                        onViewportChange={(viewport) => {
+                          setViewport(viewport);
+                        }}
+                        mapStyle="mapbox://styles/tomashman1995/ckhfcz6yx0dpy19o5nz8bz9gb"
+                        mapboxApiAccessToken={mapBoxToken}>
+                        <Marker
+                          latitude={location.coordinates[1]}
+                          longitude={location.coordinates[0]}>
+                          <div className="pin"></div>
+                        </Marker>
+                      </ReactMapGl>
+                    </div>
+                    {auth.isAuthenticated && (
+                      <Discussion
+                        id={_id}
+                        addLike={addLike}
+                        removeLike={removeLike}
+                        addComment={addComment}
+                        likes={likes}
+                        comments={comments}
+                        user={user}
+                        auth={auth}
+                        deleteComment={deleteComment}
+                      />
+                    )}
                   </div>
-              
+                </div>
               </div>
             </div>
           )}

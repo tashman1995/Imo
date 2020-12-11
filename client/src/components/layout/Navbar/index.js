@@ -4,7 +4,7 @@ import { connect } from "react-redux";
 import PropTypes from "prop-types";
 import { logout } from "../../../actions/auth";
 import { animated } from "react-spring";
-import SlideToggle from '../SlideToggle'
+import SlideToggle from "../SlideToggle";
 import "./Navbar.scss";
 
 const Navbar = ({
@@ -115,27 +115,25 @@ const Navbar = ({
     </ul>
   );
 
-  // HANDLE OUTSIDE CLICK
-  const handleClickOff = (e) => {
-    if (menuElement.current) {
-      if (menuElement.current.contains(e.target)) {
-        //  exit if inside click
-        return;
-      }
-      // outside click
-
-      setNavOpen(false);
-    }
-  };
-
   useEffect(() => {
+    // HANDLE OUTSIDE CLICK
+    const handleClickOff = (e) => {
+      if (menuElement.current) {
+        if (menuElement.current.contains(e.target)) {
+          //  exit if inside click
+          return;
+        }
+        // outside click
+        setNavOpen(false);
+      }
+    };
     // add when mounted
     document.addEventListener("mousedown", handleClickOff);
     // return function to be called when unmounted
     return () => {
       document.removeEventListener("mousedown", handleClickOff);
     };
-  }, [handleClickOff]);
+  });
 
   const menuElement = useRef();
 
@@ -158,7 +156,7 @@ const Navbar = ({
                   <div className="nav-icon__container">
                     <button
                       onClick={() => setNavOpen(!navOpen)}
-                      className={`nav-icon ${navOpen && "open"}`}>
+                      className={`nav-icon ${navOpen ? "open" : ""}`}>
                       <span></span>
                       <span></span>
                       <span></span>
@@ -170,7 +168,7 @@ const Navbar = ({
         </nav>
       </animated.div>
 
-      <nav className="mobile-nav">
+      <nav className={`mobile-nav `}>
         <SlideToggle isVisible={navOpen}>
           {isAuthenticated ? authLinksMobile : guestLinksMobile}
         </SlideToggle>

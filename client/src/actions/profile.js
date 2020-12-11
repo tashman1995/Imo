@@ -66,6 +66,10 @@ export const getProfileById = (userId) => async (dispatch) => {
       payload: res.data,
     });
   } catch (err) {
+    if (err.response.data.msg) {
+      dispatch(setAlert(err.response.data.msg, "warning", "profile"));
+    }
+    // console.log(err.response.data)
     dispatch({
       type: PROFILE_ERROR,
       payload: { msg: err.response.statusText, status: err.response.status },
@@ -121,7 +125,6 @@ export const createProfile = (formData, history, edit = false) => async (
       type: CLOSE_EDIT_SOCIALMEDIA_MODAL,
     });
   } catch (err) {
-    
     const errors = err.response.data.errors;
 
     if (errors) {

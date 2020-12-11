@@ -3,12 +3,9 @@ import React, { Fragment, useEffect, useRef } from "react";
 import "react-spring-modal/dist/index.css";
 import "./Modal.scss";
 
-const InnerModal = ({
-  children,
-  closeModal,
-}) => {
+const InnerModal = ({ children, closeModal }) => {
   // STOP SCROLL BEHIND MODAL
- 
+
   // SET UP KEY PRESS LISTENER
   useEffect(() => {
     function keyListener(e) {
@@ -59,26 +56,25 @@ const InnerModal = ({
   ]);
 
   // HANDLE OUTSIDE CLICK
-  const handleClickOff = (e) => {
-    if (innerElement.current) {
-      if (innerElement.current.contains(e.target)) {
-        //  exit if inside click
-        return;
-      }
-      // outside click
-
-      closeModal();
-    }
-  };
 
   useEffect(() => {
+    const handleClickOff = (e) => {
+      if (innerElement.current) {
+        if (innerElement.current.contains(e.target)) {
+          //  exit if inside click
+          return;
+        }
+        // outside click
+        closeModal();
+      }
+    };
     // add when mounted
     document.addEventListener("mousedown", handleClickOff);
     // return function to be called when unmounted
     return () => {
       document.removeEventListener("mousedown", handleClickOff);
     };
-  }, [handleClickOff]);
+  }, []);
 
   const innerElement = useRef();
 

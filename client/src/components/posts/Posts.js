@@ -1,4 +1,4 @@
-import React, { useState, useEffect, useRef, Fragment } from "react";
+import React, { useState, useEffect, Fragment } from "react";
 import PropTypes from "prop-types";
 import { connect } from "react-redux";
 import { getPosts, openShowPostModal } from "../../actions/post";
@@ -14,7 +14,7 @@ const Posts = ({
   getPosts,
   openShowPostModal,
   auth,
-  post: { posts, loading },
+  post: { posts },
 }) => {
   // Initialise State
   const [columns, setColumns] = useState(5);
@@ -36,7 +36,7 @@ const Posts = ({
 
   useEffect(() => {
     setColumns(initialColumns);
-  }, []);
+  }, [initialColumns]);
   //GET POSTS
   useEffect(() => {
     getPosts();

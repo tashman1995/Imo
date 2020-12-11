@@ -6,13 +6,11 @@ import PropTypes from "prop-types";
 import { login } from "../../actions/auth";
 import { clearAlerts } from "../../actions/alert";
 import Alert from "../layout/Alert";
-import "react-responsive-carousel/lib/styles/carousel.min.css"; // requires a loader
-import { Carousel } from "react-responsive-carousel";
-
 import "./auth.scss";
 import Navbar from "../layout/Navbar";
 
 const Login = ({ clearAlerts, login, isAuthenticated }) => {
+  
   const [formData, setFormData] = useState({
     email: "",
     password: "",
@@ -29,10 +27,11 @@ const Login = ({ clearAlerts, login, isAuthenticated }) => {
     login(email, password);
   };
 
+  useEffect(() => {
+    clearAlerts();
+  }, [clearAlerts]);
+
   // Redirect if logged in
-
-  // Carousel
-
   if (isAuthenticated) {
     return <Redirect to="/dashboard" />;
   }

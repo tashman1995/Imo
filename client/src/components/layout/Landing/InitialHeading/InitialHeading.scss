@@ -18,11 +18,21 @@
     line-height: 1.2;
     z-index: 150;
 
+    @include respond(small) {
+      font-size: $font-size-large;
+    }
+    @include respond(smaller) {
+      text-align: center;
+    }
+
     &--1 {
       display: inline-block;
 
       &:last-of-type {
         margin-left: 4rem;
+        @include respond(smaller) {
+          margin-left: 0;
+        }
       }
     }
 
@@ -33,7 +43,6 @@
 
     &--container {
       overflow: hidden;
-      
     }
   }
 
@@ -41,6 +50,15 @@
     font-size: 2.8rem;
     color: $color-white;
     font-weight: 300;
-    line-height: 1.6;   
+    line-height: 1.6;
+    width: 50vw;
+
+    @include respond(small) {
+      width: 65vw;
+    }
+
+    @include respond(smaller) {
+      width: 80vw;
+    }
   }
 }

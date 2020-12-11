@@ -1,12 +1,13 @@
-import React, { Fragment, useState } from "react";
-import { connect } from "react-redux";
+import React, { Fragment, useState, useEffect } from "react";
 import { Link, Redirect } from "react-router-dom";
-import { clearAlerts } from "../../actions/alert";
-import { register } from "../../actions/auth";
+import { connect } from "react-redux";
 import ImageLoad from "../layout/ImageLoad";
-import Alert from "../layout/Alert";
-import Navbar from "../layout/Navbar";
 import PropTypes from "prop-types";
+import { register } from "../../actions/auth";
+import { clearAlerts } from "../../actions/alert";
+import Alert from "../layout/Alert";
+import "./auth.scss";
+import Navbar from "../layout/Navbar";
 
 const Register = ({ clearAlerts, register, isAuthenticated }) => {
   const [formData, setFormData] = useState({
@@ -16,7 +17,9 @@ const Register = ({ clearAlerts, register, isAuthenticated }) => {
     password2: "",
   });
 
-  clearAlerts();
+  useEffect(() => {
+    clearAlerts();
+  }, [clearAlerts]);
 
   const { name, email, password, password2 } = formData;
 

@@ -28,7 +28,7 @@ const PostsGrid = ({ posts, columns, setPopoutImage, openShowPostModal }) => {
       return { ...child, xy, width: width / columns, height: height };
     });
     return [heights, gridItems];
-  }, [columns, posts, width, posts]);
+  }, [columns, posts, width]);
   // Hook6: Turn the static grid values into animated transitions, any addition, removal or change will be animated
   const transitions = useTransition(gridItems, (item) => item._id, {
     from: ({ xy, width, height }) => ({ xy, width, height, opacity: 0 }),

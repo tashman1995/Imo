@@ -8,6 +8,10 @@
   &__experience {
     grid-column: center-start / center-end;
   }
+  &__not-found {
+    grid-column: center-start / center-end;
+    @include container;
+  }
 }
 
 .profile-top {

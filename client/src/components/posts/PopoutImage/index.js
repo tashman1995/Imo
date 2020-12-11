@@ -3,18 +3,18 @@ import "./styles.scss";
 import { isBrowser } from "react-device-detect";
 
 const PopoutImage = ({ popoutImage }) => {
-   const [mousePosition, setMousePosition] = useState({ x: 0, y: 0 });
+  const [mousePosition, setMousePosition] = useState({ x: 0, y: 0 });
 
   const { x, y } = mousePosition;
+  const setMousePositionFunc = (e) => {
+    setMousePosition({ x: e.clientX, y: e.clientY });
+  };
+
   // Mouse over event listeners
   useEffect(() => {
-    window.addEventListener("mousemove", (e) =>
-      setMousePosition({ x: e.clientX, y: e.clientY })
-    );
+    window.addEventListener("mousemove", setMousePositionFunc);
 
-    return window.removeEventListener("mousemove", (e) =>
-      setMousePosition({ x: e.clientX, y: e.clientY })
-    );
+    return () => window.removeEventListener("mousemove", setMousePositionFunc);
   }, []);
   // Image size measuring
   const popoutImageRef = useRef();

@@ -1,4 +1,4 @@
-import React, { useState, useRef } from "react";
+import React, { useState, useRef, Fragment } from "react";
 import { Redirect } from "react-router-dom";
 import { connect } from "react-redux";
 import PropTypes from "prop-types";
@@ -102,12 +102,18 @@ const Landing = ({ isAuthenticated }) => {
 
   const imoZoomOutRef = useRef();
   const imoZoomOut = useSpring({
-    from: { transform: "scale(26) translate3D(-1.6vw,1px,1px)" },
+    from: { transform: "scale(20) translate3d(4.5rem,70rem,0)", opacity: 0 },
 
     to: async (next) => {
-      await next({ transform: "scale(1) translate3D(0,0,0)" });
-      await next({ transform: "scale(1) translate3D(0,-80vh,0)" });
+      await next({ transform: "scale(1) translate3D(0,10rem,0)", opacity: 1 });
+      await next({ transform: "scale(1) translate3D(0,0,0)", opacity: 1 });
     },
+    // config: {
+    //   mass: 50,
+    //   tension: 40,
+    //   friction: 100,
+    //   clamp: true,
+    // },
     ref: imoZoomOutRef,
   });
 
@@ -211,31 +217,33 @@ const Landing = ({ isAuthenticated }) => {
   }
 
   return (
-    <div
-      className="Landing"
-      onClick={() => {
-        setPhase("imo");
-      }}
-      onScroll={() => {
-        setPhase("imo");
-      }}>
+    <Fragment>
       <Navbar animation={navBar1} stage="1" />
       <Navbar animation={navBar2} stage="2" />
-      {phase === "imo" && (
-        <PageContent
-          imoZoomOut={imoZoomOut}
-          fadeInAndUp={fadeInAndUp}
-          fadeInAndUp2={fadeInAndUp2}
-          imageGridAnim={imageGridAnim}
+      <div
+        className="Landing"
+        onClick={() => {
+          setPhase("imo");
+        }}
+        onScroll={() => {
+          setPhase("imo");
+        }}>
+        {phase === "imo" && (
+          <PageContent
+            imoZoomOut={imoZoomOut}
+            fadeInAndUp={fadeInAndUp}
+            fadeInAndUp2={fadeInAndUp2}
+            imageGridAnim={imageGridAnim}
+          />
+        )}
+        <InitialHeading
+          letsExpAnim={initialHeading}
+          subtitleAnim={subtitleAnim}
+          fadeOut={fadeOut}
         />
-      )}
-      <InitialHeading
-        letsExpAnim={initialHeading}
-        subtitleAnim={subtitleAnim}
-        fadeOut={fadeOut}
-      />
-      <Backdrop backdropAnim={backdrop} zoomAnim={zoom} />
-    </div>
+        <Backdrop backdropAnim={backdrop} zoomAnim={zoom} />
+      </div>
+    </Fragment>
   );
 };
 

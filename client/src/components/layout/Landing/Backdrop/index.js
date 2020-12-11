@@ -9,8 +9,10 @@ export default function Backdrop({ imageZoomOut, zoomAnim, backdropAnim }) {
       <animated.img
         style={zoomAnim}
         className="backdrop__image"
-        src="./imgs/yosemite.jpg"
+        srcSet="./imgs/yosemite-small.jpg 500w, ./imgs/yosemite-medium.jpg 900w, ./imgs/yosemite-extra-large.jpg 1200w"
+        sizes="(max-width: 1800px) 100vw"
         alt=""
+        src="./imgs/yosemite-extra-large.jpg"
       />
 
       <div className="backdrop__covers">
