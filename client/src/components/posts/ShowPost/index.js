@@ -3,9 +3,9 @@ import "./style.scss";
 import PropTypes from "prop-types";
 import { connect } from "react-redux";
 import { Link } from "react-router-dom";
-import "react-spring-modal/dist/index.css";
 import { Scrollbars } from "react-custom-scrollbars";
 import Moment from "react-moment";
+
 
 import Loading from "../../reausable/Loading";
 import Discussion from "./Discussion";
@@ -20,7 +20,9 @@ import {
   getPost,
 } from "../../../actions/post";
 import ReactMapGl, { Marker } from "react-map-gl";
+import "mapbox-gl/dist/mapbox-gl.css";
 import Measure from "react-measure";
+
 
 // require("dotenv").config();
 const mapBoxToken =
@@ -92,6 +94,8 @@ const ShowPost = ({
       ? "portrait"
       : "landscape"
   );
+
+  console.log(orientation)
 
   const handleResize = () => {
     setOrientation(

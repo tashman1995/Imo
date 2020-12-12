@@ -74,7 +74,7 @@ const InnerModal = ({ children, closeModal }) => {
     return () => {
       document.removeEventListener("mousedown", handleClickOff);
     };
-  }, []);
+  }, [closeModal]);
 
   const innerElement = useRef();
 
