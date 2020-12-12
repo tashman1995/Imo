@@ -28,6 +28,7 @@ import {
 export const getCurrentProfile = () => async (dispatch) => {
   try {
     const res = await axios.get("/api/profile/me");
+    
     dispatch({
       type: GET_PROFILE,
       payload: res.data,
@@ -156,7 +157,7 @@ export const addExperience = (formData) => async (dispatch) => {
     });
 
     dispatch({
-      type: CLOSE_ADD_EDU_MODAL,
+      type: CLOSE_ADD_EXP_MODAL,
     });
 
     dispatch(setAlert("Experience Added", "success"));
@@ -250,6 +251,7 @@ export const addEducation = (formData) => async (dispatch) => {
 
     const res = await axios.put("/api/profile/education", formData, config);
 
+    console.log('run update')
     dispatch({
       type: UPDATE_PROFILE,
       payload: res.data,
@@ -268,10 +270,10 @@ export const addEducation = (formData) => async (dispatch) => {
         dispatch(setAlert(error.msg, "danger", error.param))
       );
     }
-    dispatch({
-      type: PROFILE_ERROR,
-      payload: { msg: err.response.statusText, status: err.response.status },
-    });
+    // dispatch({
+    //   type: PROFILE_ERROR,
+    //   payload: { msg: err.response.statusText, status: err.response.status },
+    // });
   }
 };
 

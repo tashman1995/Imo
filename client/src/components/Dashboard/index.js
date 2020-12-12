@@ -27,14 +27,11 @@ const Dashboard = ({
   openAddExpModal,
   openAddProfileModal,
 }) => {
-
   useEffect(() => {
     getCurrentProfile();
   }, [getCurrentProfile]);
 
-  return loading && profile === null ? (
-    <Spinner />
-  ) : (
+  return (
     <Fragment>
       <Navbar stage="2" />
       <Fragment>
@@ -91,7 +88,6 @@ Dashboard.propTypes = {
   deleteAccount: PropTypes.func.isRequired,
   auth: PropTypes.object.isRequired,
   profile: PropTypes.object.isRequired,
-  
 };
 
 const mapStateToProps = (state) => ({

@@ -12,6 +12,15 @@ import moment from "moment";
 import Alert from "../layout/Alert";
 import { clearAlerts } from "../../actions/alert";
 
+const initialState = {
+  title: "",
+  description: "",
+  from: "",
+  to: "",
+  current: false,
+  paid: false,
+};
+
 const EditExperience = ({
   editExperience,
   deleteExperience,
@@ -22,51 +31,27 @@ const EditExperience = ({
   profile: { profile, loading },
   clearAlerts,
 }) => {
-  const [formData, setFormData] = useState({
-    title: "",
-    description: "",
-    from: "",
-    to: "",
-    current: false,
-    paid: false,
-  });
+  const [formData, setFormData] = useState(initialState);
 
   useEffect(() => {
-    getCurrentProfile();
-    const editIndex = profile.experience
-      .map((item) => item._id)
-      .indexOf(experienceId);
+    if (!profile) getCurrentProfile();
 
-    setFormData({
-      title:
-        loading || !profile.experience[editIndex].title
-          ? ""
-          : profile.experience[editIndex].title,
-
-      from:
-        loading || !profile.experience[editIndex].from
-          ? ""
-          : moment(profile.experience[editIndex].from).format("yyyy-MM-DD"),
-
-      to:
-        loading || !profile.experience[editIndex].to
-          ? ""
-          : moment(profile.experience[editIndex].to).format("yyyy-MM-DD"),
-
-      current:
-        loading || !profile.experience[editIndex].current
-          ? ""
-          : profile.experience[editIndex].current,
-      paid:
-        loading || !profile.experience[editIndex].paid
-          ? false
-          : profile.experience[editIndex].paid,
-      description:
-        loading || !profile.experience[editIndex].description
-          ? ""
-          : profile.experience[editIndex].description,
-    });
-  }, [experienceId, getCurrentProfile, loading]);
+    if (!loading && profile) {
+      const editIndex = profile.experience
+        .map((item) => item._id)
+        .indexOf(experienceId);
+      const experienceData = { ...initialState };
+      for (const key in profile.experience[editIndex]) {
+        if (key in profile.experience[editIndex])
+          experienceData[key] = profile.experience[editIndex][key];
+      }
+   
+      if (experienceData.current) {
+        experienceData.to = "";
+      }
+      setFormData(experienceData);
+    }
+  }, [experienceId, getCurrentProfile, loading, profile]);
 
   const { title, description, from, to, current, paid } = formData;
 
@@ -142,7 +127,7 @@ const EditExperience = ({
                 className="input-form__input text-input"
                 type="date"
                 onChange={(e) => onChange(e)}
-                value={from}
+                value={moment(from).format("yyyy-MM-DD")}
                 name="from"
                 // required
               />
@@ -161,7 +146,7 @@ const EditExperience = ({
                 type="date"
                 onChange={(e) => onChange(e)}
                 disabled={current ? true : ""}
-                value={to}
+                value={moment(to).format("yyyy-MM-DD")}
                 name="to"
                 // required
               />

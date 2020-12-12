@@ -31,55 +31,25 @@ const EditEducation = ({
   const [formData, setFormData] = useState(initialState);
 
   useEffect(() => {
-    if(!profile) getCurrentProfile();
-  
-    if(!loading && profile) {
+    if (!profile) getCurrentProfile();
+
+    if (!loading && profile) {
       const editIndex = profile.education
         .map((item) => item._id)
         .indexOf(educationId);
-      const educationData = {...initialState};
-      for( const key in profile.education[editIndex]) {
+      const educationData = { ...initialState };
+      for (const key in profile.education[editIndex]) {
         if (key in profile.education[editIndex])
           educationData[key] = profile.education[editIndex][key];
       }
-      educationData.from = moment(educationData.from).format("yyyy-MM-DD");
-      educationData.to = moment(educationData.from).format("yyyy-MM-DD");
-      if(educationData.current) {
-        educationData.to = ""
+
+      if (educationData.current) {
+        educationData.to = "";
       }
-          
-      setFormData(educationData)
+
+      setFormData(educationData);
     }
-
-    // setFormData({
-    //   title:
-    //     loading || !profile.education[editIndex].title
-    //       ? ""
-    //       : profile.education[editIndex].title,
-    //   location:
-    //     loading || !profile.education[editIndex].location
-    //       ? ""
-    //       : profile.education[editIndex].location,
-    //   from:
-    //     loading || !profile.education[editIndex].from
-    //       ? ""
-    //       : moment(profile.education[editIndex].from).format("yyyy-MM-DD"),
-
-    //   to:
-    //     loading || !profile.education[editIndex].to
-    //       ? false
-    //       : moment(profile.education[editIndex].to).format("yyyy-MM-DD"),
-
-    //   current:
-    //     loading || !profile.education[editIndex].current
-    //       ? ""
-    //       : profile.education[editIndex].current,
-    //   description:
-    //     loading || !profile.education[editIndex].description
-    //       ? ""
-    //       : profile.education[editIndex].description,
-    // });
-  }, [educationId, getCurrentProfile, loading]);
+  }, [educationId, getCurrentProfile, loading, profile]);
 
   const { title, location, description, from, to, current } = formData;
 
@@ -152,7 +122,7 @@ const EditEducation = ({
                 className="input-form__input text-input"
                 type="date"
                 onChange={(e) => onChange(e)}
-                value={from}
+                value={moment(from).format("yyyy-MM-DD")}
                 name="from"
                 // required
               />
@@ -171,7 +141,7 @@ const EditEducation = ({
                 type="date"
                 onChange={(e) => onChange(e)}
                 disabled={current ? true : ""}
-                value={to}
+                value={moment(to).format("yyyy-MM-DD")}
                 name="to"
                 // required
               />
