@@ -15,14 +15,14 @@ const Education = ({
       <td className="paragraph">{edu.title}</td>
       <td className="paragraph">{edu.location}</td>
       <td className="paragraph dashboard-table__date">
-        <Moment format="YYYY/MM">{edu.from}</Moment>
+        <Moment format="MM/YYYY">{edu.from}</Moment>
       </td>
       <td className="paragraph dashboard-table__date">
         {" "}
         {edu.to === null ? (
           "Current"
         ) : (
-          <Moment format="YYYY/MM">{edu.to}</Moment>
+          <Moment format="MM/YYYY">{edu.to}</Moment>
         )}
       </td>
       <td className="paragraph">

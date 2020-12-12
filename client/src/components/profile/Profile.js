@@ -1,4 +1,4 @@
-import React, { Fragment, useEffect } from "react";
+import React, { Fragment, useState, useEffect } from "react";
 import { useHistory } from "react-router-dom";
 import PropTypes from "prop-types";
 import { connect } from "react-redux";
@@ -17,6 +17,7 @@ const Profile = ({
   match,
   profile: { profile, loading },
   auth,
+  alerts,
 }) => {
   useEffect(() => {
     getProfileById(match.params.id);
@@ -33,20 +34,33 @@ const Profile = ({
 
   const history = useHistory();
 
+  // Handle Alerts to check for no profile found
+  const [notFound, setNotFound] = useState(false);
+  useEffect(() => {
+    alerts.forEach((alert) =>
+      alert.msg === "Profile not found" ? setNotFound(true) : setNotFound(false)
+    );
+    console.log(notFound)
+  }, );
+
   return (
     <Fragment>
-      {profile === null ? (
+      {profile === null && notFound === false ? (
         <Spinner />
       ) : (
         <Fragment>
           <Navbar stage="2" />
-          {profile === "not found" ? (
+          {notFound ? (
             <div className="u-grid profile">
               <div className="profile__not-found">
                 <h1 className="heading-primary u-margin-bottom-small">
                   Profile not found
                 </h1>
-                <button className="btn btn--table" onClick={() => {history.push("/profiles");}}>
+                <button
+                  className="btn btn--table"
+                  onClick={() => {
+                    history.push("/profiles");
+                  }}>
                   View All Profiles
                 </button>
               </div>
@@ -84,11 +98,13 @@ Profile.propTypes = {
   getProfileById: PropTypes.func.isRequired,
   profile: PropTypes.object.isRequired,
   auth: PropTypes.object.isRequired,
+  alerts: PropTypes.array.isRequired,
 };
 
 const mapStateToProps = (state) => ({
   profile: state.profile,
   auth: state.auth,
+  alerts: state.alert,
 });
 
 export default connect(mapStateToProps, { getProfileById })(Profile);

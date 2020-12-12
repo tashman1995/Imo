@@ -147,9 +147,14 @@
   }
 
   &__container {
+    display: none;
     @include center;
     height: 100%;
-    margin: 0 2.4rem 0.5rem auto;
+    
+    @include respond(smallest) {
+      display: block;
+      margin: 0 2.4rem 0.5rem auto;
+    }
   }
 
   @include respond(smallest) {
@@ -186,12 +191,8 @@
     &:nth-child(4) {
       top: 2.4rem;
     }
-
-   
   }
 }
-
-
 
 .nav-icon.open span:nth-child(1) {
   top: 1.2rem;
