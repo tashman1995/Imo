@@ -5,6 +5,7 @@ import {
   GET_PROFILE,
   GET_PROFILES,
   PROFILE_ERROR,
+  PROFILE_EDIT_ERROR,
   UPDATE_PROFILE,
   CLEAR_PROFILE,
   ACCOUNT_DELETED,
@@ -28,7 +29,7 @@ import {
 export const getCurrentProfile = () => async (dispatch) => {
   try {
     const res = await axios.get("/api/profile/me");
-    
+
     dispatch({
       type: GET_PROFILE,
       payload: res.data,
@@ -70,7 +71,7 @@ export const getProfileById = (userId) => async (dispatch) => {
     if (err.response.data.msg) {
       dispatch(setAlert(err.response.data.msg, "warning", "profile"));
     }
-    // console.log(err.response.data)
+
     dispatch({
       type: PROFILE_ERROR,
       payload: { msg: err.response.statusText, status: err.response.status },
@@ -133,8 +134,9 @@ export const createProfile = (formData, history, edit = false) => async (
         dispatch(setAlert(error.msg, "danger", error.param))
       );
     }
+
     dispatch({
-      type: PROFILE_ERROR,
+      type: PROFILE_EDIT_ERROR,
       payload: { msg: err.response.statusText, status: err.response.status },
     });
   }
@@ -169,8 +171,9 @@ export const addExperience = (formData) => async (dispatch) => {
         dispatch(setAlert(error.msg, "danger", error.param))
       );
     }
+
     dispatch({
-      type: PROFILE_ERROR,
+      type: PROFILE_EDIT_ERROR,
       payload: { msg: err.response.statusText, status: err.response.status },
     });
   }
@@ -211,8 +214,9 @@ export const editExperience = (formData, history, id) => async (dispatch) => {
         dispatch(setAlert(error.msg, "danger", error.param))
       );
     }
+
     dispatch({
-      type: PROFILE_ERROR,
+      type: PROFILE_EDIT_ERROR,
       payload: { msg: err.response.statusText, status: err.response.status },
     });
   }
@@ -251,7 +255,7 @@ export const addEducation = (formData) => async (dispatch) => {
 
     const res = await axios.put("/api/profile/education", formData, config);
 
-    console.log('run update')
+    console.log("run update");
     dispatch({
       type: UPDATE_PROFILE,
       payload: res.data,
@@ -270,10 +274,11 @@ export const addEducation = (formData) => async (dispatch) => {
         dispatch(setAlert(error.msg, "danger", error.param))
       );
     }
-    // dispatch({
-    //   type: PROFILE_ERROR,
-    //   payload: { msg: err.response.statusText, status: err.response.status },
-    // });
+
+    dispatch({
+      type: PROFILE_EDIT_ERROR,
+      payload: { msg: err.response.statusText, status: err.response.status },
+    });
   }
 };
 
@@ -310,7 +315,7 @@ export const editEducation = (formData, history, id) => async (dispatch) => {
       );
     }
     dispatch({
-      type: PROFILE_ERROR,
+      type: PROFILE_EDIT_ERROR,
       payload: { msg: err.response.statusText, status: err.response.status },
     });
   }
