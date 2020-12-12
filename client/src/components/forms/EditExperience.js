@@ -127,7 +127,7 @@ const EditExperience = ({
                 className="input-form__input text-input"
                 type="date"
                 onChange={(e) => onChange(e)}
-                value={moment(from).format("yyyy-MM-DD")}
+                value={from !== "" ? moment(from).format("yyyy-MM-DD") : ""}
                 name="from"
                 // required
               />
@@ -146,7 +146,7 @@ const EditExperience = ({
                 type="date"
                 onChange={(e) => onChange(e)}
                 disabled={current ? true : ""}
-                value={moment(to).format("yyyy-MM-DD")}
+                value={to !== "" ? moment(to).format("yyyy-MM-DD") : ""}
                 name="to"
                 // required
               />

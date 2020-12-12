@@ -6,6 +6,22 @@ import { createProfile, getCurrentProfile } from "../../actions/profile";
 import Alert from "../layout/Alert";
 import { clearAlerts } from "../../actions/alert";
 
+const initialState = {
+  website: "",
+  location: "",
+  status: "",
+  subjects: "",
+  bio: "",
+  equipment: "",
+  youtube: "",
+  twitter: "",
+  instagram: "",
+  linkedin: "",
+  facebook: "",
+  behance: "",
+  avatar: "",
+};
+
 const EditSocialMedia = ({
   profile: { profile, loading },
   createProfile,
@@ -13,42 +29,26 @@ const EditSocialMedia = ({
   history,
   clearAlerts,
 }) => {
-  const [formData, setFormData] = useState({
-    youtube: "",
-    twitter: "",
-    instagram: "",
-    linkedin: "",
-    facebook: "",
-    behance: "",
-  });
+  const [formData, setFormData] = useState(initialState);
 
   useEffect(() => {
-    getCurrentProfile();
-    setFormData({
-      website: loading || !profile.website ? "" : profile.website,
-      location: loading || !profile.location ? "" : profile.location,
-      status: loading || !profile.status ? "" : profile.status,
-      subjects: loading || !profile.subjects ? "" : profile.subjects.join(","),
-      bio: loading || !profile.bio ? "" : profile.bio,
-      equipment:
-        loading || !profile.equipment ? "" : profile.equipment.join(","),
-      youtube: loading || !profile.social ? "" : profile.social.youtube,
-      twitter: loading || !profile.social ? "" : profile.social.twitter,
-      instagram: loading || !profile.social ? "" : profile.social.instagram,
-      linkedin: loading || !profile.social ? "" : profile.social.linkedin,
-      facebook: loading || !profile.social ? "" : profile.social.facebook,
-      behance: loading || !profile.social ? "" : profile.social.behance,
-    });
-  }, [
-    loading,
-    getCurrentProfile,
-    profile.bio,
-    profile.equipment,
-    profile.location,
-    profile.status,
-    profile.subjects,
-    profile.website,
-  ]);
+    if (!profile) getCurrentProfile();
+
+    if (!loading && profile) {
+      const profileData = { ...initialState };
+      for (const key in profile) {
+        if (key in profileData) profileData[key] = profile[key];
+      }
+      for (const key in profile.social) {
+        if (key in profileData) profileData[key] = profile.social[key];
+      }
+      if (Array.isArray(profileData.subjects))
+        profileData.subjects = profileData.subjects.join(", ");
+      if (Array.isArray(profileData.equipment))
+        profileData.equipment = profileData.equipment.join(", ");
+      setFormData(profileData);
+    }
+  }, [loading, getCurrentProfile, profile]);
 
   const { youtube, twitter, instagram, linkedin, facebook, behance } = formData;
 

@@ -71,8 +71,7 @@ router.post(
       /////////////////////////////////////////////
       // TO DO ADD RESPONSIVE IMAGE LOADING
       /////////////////////////////////////////////
-      console.log(uploadedResponse.responsive_breakpoints[0].breakpoints);
-
+     
       const newPost = new Post({
         user: req.user.id,
         name: user.name,
@@ -186,8 +185,7 @@ router.delete("/:id", auth, async (req, res) => {
 // @desc Delete All Posts by ID
 // @access Private
 router.delete("/",auth, async (req, res) => {
-  console.log("attempted");
-  try {
+   try {
     const posts = await Post.find().sort({ date: -1 });
 
     for (const post of posts) {

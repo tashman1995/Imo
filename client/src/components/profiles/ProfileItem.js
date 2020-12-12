@@ -47,7 +47,7 @@ const ProfileItem = ({
             {subjects.slice(0, 3).map((subject, index) => {
               return (
                 <div className="subjects__subject" key={index}>
-                  <p className="sub-paragraph">{subject}</p>
+                  <p className="sub-paragraph subjects__text">{subject}</p>
                 </div>
               );
             })}

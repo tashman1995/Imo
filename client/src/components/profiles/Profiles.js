@@ -8,6 +8,9 @@ import { useTransition, a } from "react-spring";
 import useMeasure from "use-measure";
 import { getProfiles } from "../../actions/profile";
 import "./Profiles.scss";
+import isTouchDevice from "is-touch-device"
+
+
 
 const Profiles = ({ getProfiles, profile: { profiles, loading } }) => {
   useEffect(() => {
@@ -45,7 +48,7 @@ const Profiles = ({ getProfiles, profile: { profiles, loading } }) => {
   const [heights, gridItems] = useMemo(() => {
     let heights = new Array(columns).fill(0); // Each column gets a height starting with zero
     let gridItems = profiles.map((child, i) => {
-      let height = 420;
+      let height = isTouchDevice() ? 445 : 420;
 
       const column = heights.indexOf(Math.min(...heights)); // Basic masonry-grid placing, puts tile into the smallest column using Math.min
       const xy = [

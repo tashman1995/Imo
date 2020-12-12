@@ -3,18 +3,21 @@
 
 .profiles {
   grid-template-rows: [row-start]min-content [row-middle] min-content [row-end];
+  margin-bottom: 4.8rem;
 
   &__header {
     grid-column: center-start / center-end;
     background-color: $color-primary-light;
     border-radius: $border-radius;
     padding: 2.4rem 5rem;
+    margin-top: 2.4rem;
     // margin-bottom: 2.4rem;
     @include shadow;
 
     @include respond(smallest) {
+      margin-top: 2.4rem;
       text-align: center;
-      margin-bottom: 0rem;
+      margin-bottom: 1.4rem;
     }
   }
 
@@ -55,7 +58,7 @@
 .profile-card {
   height: 100%;
   width: 100%;
-  
+
   background-color: $color-primary-light;
   border-radius: $border-radius;
   padding: 2.4rem;
@@ -78,6 +81,7 @@
 
     @include respond(smallest) {
       width: 80%;
+      height: 49rem;
     }
   }
 
@@ -108,6 +112,10 @@
   &__status {
     height: 4.3rem;
     @include center;
+
+    @include respond(smallest) {
+      font-size: 1.8rem !important;
+    }
   }
 
   &--back {
@@ -124,21 +132,36 @@
     border-radius: $border-radius;
     padding: 0.8rem 0.4rem;
 
+    @include respond(smallest) {
+      padding: 1.2rem;
+    }
+
     & * i {
       color: $color-black;
       opacity: 0.7;
       transform: scale(0.75);
       //   transition: all 0.2s ease-out;
+      @include respond(smallest) {
+        transform: scale(1.4);
+        margin-bottom: 0.8rem;
+      }
 
       &:hover {
         transform: scale(0.85);
         opacity: 100%;
         animation: scaleoverIcon 0.2s ease-out;
+        @include respond(smallest) {
+          transform: scale(1.45);
+        }
       }
     }
 
     & > a {
       padding: 0.3rem;
+
+      @include respond(smallest) {
+        padding: 0.8rem;
+      }
     }
   }
 
@@ -158,6 +181,10 @@
       color: rgba($color-black, 1);
       animation: scaleover 0.2s ease-out;
       transform: scale(1.03);
+    }
+
+    @include respond(smallest) {
+      font-size: 2.4rem;
     }
   }
 
@@ -182,5 +209,13 @@
     @include center;
     padding: 0.6rem;
     border-radius: $border-radius/2;
+
+
+  }
+
+  &__text {
+    @include respond(smallest) {
+      font-size: 1.8rem !important;
+    }
   }
 }

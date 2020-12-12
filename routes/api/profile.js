@@ -68,7 +68,6 @@ router.post(
   ],
   async (req, res) => {
     const errors = validationResult(req);
-    console.log(req.errors);
     if (req.hasOwnProperty("file_error")) {
       errors.errors.push({
         value: "",
@@ -130,7 +129,6 @@ router.post(
     if (behance) profileFields.social.behance = behance;
 
     try {
-      console.log(uploadedAvatar);
       if (uploadedAvatar !== "") {
         await Users.findOneAndUpdate(
           { _id: req.user.id },
@@ -160,7 +158,6 @@ router.post(
       await profile.save();
       res.json(profile);
     } catch (err) {
-      // console.log('error message', err.message);
       console.error(err.message);
       res.status(500).send("Server Error");
     }

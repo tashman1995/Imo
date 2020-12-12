@@ -1,38 +1,42 @@
 @import "../../style/main.scss";
 @import "../../style/components/button.scss";
 
+$spacing: 2.4rem;
+
 .dash {
   grid-template-rows: [row-start]min-content [row-middle] min-content [row-end];
-  grid-gap: 4rem;
-  
+  grid-column-gap: $spacing !important;
+      @include respond(small) {
+      grid-column-gap: 0 !important;
+    }
 
   &__right {
- 
+    margin-top: $spacing;
+
     grid-column: col-start 5 / center-end;
 
     @include respond(small) {
-    
       grid-column: center-start / center-end;
       margin-bottom: 8rem;
-     
     }
   }
 
   &__left {
-
+    margin-top: $spacing;
     grid-column: center-start / col-start 5;
-    margin-bottom: 4rem;
+    margin-bottom: $spacing;
     @include respond(small) {
       grid-column: center-start / center-end;
       margin-bottom: 0;
-      
     }
   }
 }
 
 .user-education {
-  margin-bottom: 4rem;
+  margin-bottom: $spacing;
 }
+
+
 
 .user-experience {
   grid-column: col-start 5 / center-end;

@@ -138,7 +138,7 @@ const Navbar = ({
   const menuElement = useRef();
 
   return (
-    <div ref={menuElement}>
+    <div className="nav" ref={menuElement}>
       <animated.div
         style={animation}
         className={stage === "2" ? "nav nav--dark" : "nav"}

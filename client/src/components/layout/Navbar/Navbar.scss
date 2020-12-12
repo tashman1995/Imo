@@ -149,10 +149,10 @@
 
   &__container {
     display: none;
-    @include center;
-    height: 100%;
+  
     
     @include respond(smallest) {
+      
       display: block;
       margin: 0 2.4rem 0.5rem auto;
     }

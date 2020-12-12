@@ -1,9 +1,10 @@
 @import "../../style/main.scss";
 
 .posts {
+  
     &__grid {
     grid-column: center-start / center-end;
-    margin: 1.2rem auto;
+    margin: 0 auto;
   }
 
   &__image {
@@ -14,6 +15,13 @@
 .post-header {
   grid-column: center-start / center-end;
   @include container;
+  margin-top: 2.4rem;
+  margin-bottom: 1.2rem;
+
+     @include respond(smaller) {
+      margin-top: 2.4rem;
+    }
+  
 
   &__main {
     display: flex;

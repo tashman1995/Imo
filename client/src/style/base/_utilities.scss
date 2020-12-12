@@ -46,7 +46,7 @@
 }
 
 .u-grid {
-  margin-top: 10rem;
+  margin-top: 8.6rem;
   // GRID SETUP
   display: grid;
   grid-template-columns:
@@ -58,7 +58,7 @@
   grid-column-gap: 4rem;
 
   @include respond(smallest) {
-    margin-top: 9rem;
+    margin-top: 7.9rem;
     grid-template-columns:
       [full-start] minmax(2.4rem, 1fr) [center-start] repeat(
         6,

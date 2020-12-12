@@ -110,7 +110,7 @@ const PostForm = ({ addPost, alerts, clearAlerts }) => {
             ? 1350
             : 770,
       });
-  }, [formData.image]);
+  },[]);
 
   // HANDLE SUBMIT
   const handleSubmit = (e) => {

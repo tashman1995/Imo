@@ -10,7 +10,6 @@ import {
   openEditProfileModal,
   openEditSocialMediaModal,
 } from "../../actions/profile";
-import Spinner from "../reausable/Loading";
 import Navbar from "../layout/Navbar";
 import Experience from "./Experience";
 import Education from "./Education";

@@ -40,8 +40,7 @@ const Profile = ({
     alerts.forEach((alert) =>
       alert.msg === "Profile not found" ? setNotFound(true) : setNotFound(false)
     );
-    console.log(notFound)
-  }, );
+  });
 
   return (
     <Fragment>
