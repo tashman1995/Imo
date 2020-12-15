@@ -22,6 +22,7 @@ const Profiles = ({ getProfiles, profile: { profiles, loading } }) => {
   //  Measure the width of the container element
   const nodeRef = useRef();
   const { width } = useMeasure(nodeRef);
+  
 
   const manageColumns = () => {
     if (width > 1300) {
@@ -47,7 +48,7 @@ const Profiles = ({ getProfiles, profile: { profiles, loading } }) => {
   //  Form a grid of stacked items using width & columns we got from hooks 1 & 2
   const [heights, gridItems] = useMemo(() => {
     let heights = new Array(columns).fill(0); // Each column gets a height starting with zero
-    let gridItems = profiles.map((child, i) => {
+    let gridItems = profiles.map((child) => {
       let height = isTouchDevice() ? 445 : 420;
 
       const column = heights.indexOf(Math.min(...heights)); // Basic masonry-grid placing, puts tile into the smallest column using Math.min
@@ -63,11 +64,12 @@ const Profiles = ({ getProfiles, profile: { profiles, loading } }) => {
   const transitions = useTransition(gridItems, (item) => item._id, {
     from: ({ xy, width, height }) => ({ xy, width, height, opacity: 0 }),
     enter: ({ xy, width, height }) => ({ xy, width, height, opacity: 1 }),
-    update: ({ xy, width, height }) => ({ xy, width, height }),
+    update: ({ xy, width, height }) => ({ xy, width, height, opacity: 1 }),
     leave: { opacity: 0 },
     config: { mass: 5, tension: 500, friction: 100 },
     // trail: 25,
   });
+  
 
   return (
     <Fragment>
@@ -86,11 +88,6 @@ const Profiles = ({ getProfiles, profile: { profiles, loading } }) => {
                 Browse and connect with other photographers
               </h2>
             </div>
-
-            {/* {profiles.length > 0 ? ( */}
-            {/* // profiles.map((profile) => (
-                //   <ProfileItem key={profile._id} profile={profile} />
-                // )) */}
 
             <div
               className="list posts__grid"

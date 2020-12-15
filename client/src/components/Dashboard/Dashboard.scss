@@ -6,9 +6,9 @@ $spacing: 2.4rem;
 .dash {
   grid-template-rows: [row-start]min-content [row-middle] min-content [row-end];
   grid-column-gap: $spacing !important;
-      @include respond(small) {
-      grid-column-gap: 0 !important;
-    }
+  @include respond(small) {
+    grid-column-gap: 0 !important;
+  }
 
   &__right {
     margin-top: $spacing;
@@ -35,8 +35,6 @@ $spacing: 2.4rem;
 .user-education {
   margin-bottom: $spacing;
 }
-
-
 
 .user-experience {
   grid-column: col-start 5 / center-end;
@@ -139,13 +137,7 @@ $horizontal-padding: 4.8rem;
 
   &__profile-title {
     display: inline;
-
     hyphens: auto;
-
-    &--bio {
-      display: block;
-      padding-top: 1rem;
-    }
   }
 
   &__profile-data {
@@ -153,16 +145,6 @@ $horizontal-padding: 4.8rem;
     display: inline;
     transition: all 0.2s ease-out;
 
-    &--bio {
-      display: block;
-      margin-left: 0;
-      margin-top: 1rem;
-      transition: max-height 0.3s cubic-bezier(1, 0, 1, 0);
-      height: auto;
-      max-height: 18rem;
-      overflow-y: scroll;
-      transition: all 0.2s;
-    }
   }
 
   &__date {

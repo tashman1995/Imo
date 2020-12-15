@@ -57,14 +57,7 @@ const Modals = ({
   closeEditSocialMediaModal,
 }) => {
   // MODAL FADE TRANSITIONS
-  const transitionConfig1 = {
-    from: { opacity: 0 },
-    enter: { opacity: 1 },
-    leave: { opacity: 0 },
-    config: {
-      tension: 400,
-    },
-  };
+ 
 
   const [modalVisible, setModalVisible] = useState(false);
   const modals = [
@@ -135,7 +128,14 @@ const Modals = ({
     showPostModal,
     modals
   ]);
-
+ const transitionConfig1 = {
+   from: { opacity: 0 },
+   enter: { opacity: 1 },
+   leave: { opacity: 0 },
+   config: {
+     tension: 400,
+   },
+ };
   const fade = useTransition(modalVisible, null, transitionConfig1);
 
   return createPortal(

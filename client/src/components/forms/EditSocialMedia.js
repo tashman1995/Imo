@@ -158,7 +158,7 @@ const EditSocialMedia = ({
               <input
                 className="input-form__input text-input"
                 type="text"
-                placeholder="LinkdIn URL"
+                placeholder="LinkedIn URL"
                 name="linkedin"
                 value={linkedin}
                 onChange={(e) => onChange(e)}

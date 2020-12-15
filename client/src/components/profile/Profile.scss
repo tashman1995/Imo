@@ -1,6 +1,7 @@
 @import "../../style/main.scss";
 
 .profile {
+  
   &__top {
     grid-column: center-start / center-end;
   }
@@ -22,7 +23,7 @@
 
   @include respond(small) {
     flex-direction: column;
-    margin-top: 1.2rem;
+    margin-top: 2.4rem;
   }
 
   &__info {
@@ -39,15 +40,17 @@
     @include respond(small) {
       height: min-content;
       margin-left: 0;
-      padding:2.4rem  4.8rem;
+      padding: 2.4rem 4.8rem;
       margin-top: 2.4rem;
       width: 100%;
+    }
+    @include respond(smaller) {
+      padding: 1.2rem 2.4rem;
     }
   }
 
   &__avatar {
     height: 100%;
-   
   }
 
   &__avatar-container {
@@ -58,7 +61,7 @@
     object-fit: cover;
     overflow: hidden;
     position: relative;
-     @include shadow;
+    @include shadow;
   }
 
   &__edit-btn {
@@ -93,19 +96,16 @@
       & > a {
         opacity: 0.7;
         &:not(:first-child) {
-          margin-left: 1.2rem;
+          margin-left: 2.4rem;
         }
 
         &:hover {
-          //   transform: scale(1.05);
           opacity: 100%;
           animation: scaleOver2 forwards 0.2s ease-out;
         }
       }
     }
   }
-
- 
 }
 
 $horizontal-padding: 4.8rem;
@@ -132,6 +132,10 @@ $horizontal-padding: 4.8rem;
     transition: all 0.2s ease-out;
     cursor: pointer;
 
+    @include respond(smaller) {
+      padding: 1.8rem 2.4rem;
+    }
+
     &:hover {
       background-color: $color-primary-lighter;
     }
@@ -146,13 +150,28 @@ $horizontal-padding: 4.8rem;
 
     & tr {
       display: flex;
-      &:nth-child(odd) {
+      &:nth-child(4n + 1),
+      &:nth-child(4n + 2) {
         background-color: $color-primary-lightest;
       }
       padding: 1.5rem $horizontal-padding;
 
+      @include respond(smaller) {
+        &:nth-child(odd) {
+          padding: 1.5rem 2.4rem 0;
+        }
+        &:nth-child(even) {
+          padding: .4rem 2.4rem 1.5rem;
+        }
+      }
+
       &:not(:last-of-type) {
         border-bottom: 1px solid rgba($color-black, 0.045);
+        @include respond(smaller) {
+          &:nth-child(odd) {
+            border-bottom: none;
+          }
+        }
       }
     }
 
@@ -169,6 +188,10 @@ $horizontal-padding: 4.8rem;
 
       &:not(:first-of-type) {
         margin-left: 3.6rem;
+
+        @include respond(smaller) {
+          margin-left: 1.2rem;
+        }
       }
 
       &:nth-child(1) {
@@ -191,6 +214,49 @@ $horizontal-padding: 4.8rem;
       &:nth-child(6) {
         width: 55%;
       }
+
+      @include respond(smaller) {
+        padding: 0;
+        &:nth-child(1) {
+          width: 4%;
+          font-weight: 500;
+        }
+        &:nth-child(2) {
+          width: 41%;
+          margin-left: 0.6rem;
+        }
+        &:nth-child(3) {
+          width: 22%;
+        }
+        &:nth-child(4) {
+          width: 30%;
+        }
+        &:nth-child(5) {
+          width: 0%;
+        }
+        &:nth-child(6) {
+          width: 0%;
+        }
+      }
+    }
+  }
+
+  &__description,
+  &__to,
+  &__from-date {
+    @include respond(smaller) {
+      display: none;
+    }
+  }
+
+  &__mobile-description {
+    width: 100% !important;
+  }
+
+  &__mobile {
+    display: none !important;
+    @include respond(smaller) {
+      display: block !important;
     }
   }
 
@@ -199,6 +265,10 @@ $horizontal-padding: 4.8rem;
   }
 }
 
-.bio{
- width: 100% !important;
+.bio {
+  width: 100% !important;
+  font-weight: 200 !important;
+  @include respond(smaller) {
+    margin-bottom: 1.5rem;
+  }
 }

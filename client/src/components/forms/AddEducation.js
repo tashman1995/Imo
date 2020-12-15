@@ -86,7 +86,18 @@ const AddEducation = ({ addEducation, history, clearAlerts }) => {
               <input
                 className="input-form__input text-input"
                 type="date"
-                onChange={(e) => onChange(e)}
+                onChange={(e) => {
+                  to === ""
+                    ? setFormData({
+                        ...formData,
+                        from: e.target.value,
+                        to: e.target.value,
+                      })
+                    : setFormData({
+                        ...formData,
+                        from: e.target.value,
+                      });
+                }}
                 value={from}
                 name="from"
                 // required

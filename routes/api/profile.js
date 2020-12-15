@@ -105,17 +105,17 @@ router.post(
       ? (profileFields.location = location)
       : (profileFields.location = "");
     status != 0 ? (profileFields.status = status) : (profileFields.status = "");
-    subjects
+    subjects.length !== 0
       ? (profileFields.subjects = subjects
           .split(",")
           .map((subject) => subject.trim()))
-      : (profileFields.subjects = "");
+      : (profileFields.subjects = []);
 
-    equipment.length != ""
+    equipment.length !== 0
       ? (profileFields.equipment = equipment
           .split(",")
           .map((equip) => equip.trim()))
-      : (profileFields.equipment = "");
+      : (profileFields.equipment = []);
 
     bio ? (profileFields.bio = bio) : (profileFields.bio = "");
 
@@ -139,24 +139,13 @@ router.post(
         );
       }
 
-      // UPDATE
-      let profile = await Profile.findOne({ user: req.user.id });
+      let profile = await Profile.findOneAndUpdate(
+        { user: req.user.id },
+        { $set: profileFields },
+        { new: true, upsert: true, setDefaultsOnInsert: true }
+      );
 
-      if (profile) {
-        profile = await Profile.findOneAndUpdate(
-          { user: req.user.id },
-          { $set: profileFields },
-          { new: true }
-        );
-
-        return res.json(profile);
-      }
-
-      // CREATE
-      profile = new Profile(profileFields);
-
-      await profile.save();
-      res.json(profile);
+      return res.json(profile);
     } catch (err) {
       console.error(err.message);
       res.status(500).send("Server Error");

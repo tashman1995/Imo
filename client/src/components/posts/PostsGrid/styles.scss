@@ -14,8 +14,10 @@
     will-change: transform, width, height, opacity;
     padding: 1.2rem;
 
-    @include respond(smaller) {
-      padding: 1.2rem 0;
+    @include respond(smallest) {
+      @media (hover: none) {
+        padding: 1.2rem 0;
+      }
     }
 
     & > div {
@@ -34,11 +36,9 @@
       overflow: visible;
       box-shadow: none;
       height: 45rem;
-       @media (hover: none) {
-      height: 52rem;
-     
-    }
-      
+      @media (hover: none) {
+        height: 52rem;
+      }
     }
   }
 }

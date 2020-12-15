@@ -389,6 +389,7 @@
   overflow: hidden;
   border-radius: $border-radius;
   position: relative;
+  background-color: $color-primary-lightest;
 
   &__overlay {
     position: absolute;
@@ -404,14 +405,6 @@
     margin: 0.6rem;
   }
 }
-
-// .mapContainer {
-//   position: absolute;
-//   top: 0;
-//   right: 0;
-//   left: 0;
-//   bottom: 0;
-// }
 
 .pin {
   width: 3rem;

@@ -9,7 +9,6 @@ import Profile from "./components/profile/Profile";
 import Posts from "./components/posts/Posts";
 import Modals from "./components/Modals/Modals";
 import PrivateRoute from "./components/routing/PrivateRoute";
-import NavBar from "./components/layout/Navbar"
 import { loadUser } from "./actions/auth";
 import setAuthToken from "./utils/setAuthToken";
 
@@ -32,7 +31,6 @@ const App = () => {
     <Provider store={store}>
       <Router>
         <Fragment>
-          <NavBar stage="2"/>
           <Route exact path="/" component={Landing} />
 
           <section className="container">

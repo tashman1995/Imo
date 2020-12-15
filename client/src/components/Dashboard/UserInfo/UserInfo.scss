@@ -27,33 +27,48 @@
     & > li {
       padding: 1rem 2rem;
 
-      // &:not(:last-child){
-      //     margin-bottom: 1rem;
-      // }
-
       &:nth-child(odd) {
         background-color: $color-primary-lightest;
       }
     }
   }
 
-  &__bio-header {
+  &__no-profile {
+    padding: 2.4rem 0;
+  }
+}
+
+.bio {
+  cursor: pointer;
+  &__header {
+    
     display: flex;
     justify-content: space-between;
+    align-items: center;
+    margin: .6rem 0;
   }
 
-  &__bio-icon {
+  &__title {
+    display: block;
+  }
+
+  &__text {
+    display: block;
+    margin-left: 0;
+    transition: max-height 0.3s cubic-bezier(1, 0, 1, 0);
+    height: auto;
+    max-height: 18rem;
+    overflow-y: auto;
+    transition: all 0.2s;
+  }
+
+  &__icon {
     cursor: pointer;
-    margin-top: 1rem;
     transition: all 0.2s;
     &::before {
       height: 100%;
       display: flex;
       align-items: center;
     }
-  }
-
-  &__no-profile {
-    padding: 2.4rem 0;
   }
 }

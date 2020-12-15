@@ -7,6 +7,7 @@ import {
   closeEditProfileModal,
   openEditSocialMediaModal,
 } from "../../../actions/profile";
+import SlideToggle from "../../layout/SlideToggle";
 
 import "./UserInfo.scss";
 
@@ -30,23 +31,14 @@ const UserInfo = ({
     </li>
   );
 
+  let userInfoItems;
+
   if (profile && user) {
     biography = profile.bio
       ? profile.bio
       : "You have not written a biography yet";
 
-    // Managing Equipment Array
-    let equipment;
-    profile.equipment !== ""
-      ? (equipment = profile.equipment.map((item) => `${item}, `))
-      : (equipment = "");
-    // Managing Subject Array
-    let subjects;
-    profile.subjects
-      ? (subjects = profile.subjects.map((item) => `${item}, `))
-      : (subjects = "");
-
-    const userInfoItems = [
+    userInfoItems = [
       {
         item: "name",
         value: user.name,
@@ -69,12 +61,12 @@ const UserInfo = ({
       },
       {
         item: "subjects",
-        value: subjects,
+        value: profile.subjects !== [] ? profile.subjects.join(", ") : "",
         icon: "far fa-image",
       },
       {
         item: "equipment",
-        value: equipment,
+        value: profile.equipment !== [] ? profile.equipment.join(", ") : "",
         icon: "fas fa-camera-retro",
       },
     ];
@@ -142,7 +134,7 @@ const UserInfo = ({
                   className="dashboard-table__link"
                   rel="noopener noreferrer"
                   target="_blank"
-                  href={item.value}>
+                  href={`//${item.value}`}>
                   {item.value}
                 </a>
               </p>
@@ -163,22 +155,18 @@ const UserInfo = ({
       {/* User Has not set up a profile yet */}
       {profile === null && (
         <div className="user-info__no-profile">
-          
-            <h1 className="heading-primary">
-              Welcome {user && user.name}
-            </h1>
-            <h2 className="heading-secondary  u-margin-bottom-smaller">
-              It doesn't look like you've set up your profile yet
-            </h2>
-            {/* <Link to="/create-profile">Create Profile</Link> */}
-            <button
-              className="btn btn--table "
-              onClick={() => {
-                openAddProfileModal();
-              }}>
-              Create Profile
-            </button>
-        
+          <h1 className="heading-primary">Welcome {user && user.name}</h1>
+          <h2 className="heading-secondary  u-margin-bottom-smaller">
+            It doesn't look like you've set up your profile yet
+          </h2>
+          {/* <Link to="/create-profile">Create Profile</Link> */}
+          <button
+            className="btn btn--table "
+            onClick={() => {
+              openAddProfileModal();
+            }}>
+            Create Profile
+          </button>
         </div>
       )}
 
@@ -201,28 +189,24 @@ const UserInfo = ({
 
           <ul className="user-info__list">
             {userInfoElement}
-            <li>
-              <div
-                className="user-info__bio-header"
-                onClick={() => toggleBioVisibility(!bioVisibility)}>
+            <li
+              className="bio"
+              onClick={() => toggleBioVisibility(!bioVisibility)}>
+              <div className="bio__header">
                 {" "}
-                <p className="heading-tertiary dashboard-table__profile-title dashboard-table__profile-title--bio">
+                <p className="heading-tertiary dashboard-table__profile-title bio__title">
                   Biography
                 </p>
                 <button>
                   <i
-                    className={`fas fa-angle-down  user-info__bio-icon ${
+                    className={`fas fa-angle-down  bio__icon ${
                       bioVisibility && "u-rotate-180"
                     }`}></i>
                 </button>
               </div>
-
-              <p
-                className={`paragraph dashboard-table__profile-data dashboard-table__profile-data--bio
-               ${!bioVisibility && "u-height-0"}
-               `}>
-                {biography}
-              </p>
+              <SlideToggle isVisible={bioVisibility}>
+                <p className={`paragraph  bio__text`}>{biography}</p>
+              </SlideToggle>
             </li>
           </ul>
 

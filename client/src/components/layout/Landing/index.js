@@ -1,4 +1,4 @@
-import React, { useState, useRef, Fragment } from "react";
+import React, { useState, useRef, useEffect, Fragment } from "react";
 import { Redirect } from "react-router-dom";
 import { connect } from "react-redux";
 import PropTypes from "prop-types";
@@ -212,6 +212,15 @@ const Landing = ({ isAuthenticated }) => {
     phase === "imo" ? [0, 0, 0.2, 1.3, 1.3, 1.6, 1.9] : []
   );
 
+  const updatePhase = () => {
+    setPhase("imo");
+  };
+
+  useEffect(() => {
+    window.addEventListener("scroll", updatePhase);
+    return () => window.removeEventListener("scroll", updatePhase);
+  });
+
   if (isAuthenticated) {
     return <Redirect to="/dashboard" />;
   }
@@ -220,14 +229,7 @@ const Landing = ({ isAuthenticated }) => {
     <Fragment>
       <Navbar animation={navBar1} stage="1" />
       <Navbar animation={navBar2} stage="2" />
-      <div
-        className="Landing"
-        onClick={() => {
-          setPhase("imo");
-        }}
-        onScroll={() => {
-          setPhase("imo");
-        }}>
+      <div className="Landing">
         {phase === "imo" && (
           <PageContent
             imoZoomOut={imoZoomOut}

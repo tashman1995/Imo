@@ -1,7 +1,8 @@
-import React, { useState } from "react";
+import React, { Fragment, useState } from "react";
 import { Link } from "react-router-dom";
 import PropTypes from "prop-types";
 import { useSpring, animated as a } from "react-spring";
+import ImageLoad from "../layout/ImageLoad";
 
 const ProfileItem = ({
   profile: {
@@ -28,9 +29,10 @@ const ProfileItem = ({
       <a.div
         className="profile-card"
         style={{ opacity: opacity.interpolate((o) => 1 - o), transform }}>
-        <img
+        <ImageLoad
           src={avatar}
           alt="User Avatar"
+          placeholder="/imgs/avatar.svg"
           className="profile-card__avatar u-margin-bottom-smaller"
         />
 
@@ -58,72 +60,89 @@ const ProfileItem = ({
         </div>
       </a.div>
       <a.div
-        className="profile-card profile-card--back"
+        className={`profile-card profile-card--back ${
+          !social && "profile-card--back--no-social"
+        }`}
         style={{
           opacity,
           transform: transform.interpolate((t) => `${t} rotateX(180deg)`),
         }}>
-        <div className="profile-card__profile-link">
-          {" "}
-          <Link to={`/profile/${_id}`} className="profile-card__btn">
-            View Profile
-          </Link>
-        </div>
-        <div className="profile-card__socials">
-          {website && (
-            <a href={`//${website}`} target="_blank" rel="noopener noreferrer">
-              <i className="fas fa-globe fa-3x"></i>
-            </a>
-          )}
-          {social && social.instagram && (
-            <a
-              href={`//${social.instagram}`}
-              target="_blank"
-              rel="noopener noreferrer">
-              <i className="fab fa-instagram-square fa-3x"></i>
-            </a>
-          )}
-          {social && social.facebook && (
-            <a
-              href={`//${social.facebook}`}
-              target="_blank"
-              rel="noopener noreferrer">
-              <i className="fab fa-facebook-square fa-3x"></i>
-            </a>
-          )}
-          {social && social.twitter && (
-            <a
-              href={`//${social.twitter}`}
-              target="_blank"
-              rel="noopener noreferrer">
-              <i className="fab fa-twitter-square fa-3x"></i>
-            </a>
-          )}
-          {social && social.youtube && (
-            <a
-              href={`//${social.youtube}`}
-              target="_blank"
-              rel="noopener noreferrer">
-              <i className="fab fa-youtube-square fa-3x"></i>
-            </a>
-          )}
-          {social && social.behance && (
-            <a
-              href={`//${social.behance}`}
-              target="_blank"
-              rel="noopener noreferrer">
-              <i className="fab fa-behance-square fa-3x"></i>
-            </a>
-          )}
-          {social && social.linkedin && (
-            <a
-              href={`//${social.linkedin}`}
-              target="_blank"
-              rel="noopener noreferrer">
-              <i className="fab fa-linkedin fa-3x"></i>
-            </a>
-          )}
-        </div>
+        {!social && (
+          <div className="profile-card__profile-link">
+            {" "}
+            <Link to={`/profile/${_id}`} className="profile-card__btn">
+              View Profile
+            </Link>
+          </div>
+        )}
+        {social && (
+          <Fragment>
+            <div className="profile-card__profile-link">
+              {" "}
+              <Link to={`/profile/${_id}`} className="profile-card__btn">
+                View Profile
+              </Link>
+            </div>
+            <div className="profile-card__socials">
+              {website && (
+                <a
+                  href={`//${website}`}
+                  target="_blank"
+                  rel="noopener noreferrer">
+                  <i className="fas fa-globe fa-3x"></i>
+                </a>
+              )}
+              {social && social.instagram && (
+                <a
+                  href={`//${social.instagram}`}
+                  target="_blank"
+                  rel="noopener noreferrer">
+                  <i className="fab fa-instagram-square fa-3x"></i>
+                </a>
+              )}
+              {social && social.facebook && (
+                <a
+                  href={`//${social.facebook}`}
+                  target="_blank"
+                  rel="noopener noreferrer">
+                  <i className="fab fa-facebook-square fa-3x"></i>
+                </a>
+              )}
+              {social && social.twitter && (
+                <a
+                  href={`//${social.twitter}`}
+                  target="_blank"
+                  rel="noopener noreferrer">
+                  <i className="fab fa-twitter-square fa-3x"></i>
+                </a>
+              )}
+              {social && social.youtube && (
+                <a
+                  href={`//${social.youtube}`}
+                  target="_blank"
+                  rel="noopener noreferrer">
+                  <i className="fab fa-youtube-square fa-3x"></i>
+                </a>
+              )}
+              {social && social.behance && (
+                <a
+                  href={`//${social.behance}`}
+                  target="_blank"
+                  rel="noopener noreferrer">
+                  <i className="fab fa-behance-square fa-3x"></i>
+                </a>
+              )}
+              {social && social.linkedin && (
+                <a
+                  href={`//${social.linkedin}`}
+                  target="_blank"
+                  rel="noopener noreferrer">
+                  <i className="fab fa-linkedin fa-3x"></i>
+                </a>
+              )}
+            </div>
+          </Fragment>
+        )}
       </a.div>
     </div>
   );

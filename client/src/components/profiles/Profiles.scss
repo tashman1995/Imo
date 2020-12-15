@@ -58,7 +58,6 @@
 .profile-card {
   height: 100%;
   width: 100%;
-
   background-color: $color-primary-light;
   border-radius: $border-radius;
   padding: 2.4rem;
@@ -112,7 +111,6 @@
   &__status {
     height: 4.3rem;
     @include center;
-
     @include respond(smallest) {
       font-size: 1.8rem !important;
     }
@@ -121,6 +119,10 @@
   &--back {
     flex-direction: row;
     justify-content: space-between;
+
+    &--no-social {
+      justify-content: center;
+    }
   }
 
   &__socials {
@@ -139,17 +141,17 @@
     & * i {
       color: $color-black;
       opacity: 0.7;
-      transform: scale(0.75);
+      margin-bottom: 0.8rem;
       //   transition: all 0.2s ease-out;
       @include respond(smallest) {
         transform: scale(1.4);
-        margin-bottom: 0.8rem;
+        
       }
 
       &:hover {
-        transform: scale(0.85);
+        transform: scale(1.05);
         opacity: 100%;
-        animation: scaleoverIcon 0.2s ease-out;
+        
         @include respond(smallest) {
           transform: scale(1.45);
         }

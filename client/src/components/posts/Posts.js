@@ -10,7 +10,12 @@ import PopoutImage from "./PopoutImage";
 
 import "./Posts.scss";
 
-const Posts = ({ getPosts, openShowPostModal, auth, post: { posts } }) => {
+const Posts = ({
+  getPosts,
+  openShowPostModal,
+  auth,
+  post: { posts },
+}) => {
   // Initialise State
   const [columns, setColumns] = useState(5);
   const [orderedPosts, setOrderedPosts] = useState(posts);
@@ -63,7 +68,7 @@ const Posts = ({ getPosts, openShowPostModal, auth, post: { posts } }) => {
   return (
     <Fragment>
       <PopoutImage popoutImage={popoutImage} />
-
+      <Navbar stage="2" />
       <Fragment>
         <div className="posts u-grid">
           <PostsHeader

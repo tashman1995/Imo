@@ -7,12 +7,7 @@ import "./forms.scss";
 import Alert from "../layout/Alert";
 import { clearAlerts } from "../../actions/alert";
 
-const AddExperience = ({
-  addExperience,
-  history,
-  closeAddExpModal,
-  clearAlerts,
-}) => {
+const AddExperience = ({ addExperience, history, clearAlerts }) => {
   const [formData, setFormData] = useState({
     title: "",
     description: "",
@@ -93,7 +88,18 @@ const AddExperience = ({
               <input
                 className="input-form__input text-input"
                 type="date"
-                onChange={(e) => onChange(e)}
+                onChange={(e) => {
+                  to === ""
+                    ? setFormData({
+                        ...formData,
+                        from: e.target.value,
+                        to: e.target.value,
+                      })
+                    : setFormData({
+                        ...formData,
+                        from: e.target.value,
+                      });
+                }}
                 value={from}
                 name="from"
                 // required

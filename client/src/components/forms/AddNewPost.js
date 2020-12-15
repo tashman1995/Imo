@@ -69,16 +69,23 @@ const PostForm = ({ addPost, alerts, clearAlerts }) => {
     previewFile(file);
   };
 
+  const imageref = document.createElement("img");
+
+  imageref.addEventListener("load", function () {
+    setFormData({
+      ...formData,
+      height: imageref.height / imageref.width > 1 ? 1350 : 770,
+      image: imageref.src,
+    });
+  });
+
   const previewFile = (file) => {
     // Use file reader from built in JS Api
     const reader = new FileReader();
     // Convert image to string
     reader.readAsDataURL(file);
     reader.onloadend = () => {
-      setFormData({
-        ...formData,
-        image: reader.result,
-      });
+      imageref.src = reader.result;
     };
   };
 
@@ -88,8 +95,8 @@ const PostForm = ({ addPost, alerts, clearAlerts }) => {
   };
 
   // Extract values from formData to populate simple input
-  const { title, description, location, image } = formData;
-
+  const { title, description, location, image} = formData;
+ 
   // Handle focal length input
   const [focalLengthRange, setFocalLengthRange] = useState({
     min: 35,
@@ -101,16 +108,12 @@ const PostForm = ({ addPost, alerts, clearAlerts }) => {
     clearAlerts();
   }, [clearAlerts]);
 
-  useEffect(() => {
-    previewImageRef.current &&
-      setFormData({
-        ...formData,
-        height:
-          previewImageRef.current.height / previewImageRef.current.width > 1
-            ? 1350
-            : 770,
-      });
-  },[]);
+  // useEffect(() => {
+  //   const setOrientation = () => {
+
+  //   };
+  //   previewImageRef.current && setOrientation();
+  // }, []);
 
   // HANDLE SUBMIT
   const handleSubmit = (e) => {

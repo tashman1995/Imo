@@ -21,7 +21,7 @@ const Profile = ({
 }) => {
   useEffect(() => {
     getProfileById(match.params.id);
-  }, [getProfileById, match.params.id]);
+  }, [getProfileById, match.params.id, loading]);
 
   //Check Authentication and if profile is owned by user
   const isProfile =

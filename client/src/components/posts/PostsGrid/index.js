@@ -36,12 +36,10 @@ const PostsGrid = ({ posts, columns, setPopoutImage, openShowPostModal }) => {
     update: ({ xy, width, height }) => ({ xy, width, height }),
     leave: { opacity: 0 },
     config: { mass: 5, tension: 500, friction: 100 },
-    // trail: 25,
   });
-  // Render the grid
+
   return (
     <div
-      // {...bind}
       ref={nodeRef}
       className="list posts__grid"
       style={{ height: Math.max(...heights) }}>

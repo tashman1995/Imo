@@ -7,19 +7,15 @@ import { openEditProfileModal } from "../../actions/profile";
 const ProfileTop = ({
   profileOwned,
   profile: {
-
     status,
     website,
     location,
-    bio,
     social,
-   
-    user: { name, avatar },
+    user,
   },
-  openEditProfileModal,
+   openEditProfileModal,
 }) => {
   
-
   return (
     <Fragment>
       <div className="profile-top">
@@ -35,7 +31,7 @@ const ProfileTop = ({
           )}
           <img
             className="profile-top__avatar"
-            src={avatar}
+            src={user.avatar && user.avatar}
             alt=""
           />
         </div>
@@ -47,7 +43,7 @@ const ProfileTop = ({
         <div className="profile-top__info">
           <div className="profile-top__headings">
             <div className="profile-top__headings--left">
-              <h1 className="heading-primary">{name}</h1>
+              <h1 className="heading-primary">{user.name && user.name}</h1>
               <h2 className="heading-secondary u-margin-bottom-tiny">
                 {status && status}
               </h2>
