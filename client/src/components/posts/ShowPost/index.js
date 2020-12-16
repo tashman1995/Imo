@@ -119,7 +119,7 @@ const ShowPost = ({
               <div className="show-modal__header--right">
                 <div className="user-block">
                   <div className="user-block__avatar">
-                    <Link to={`/profile/${_id}`}>
+                    <Link to={`/profile/${user}`}>
                       <div className="comment__avatar">
                         <img
                           alt="Users Avatar"
@@ -150,11 +150,16 @@ const ShowPost = ({
                   height === 1350 ? "--portrait" : "--landscape"
                 }`}
               />
+              {!auth.loading && auth.user && user === auth.user._id && (
+                <button
+                  onClick={() => deletePost(_id)}
+                  type="button"
+                  className="show-modal__delete-btn">
+                  Delete Post
+                </button>
+              )}
             </div>
-            <div
-              className={`show-modal__info-container show-modal__info-container${
-                height !== 1350 ? "--alt" : ""
-              }`}>
+            <div className={`show-modal__info-container `}>
               <Scrollbars
                 renderTrackHorizontal={(props) => (
                   <div
@@ -172,7 +177,7 @@ const ShowPost = ({
                     <div className="description__title u-margin-bottom-tiny">
                       <h2 className="heading-secondary ">Description</h2>
                     </div>
-                    <div className="description__content u-margin-bottom-small">
+                    <div className="description__content">
                       <p className="paragraph">{description}</p>
                     </div>
                   </div>

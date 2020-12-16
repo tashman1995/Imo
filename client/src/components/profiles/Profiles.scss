@@ -32,22 +32,15 @@
 
   &__grid {
     grid-column: center-start / center-end;
+    margin: 2.4rem 0 ;
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(30rem, 1fr));
+   
+    grid-gap: 3.6rem;
   }
 
   &__measure {
     grid-column: center-start / center-end;
-  }
-}
-
-.profile-cards {
-  display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(25rem, 1fr));
-
-  grid-gap: 2.4rem;
-  @include respond(smallest) {
-    grid-gap: 0rem;
-    align-items: center;
-    justify-content: center;
   }
 }
 
@@ -75,8 +68,7 @@
     margin: 0 auto;
     position: relative;
     height: 45rem;
-    width: min-content;
-    max-width: 40rem;
+    width: 100%;
 
     @include respond(smallest) {
       width: 80%;
@@ -142,16 +134,15 @@
       color: $color-black;
       opacity: 0.7;
       margin-bottom: 0.8rem;
-      //   transition: all 0.2s ease-out;
+      transition: all 0.2s ease-out;
       @include respond(smallest) {
         transform: scale(1.4);
-        
       }
 
       &:hover {
         transform: scale(1.05);
         opacity: 100%;
-        
+
         @include respond(smallest) {
           transform: scale(1.45);
         }
@@ -211,8 +202,6 @@
     @include center;
     padding: 0.6rem;
     border-radius: $border-radius/2;
-
-
   }
 
   &__text {

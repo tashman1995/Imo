@@ -14,8 +14,6 @@
   column-gap: 2.4rem;
   row-gap: 1.2rem;
 
-
-
   &__portrait {
     grid-column: full-start / full-end;
     height: 70vh;
@@ -27,26 +25,26 @@
 
   &--portrait-viewport {
     display: none;
-      @media (orientation: portrait) {
-    display: grid;
-  }
+    @media (orientation: portrait) {
+      display: grid;
+    }
   }
   &--landscape-viewport {
     display: none;
-      @media (orientation: landscape) {
-    display: grid;
-  }
+    @media (orientation: landscape) {
+      display: grid;
+    }
   }
 
   @media (orientation: portrait) {
     height: min-content;
     overflow-y: auto;
     height: 100%;
-     
-      grid-template-rows: [header-top] min-content [header-bottom] min-content [content-middle] min-content [full-bottom];
-      grid-template-columns: [full-start] 1fr [modal-center] 1fr [full-end];
+
+    grid-template-rows: [header-top] min-content [header-bottom] min-content [content-middle] min-content [full-bottom];
+    grid-template-columns: [full-start] 1fr [modal-center] 1fr [full-end];
     @include respond(smallest) {
-     padding: 2.4rem;
+      padding: 2.4rem;
     }
   }
 
@@ -66,6 +64,7 @@
   &__image-container {
     grid-column: full-start / modal-center;
     grid-row: header-top / full-bottom;
+    position: relative;
 
     //Landscape Image
     &--alt {
@@ -126,10 +125,14 @@
     }
 
     &--landscape {
-      // max-height: 68vh;
-      // max-height: 60%;
-      // height: 55vh;
-      max-width: 50vw;
+      max-width: 40vw;
+
+      @include respond(large) {
+        max-width: 50vw;
+      }
+      @include respond(largest) {
+        max-width: 35vw;
+      }
 
       @media (orientation: portrait) {
         max-width: 100%;
@@ -150,6 +153,17 @@
   &__specific-info,
   &__map {
     margin-bottom: 2.4rem;
+  }
+
+  &__delete-btn {
+    background-color: $color-danger;
+    color: $color-white;
+    position: absolute;
+    bottom: 0;
+    right: 0;
+    padding: 1.2rem 2.4rem;
+    font-size: 1.8rem;
+    border-top-left-radius: $border-radius;
   }
 }
 

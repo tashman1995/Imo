@@ -55,7 +55,7 @@ const ProfileTop = ({
           <div className="profile-top__headings--socials">
             {website && (
               <a
-                href={`//${website}`}
+                href={`${website}`}
                 target="_blank"
                 rel="noopener noreferrer">
                 <i className="fas fa-globe fa-3x"></i>

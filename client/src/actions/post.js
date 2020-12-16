@@ -5,7 +5,6 @@ import {
   POST_ERROR,
   UPDATE_LIKES,
   DELETE_POST,
-  DELETE_POSTS,
   ADD_POST,
   GET_POST,
   GET_SEARCH_POSTS,
@@ -109,6 +108,9 @@ export const removeLike = (id) => async (dispatch) => {
 export const deletePost = (id) => async (dispatch) => {
   try {
     await axios.delete(`/api/posts/${id}`);
+    dispatch({
+      type: CLOSE_SHOW_POST_MODAL,
+    });
 
     dispatch({
       type: DELETE_POST,
@@ -124,31 +126,11 @@ export const deletePost = (id) => async (dispatch) => {
   }
 };
 
-// Delete All Posts
-export const deleteAllPosts = () => async (dispatch) => {
-   try {
-
-     await axios.delete(`/api/posts/all`);
-
-     dispatch({
-       type: DELETE_POSTS,
-     });
-
-     dispatch(setAlert("All Posts Removed", "success"));
-   } catch (err) {
-     dispatch({
-       type: POST_ERROR,
-       payload: { msg: err.response.statusText, status: err.response.status },
-     });
-   }
-}
-
 // Add post
 export const addPost = (formData) => async (dispatch) => {
   try {
-     
     const res = await axios.post("/api/posts", formData);
-   
+
     dispatch({
       type: ADD_POST,
       payload: res.data,
@@ -160,13 +142,13 @@ export const addPost = (formData) => async (dispatch) => {
 
     dispatch(setAlert("Post Created", "success"));
   } catch (err) {
-     const errors = err.response.data.errors;
+    const errors = err.response.data.errors;
 
-     if (errors) {
-       errors.forEach((error) =>
-         dispatch(setAlert(error.msg, "danger", error.param))
-       );
-     }
+    if (errors) {
+      errors.forEach((error) =>
+        dispatch(setAlert(error.msg, "danger", error.param))
+      );
+    }
     dispatch({
       type: POST_ERROR,
       payload: { msg: err.response.statusText, status: err.response.status },
@@ -252,11 +234,6 @@ export const openShowPostModal = (id) => async (dispatch) => {
     });
   }
 };
-// export const openShowPostModal = () => (dispatch) => {
-//   dispatch({
-//     type: OPEN_SHOW_POST_MODAL,
-//   });
-// };
 
 // Close add new post modal
 export const closeShowPostModal = () => (dispatch) => {
@@ -264,4 +241,3 @@ export const closeShowPostModal = () => (dispatch) => {
     type: CLOSE_SHOW_POST_MODAL,
   });
 };
-

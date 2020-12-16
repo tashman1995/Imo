@@ -1,7 +1,7 @@
 import React, { Fragment, useState } from "react";
 import { Link } from "react-router-dom";
 import PropTypes from "prop-types";
-import { useSpring, animated as a } from "react-spring";
+import { useSpring, useTransition, animated as a } from "react-spring";
 import ImageLoad from "../layout/ImageLoad";
 
 const ProfileItem = ({
@@ -13,6 +13,7 @@ const ProfileItem = ({
     website,
     social,
   },
+  profile,
 }) => {
   const [flipped, setFlip] = useState(false);
   const { transform, opacity } = useSpring({
@@ -21,8 +22,23 @@ const ProfileItem = ({
     config: { mass: 5, tension: 500, friction: 80 },
   });
 
-  return (
-    <div
+  const transitionConfig = {
+    from: { opacity: 0 },
+    enter: { opacity: 1 },
+    leave: { opacity: 0 },
+    config: {
+      tension: 450,
+    },
+  };
+
+  const element = useTransition(profile, null, transitionConfig);
+
+  return element.map(
+    ({ item, key, props }) => 
+    
+    <a.div
+      key={key}
+      style={props}
       onMouseEnter={() => setFlip(true)}
       onMouseLeave={() => setFlip(false)}
       className="profile-card__container">
@@ -144,7 +160,7 @@ const ProfileItem = ({
           </Fragment>
         )}
       </a.div>
-    </div>
+    </a.div>
   );
 };
 

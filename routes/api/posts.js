@@ -10,6 +10,9 @@ const geocoder = mbxGeocoding({ accessToken: mapBoxToken });
 const Post = require("../../models/Post");
 const User = require("../../models/Users");
 
+const users = require("../../client/src/utils/users");
+const commentsText = require("../../client/src/utils/comments");
+
 // @route POST api/posts
 // @desc Create a post
 // @access Private
@@ -58,7 +61,6 @@ router.post(
         }
       );
 
-
       // Geocoding
       const geoData = await geocoder
         .forwardGeocode({
@@ -68,10 +70,41 @@ router.post(
         .send();
 
       const location = geoData.body.features[0].geometry;
-      /////////////////////////////////////////////
-      // TO DO ADD RESPONSIVE IMAGE LOADING
-      /////////////////////////////////////////////
-     
+
+      // TEMPORARY COMMENT SUPPLEMENTATION
+      const asyncForEach = async (array, callback) => {
+        for (let index = 0; index < array.length; index++) {
+          await callback(array[index], index, array);
+        }
+      };
+
+      const comments = [];
+      const likes = [];
+
+      const start = async () => {
+        await asyncForEach(users, async (selectedUser) => {
+          if (selectedUser !== req.user.id && Math.random() > 0.65) {
+            const user = await User.findById(selectedUser).select("-password");
+            const commentText =
+              commentsText[Math.floor(Math.random() * commentsText.length)];
+            const newComment = {
+              text: commentText,
+              name: user.name,
+              avatar: user.avatar,
+              user: user.id,
+            };
+
+            comments.unshift(newComment);
+          }
+
+          if (selectedUser !== req.user.id && Math.random() > 0.15) {
+            likes.unshift({ user: selectedUser });
+          }
+        });
+      };
+
+      await start();
+
       const newPost = new Post({
         user: req.user.id,
         name: user.name,
@@ -84,6 +117,8 @@ router.post(
         focalLengthRange: req.body.focalLengthRange,
         locationName: req.body.location,
         location: location,
+        comments: comments,
+        likes: likes,
       });
 
       const post = await newPost.save();
@@ -141,7 +176,7 @@ router.get("/search/:term", async (req, res) => {
   try {
     if (req.params.term) {
       const regex = new RegExp(escapeRegex(req.params.term), "gi");
-      const posts = await Post.find({ text: regex }).sort({ date: -1 });
+      const posts = await Post.find({ title: regex }).sort({ date: -1 });
       res.json(posts);
     } else {
       const posts = await Post.find().sort({ date: -1 });
@@ -171,28 +206,6 @@ router.delete("/:id", auth, async (req, res) => {
     await post.remove();
 
     res.json({ msg: "Post Removed" });
-  } catch (err) {
-    // Checking Error type, if err.kind is ObjectId it meand an ID was present but it wasnt in the form expected
-    if (err.kind == "ObjectId") {
-      return res.status(400).json({ msg: "Post not found" });
-    }
-    console.error(err.message);
-    res.status(500).send("Server Error");
-  }
-});
-
-// @route DELETE api/posts/:id
-// @desc Delete All Posts by ID
-// @access Private
-router.delete("/",auth, async (req, res) => {
-   try {
-    const posts = await Post.find().sort({ date: -1 });
-
-    for (const post of posts) {
-      await post.remove();
-    }
-
-    res.json({ msg: "Posts Removed" });
   } catch (err) {
     // Checking Error type, if err.kind is ObjectId it meand an ID was present but it wasnt in the form expected
     if (err.kind == "ObjectId") {

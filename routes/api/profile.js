@@ -100,7 +100,9 @@ router.post(
     // Build profile object
     const profileFields = {};
     profileFields.user = req.user.id;
-    website ? (profileFields.website = website) : (profileFields.website = "");
+    website
+      ? (profileFields.website = website.replace(/(^\w+:|^)\/\//, ""))
+      : (profileFields.website = "");
     location
       ? (profileFields.location = location)
       : (profileFields.location = "");
@@ -121,12 +123,18 @@ router.post(
 
     // Build social object, have to initialise first to stop social.something is undefined error
     profileFields.social = {};
-    if (youtube) profileFields.social.youtube = youtube;
-    if (twitter) profileFields.social.twitter = twitter;
-    if (instagram) profileFields.social.instagram = instagram;
-    if (linkedin) profileFields.social.linkedin = linkedin;
-    if (facebook) profileFields.social.facebook = facebook;
-    if (behance) profileFields.social.behance = behance;
+    if (youtube)
+      profileFields.social.youtube = youtube.replace(/(^\w+:|^)\/\//, "");
+    if (twitter)
+      profileFields.social.twitter = twitter.replace(/(^\w+:|^)\/\//, "");
+    if (instagram)
+      profileFields.social.instagram = instagram.replace(/(^\w+:|^)\/\//, "");
+    if (linkedin)
+      profileFields.social.linkedin = linkedin.replace(/(^\w+:|^)\/\//, "");
+    if (facebook)
+      profileFields.social.facebook = facebook.replace(/(^\w+:|^)\/\//, "");
+    if (behance)
+      profileFields.social.behance = behance.replace(/(^\w+:|^)\/\//, "");
 
     try {
       if (uploadedAvatar !== "") {
@@ -166,6 +174,7 @@ router.get("/", async (req, res) => {
     res.status(500).send("Server Error");
   }
 });
+
 
 // @route GET api/profile/user/:user_id
 // @desc Get profile by user id
