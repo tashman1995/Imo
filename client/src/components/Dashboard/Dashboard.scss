@@ -71,6 +71,10 @@ $horizontal-padding: 4.8rem;
       padding: 2rem 2.4rem;
     }
 
+    &__link {
+      hyphens: auto;
+    }
+
     & tbody {
       & tr {
         &:nth-child(odd) {
@@ -133,6 +137,8 @@ $horizontal-padding: 4.8rem;
         }
       }
     }
+
+
   }
 
   &__profile-title {

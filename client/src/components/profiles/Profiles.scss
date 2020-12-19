@@ -32,10 +32,10 @@
 
   &__grid {
     grid-column: center-start / center-end;
-    margin: 2.4rem 0 ;
+    margin: 2.4rem 0;
     display: grid;
     grid-template-columns: repeat(auto-fit, minmax(30rem, 1fr));
-   
+
     grid-gap: 3.6rem;
   }
 
@@ -70,9 +70,16 @@
     height: 45rem;
     width: 100%;
 
+    @media (hover: none) {
+      height: 50rem;
+    }
+
     @include respond(smallest) {
       width: 80%;
       height: 49rem;
+      @media (hover: none) {
+        height: 52rem;
+      }
     }
   }
 

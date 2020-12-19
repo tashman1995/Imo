@@ -1,14 +1,21 @@
 import React, { Fragment, useState, useEffect, useRef } from "react";
 import "./styles.scss";
 import { isBrowser } from "react-device-detect";
+import { animated, useTransition } from "react-spring";
 
 const PopoutImage = ({ popoutImage }) => {
   const [mousePosition, setMousePosition] = useState({ x: 0, y: 0 });
+  const [show, setShow] = useState(false);
+
 
   const { x, y } = mousePosition;
   const setMousePositionFunc = (e) => {
     setMousePosition({ x: e.clientX, y: e.clientY });
   };
+
+  useEffect(() => {
+    popoutImage !== "" && setShow(true)
+  }, [popoutImage])
 
   // Mouse over event listeners
   useEffect(() => {
@@ -28,7 +35,7 @@ const PopoutImage = ({ popoutImage }) => {
   return (
     isBrowser && (
       <Fragment>
-        {popoutImage !== "" && (
+        {show && (
           <div className="popout-image">
             <img
               className="popout-image__element"

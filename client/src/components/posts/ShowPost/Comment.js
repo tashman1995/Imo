@@ -12,7 +12,7 @@ const Comment = ({
   return (
     <div
       className="discussion__comment comment">
-      <Link to={`/profile/`}>
+      <Link to={`/profile/${user}`}>
         <div className="comment__avatar">
           <img src={avatar} alt="" className="comment__avatar--image" />
         </div>

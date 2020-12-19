@@ -6,7 +6,6 @@ import ProfileItem from "./ProfileItem";
 import Navbar from "../layout/Navbar";
 import { getProfiles } from "../../actions/profile";
 import "./Profiles.scss";
-import isTouchDevice from "is-touch-device";
 
 const Profiles = ({ getProfiles, profile: { profiles, loading } }) => {
   useEffect(() => {

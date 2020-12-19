@@ -23,6 +23,7 @@ import {
   CLOSE_EDIT_PROFILE_MODAL,
   OPEN_EDIT_SOCIALMEDIA_MODAL,
   CLOSE_EDIT_SOCIALMEDIA_MODAL,
+  CLOSE_SHOW_POST_MODAL,
 } from "./types";
 
 // Get current users profile
@@ -66,6 +67,9 @@ export const getProfileById = (userId) => async (dispatch) => {
     dispatch({
       type: GET_PROFILE,
       payload: res.data,
+    });
+    dispatch({
+      type: CLOSE_SHOW_POST_MODAL,
     });
   } catch (err) {
     if (err.response.data.msg) {

@@ -135,7 +135,7 @@ const UserInfo = ({
                   rel="noopener noreferrer"
                   target="_blank"
                   href={`//${item.value}`}>
-                  {item.value}
+                  {item.value.length > 27 ? `${item.value.slice(0,27)}...` : item.value}
                 </a>
               </p>
             </li>
