@@ -1,7 +1,6 @@
 import React, { Fragment, useState, useEffect, useRef } from "react";
 import "./styles.scss";
 import { isBrowser } from "react-device-detect";
-import { animated, useTransition } from "react-spring";
 
 const PopoutImage = ({ popoutImage }) => {
   const [mousePosition, setMousePosition] = useState({ x: 0, y: 0 });
@@ -13,6 +12,7 @@ const PopoutImage = ({ popoutImage }) => {
     setMousePosition({ x: e.clientX, y: e.clientY });
   };
 
+  // Check if mouse is over image
   useEffect(() => {
     popoutImage !== "" && setShow(true)
   }, [popoutImage])
@@ -23,6 +23,16 @@ const PopoutImage = ({ popoutImage }) => {
 
     return () => window.removeEventListener("mousemove", setMousePositionFunc);
   }, []);
+
+  // Scroll event listeners
+  useEffect(() => {
+    const onScroll = () => {
+      setShow(false)
+    }
+    window.addEventListener("scroll", onScroll);
+  
+    return () => window.removeEventListener("scroll", onScroll);
+  }, []);
   // Image size measuring
   const popoutImageRef = useRef();
   const popoutImageRefCurrent = popoutImageRef.current;
@@ -31,6 +41,7 @@ const PopoutImage = ({ popoutImage }) => {
     ? popoutImageRefCurrent.clientHeight
     : 458;
   const width = popoutImageRefCurrent ? popoutImageRefCurrent.clientWidth : 458;
+
 
   return (
     isBrowser && (
