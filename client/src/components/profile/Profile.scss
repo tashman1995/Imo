@@ -94,13 +94,13 @@
       align-items: center;
 
       & > a {
-        opacity: 0.7;
+        opacity: .7;
         &:not(:first-child) {
           margin-left: 2.4rem;
         }
 
         &:hover {
-          opacity: 100%;
+          opacity: 1;
           animation: scaleOver2 forwards 0.2s ease-out;
         }
       }
@@ -178,7 +178,7 @@ $horizontal-padding: 4.8rem;
     & th {
       text-align: left;
       padding: 2rem 1rem;
-      opacity: 50%;
+      opacity: .5;
       border-bottom: 1px solid rgba($color-black, 0.045);
     }
 
