@@ -3,7 +3,6 @@ import SlideToggle from "../../layout/SlideToggle";
 import Comment from "./Comment";
 import { useTransition, animated } from "react-spring";
 
-
 const Discussion = ({
   user,
   addLike,
@@ -30,16 +29,17 @@ const Discussion = ({
   const commentsRef = useRef(null);
 
   useEffect(() => {
-    setUserHasLiked(likes.some((like) => like.user === auth.user._id));
-  }, [likes, auth.user._id]);
+    auth.user &&
+      setUserHasLiked(likes.some((like) => like.user === auth.user._id));
+  }, [likes, auth.user]);
 
   const transitions = useTransition(comments, (comment) => comment._id, {
-    from: { opacity: 0, transform: "translate3d(20px,0,0)",  },
-    enter: { opacity: 1, transform: "translate3d(0px,0,0)",  }, 
-    leave: { opacity: 0, transform: "translate3d(20px,0,0)", }, 
+    from: { opacity: 0, transform: "translate3d(20px,0,0)" },
+    enter: { opacity: 1, transform: "translate3d(0px,0,0)" },
+    leave: { opacity: 0, transform: "translate3d(20px,0,0)" },
     config: {
-      tension: 400
-    }
+      tension: 400,
+    },
   });
 
   return (
@@ -62,73 +62,71 @@ const Discussion = ({
           <p className="discussion__amounts--comments">No comments yet</p>
         )}
       </div>
-      <div className="discussion__buttons">
-        {userHasLiked ? (
-          <button
-            className="discussion__button"
-            onClick={() => {
-              removeLike(id);
-            }}>
-            <p className="paragraph">
-              <i className="far fa-heart discussion__button--icon"></i> Unlike
-            </p>
-          </button>
-        ) : (
-          <button
-            className="discussion__button"
-            onClick={() => {
-              addLike(id);
-            }}>
-            <p className="paragraph">
-              <i className="far fa-heart discussion__button--icon"></i> Like
-            </p>
-          </button>
-        )}
-
-        <button
-          className="discussion__button"
-          onClick={(e) => {
-            !newCommentsVisible && e.currentTarget.blur();
-            setNewCommentsVisible(!newCommentsVisible);
-          }}>
-          <p className="paragraph">
-            <i className="far fa-comment-alt discussion__button--icon"></i>{" "}
-            Comment
-          </p>
-        </button>
-        {/* <button className="discussion__button">
-          <p className="paragraph">
-            <i className="far fa-share-square discussion__button--icon"></i>{" "}
-            Share
-          </p>
-        </button> */}
-      </div>
-      <SlideToggle isVisible={newCommentsVisible}>
-        <div className="discussion__add-comment">
-          <div className="discussion__add-comment--avatar">
-            <img src={auth.user.avatar} alt="" />
-          </div>
-          <form
-            className="discussion__add-comment--form"
-            onSubmit={(e) => {
-              e.preventDefault();
-              addComment(id, { text });
-              setText("");
-              setCommentsVisible(true);
-            }}>
-            <input
-              ref={addNewCommentInput}
-              className="discussion__text-input"
-              placeholder="Write a comment..."
-              value={text}
-              onChange={(e) => setText(e.target.value)}
-              type="text"
-            />
-            <button type="submit" className="discussion__add-comment--send">
-              <i className="far fa-paper-plane fa-2x discussion__add-comment--icon"></i>
+      {auth.isAuthenticated && (
+        <div className="discussion__buttons">
+          {userHasLiked ? (
+            <button
+              className="discussion__button"
+              onClick={() => {
+                removeLike(id);
+              }}>
+              <p className="paragraph">
+                <i className="far fa-heart discussion__button--icon"></i> Unlike
+              </p>
             </button>
-          </form>
+          ) : (
+            <button
+              className="discussion__button"
+              onClick={() => {
+                addLike(id);
+              }}>
+              <p className="paragraph">
+                <i className="far fa-heart discussion__button--icon"></i> Like
+              </p>
+            </button>
+          )}
+
+          <button
+            className="discussion__button"
+            onClick={(e) => {
+              !newCommentsVisible && e.currentTarget.blur();
+              setNewCommentsVisible(!newCommentsVisible);
+            }}>
+            <p className="paragraph">
+              <i className="far fa-comment-alt discussion__button--icon"></i>{" "}
+              Comment
+            </p>
+          </button>
         </div>
+      )}
+      <SlideToggle isVisible={newCommentsVisible}>
+        {auth.isAuthenticated && (
+          <div className="discussion__add-comment">
+            <div className="discussion__add-comment--avatar">
+              <img src={auth.user.avatar} alt="" />
+            </div>
+            <form
+              className="discussion__add-comment--form"
+              onSubmit={(e) => {
+                e.preventDefault();
+                addComment(id, { text });
+                setText("");
+                setCommentsVisible(true);
+              }}>
+              <input
+                ref={addNewCommentInput}
+                className="discussion__text-input"
+                placeholder="Write a comment..."
+                value={text}
+                onChange={(e) => setText(e.target.value)}
+                type="text"
+              />
+              <button type="submit" className="discussion__add-comment--send">
+                <i className="far fa-paper-plane fa-2x discussion__add-comment--icon"></i>
+              </button>
+            </form>
+          </div>
+        )}
       </SlideToggle>
 
       <div className="discussion__comments">
@@ -139,7 +137,7 @@ const Discussion = ({
                 <Comment
                   // key={comment._id}
                   comment={item}
-                  currentUserId={auth.user._id}
+                  currentUserId={auth.user && auth.user._id}
                   commentsVisible={commentsVisible}
                   deleteComment={deleteComment}
                   postId={id}

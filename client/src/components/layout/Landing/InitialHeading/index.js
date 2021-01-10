@@ -3,7 +3,7 @@ import { animated } from "react-spring";
 
 import "./InitialHeading.scss";
 
-const InitialHeading = ({letsExpAnim, fadeOut, subtitleAnim}) => {
+const InitialHeading = ({ letsExpAnim, fadeOut, subtitleAnim }) => {
   return (
     <Fragment>
       <div className="initial-heading">
@@ -13,22 +13,24 @@ const InitialHeading = ({letsExpAnim, fadeOut, subtitleAnim}) => {
               <animated.div
                 className="initial-heading__title--1"
                 key={key}
-                style={props}
-              >
+                style={props}>
                 {item.text}
               </animated.div>
             ))}
           </animated.h1>
         </div>
-        <animated.div
-          style={subtitleAnim}
-          className="initial-heading__subtitle--container u-center-text"
-        >
-          <animated.h2 style={fadeOut} className=" initial-heading__subtitle">
-            Share your favourite photography locations
-            with like minded adventurers
-          </animated.h2>
-   
+
+        <animated.div className="initial-heading__subtitle--container u-center-text">
+          {/* <animated.h2 style={fadeOut} className=" initial-heading__subtitle"> */}
+          {subtitleAnim.map(({ item, props, key }) => (
+            <animated.div 
+            className="initial-heading__subtitle"
+             key={key} 
+             style={props}>
+              {item.text}
+            </animated.div>
+          ))}
+          {/* </animated.h2> */}
         </animated.div>
       </div>
     </Fragment>

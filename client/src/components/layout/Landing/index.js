@@ -27,19 +27,22 @@ const Landing = ({ isAuthenticated }) => {
     {
       from: { transform: "translateY(30rem)" },
       enter: { transform: "translateY(0)" },
-      trail: 1000,
+      trail: 500,
       ref: initialHeadingRef,
     }
   );
 
   // LETS EXPLORE SUBTITLE ANIMATION
+  const [subtitles] = useState([
+    { key: 1, text: "Share your favourite photography locations with like minded adventurers" }
+  ]);
   const subtitleAnimRef = useRef();
-  const subtitleAnim = useSpring({
+  const subtitleAnim = useTransition(subtitles, subtitle => subtitle.key,{
     from: {
       opacity: 0,
       transform: "translateY(15rem)",
     },
-    to: {
+    enter: {
       opacity: 1,
       transform: "translateY(0rem)",
     },
@@ -75,16 +78,21 @@ const Landing = ({ isAuthenticated }) => {
     }
   );
 
+  const [backdropImage] = useState([
+    { key: 1, src: "./imgs/yosemite-extra-large.jpg" },
+  ]);
+
   // scale
   const zoomRef = useRef();
-  const zoom = useSpring({
+  const zoom = useTransition(
+    backdropImage, backdropImage => backdropImage.key, {
     from: {
       transform: "scale(2)",
     },
-    to: {
+    enter: {
       transform: "scale(2.6)",
     },
-    reverse: phase === "imo" ? true : false,
+    // reverse: phase === "imo" ? true : false,
 
     config: {
       delay: 1200,
@@ -97,7 +105,8 @@ const Landing = ({ isAuthenticated }) => {
 
   useChain(
     [initialHeadingRef, subtitleAnimRef, backdropSliderRef, zoomRef],
-    [0, 1.5, 2.5, 2.5, 4]
+    [1, 2, 3,3]
+   
   );
 
   const imoZoomOutRef = useRef();
@@ -228,7 +237,7 @@ const Landing = ({ isAuthenticated }) => {
   return (
     <Fragment>
       <Navbar animation={navBar1} stage="1" />
-      <Navbar animation={navBar2} stage="2" />
+      {/* <Navbar animation={navBar2} stage="2" /> */}
       <div className="Landing">
         {phase === "imo" && (
           <PageContent
@@ -258,29 +267,3 @@ const mapStateToProps = (state) => ({
 
 export default connect(mapStateToProps)(Landing);
 
-// import React from "react";
-// import { Link } from "react-router-dom";
-
-// const Landing = () => {
-//   return (
-//     <section className="landing">
-//       <div className="dark-overlay">
-//         <div className="landing-inner">
-//           <h1 className="x-large">Developer Connector</h1>
-//           <p className="lead">
-//             Create a developer profile/portfolio, share posts and get help from
-//             other developers
-//           </p>
-//           <div className="buttons">
-//             <Link to="/register" className="btn btn-primary">
-//               Sign Up
-//             </Link>
-//             <Link to="/login" className="btn btn-light">Login</Link>
-//           </div>
-//         </div>
-//       </div>
-//     </section>
-//   );
-// };
-
-// export default Landing;

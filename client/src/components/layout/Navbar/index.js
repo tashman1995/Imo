@@ -138,10 +138,10 @@ const Navbar = ({
   const menuElement = useRef();
 
   return (
-    <div className="nav" ref={menuElement}>
+    <div  ref={menuElement}>
       <animated.div
         style={animation}
-        className={stage === "2" ? "nav nav--dark" : "nav"}
+        className={stage === "2" ? "nav" : "nav nav--light"}
         id="nav">
         <Link to="/" className="nav__logo-container">
           <img src="/imgs/logo.svg" alt="" className="nav__logo" />

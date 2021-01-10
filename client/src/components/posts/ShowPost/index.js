@@ -231,7 +231,7 @@ const ShowPost = ({
                       </Marker>
                     </ReactMapGl>
                   </div>
-                  {auth.isAuthenticated && (
+                  
                     <Discussion
                       id={_id}
                       addLike={addLike}
@@ -243,7 +243,7 @@ const ShowPost = ({
                       auth={auth}
                       deleteComment={deleteComment}
                     />
-                  )}
+                  
                 </div>
               </Scrollbars>
             </div>
