@@ -68,7 +68,7 @@ const Posts = ({
   return (
     <Fragment>
       <PopoutImage popoutImage={popoutImage} />
-      <Navbar stage="2" />
+      <Navbar />
       <Fragment>
         <div className="posts u-grid">
           <PostsHeader

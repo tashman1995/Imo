@@ -38,7 +38,7 @@ const Login = ({ clearAlerts, login, isAuthenticated }) => {
 
   return (
     <Fragment>
-      <Navbar stage="2" />
+      <Navbar  />
       <div className="login u-grid">
         <div className="login__left">
           <div className="login__form">

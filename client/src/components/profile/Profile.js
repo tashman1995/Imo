@@ -48,7 +48,7 @@ const Profile = ({
         <Spinner />
       ) : (
         <Fragment>
-          <Navbar stage="2" />
+          <Navbar />
           {notFound ? (
             <div className="u-grid profile">
               <div className="profile__not-found">

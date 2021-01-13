@@ -25,7 +25,7 @@ const Profiles = ({ getProfiles, profile: { profiles, loading } }) => {
 
   return (
     <Fragment>
-      <Navbar stage="2" />
+      <Navbar />
       <div className="u-grid profiles">
         <div className="profiles__measure" ref={nodeRef}></div>
         {loading ? (

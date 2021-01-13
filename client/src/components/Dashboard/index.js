@@ -32,7 +32,7 @@ const Dashboard = ({
 
   return (
     <Fragment>
-      <Navbar stage="2" />
+      <Navbar  />
       <Fragment>
         {/*  */}
         {/* PAGE CONTENT */}

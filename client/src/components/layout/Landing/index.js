@@ -34,10 +34,14 @@ const Landing = ({ isAuthenticated }) => {
 
   // LETS EXPLORE SUBTITLE ANIMATION
   const [subtitles] = useState([
-    { key: 1, text: "Share your favourite photography locations with like minded adventurers" }
+    {
+      key: 1,
+      text:
+        "Share your favourite photography locations with like minded adventurers",
+    },
   ]);
   const subtitleAnimRef = useRef();
-  const subtitleAnim = useTransition(subtitles, subtitle => subtitle.key,{
+  const subtitleAnim = useTransition(subtitles, (subtitle) => subtitle.key, {
     from: {
       opacity: 0,
       transform: "translateY(15rem)",
@@ -47,6 +51,34 @@ const Landing = ({ isAuthenticated }) => {
       transform: "translateY(0rem)",
     },
     ref: subtitleAnimRef,
+  });
+
+  // Login Sign Up Btn Anim
+  const [buttons] = useState([
+    {
+      key: 1,
+      text: "Login",
+      link: "/login"
+    },
+    {
+      key: 2,
+      text: "Sign Up",
+      link: "/register"
+    },
+  ]);
+
+  const buttonsAnimRef = useRef();
+  const buttonsAnim = useTransition(buttons, (button) => button.key, {
+    from: {
+      opacity: 0,
+   
+    },
+    enter: {
+      opacity: 1,
+   
+    },
+
+    ref: buttonsAnimRef,
   });
 
   // Backdrop slider anim
@@ -62,8 +94,7 @@ const Landing = ({ isAuthenticated }) => {
     backdropSliders,
     (backdropSlider) => backdropSlider.key,
     {
-      // from: { transform: "translateY(0rem)" },
-      // enter: { transform: "translateY(100vh)" },
+
       from: { height: "100vh" },
       enter: { height: "0" },
       trail: 300,
@@ -85,28 +116,36 @@ const Landing = ({ isAuthenticated }) => {
   // scale
   const zoomRef = useRef();
   const zoom = useTransition(
-    backdropImage, backdropImage => backdropImage.key, {
-    from: {
-      transform: "scale(2)",
-    },
-    enter: {
-      transform: "scale(2.6)",
-    },
-    // reverse: phase === "imo" ? true : false,
+    backdropImage,
+    (backdropImage) => backdropImage.key,
+    {
+      from: {
+        transform: "scale(2)",
+      },
+      enter: {
+        transform: "scale(2.6)",
+      },
 
-    config: {
-      delay: 1200,
-      duration: 2000,
-      easing: easings.easeCubicOut,
-    },
 
-    ref: zoomRef,
-  });
+      config: {
+        delay: 1200,
+        duration: 2000,
+        easing: easings.easeCubicOut,
+      },
+
+      ref: zoomRef,
+    }
+  );
 
   useChain(
-    [initialHeadingRef, subtitleAnimRef, backdropSliderRef, zoomRef],
-    [1, 2, 3,3]
-   
+    [
+      initialHeadingRef,
+      subtitleAnimRef,
+      buttonsAnimRef,
+      backdropSliderRef,
+      zoomRef,
+    ],
+    [1, 2, 2.5, 3.5, 3.5]
   );
 
   const imoZoomOutRef = useRef();
@@ -117,12 +156,7 @@ const Landing = ({ isAuthenticated }) => {
       await next({ transform: "scale(1) translate3D(0,10rem,0)", opacity: 1 });
       await next({ transform: "scale(1) translate3D(0,0,0)", opacity: 1 });
     },
-    // config: {
-    //   mass: 50,
-    //   tension: 40,
-    //   friction: 100,
-    //   clamp: true,
-    // },
+
     ref: imoZoomOutRef,
   });
 
@@ -176,35 +210,7 @@ const Landing = ({ isAuthenticated }) => {
     },
   });
 
-  const navBar1Ref = useRef();
-  const navBar1 = useSpring({
-    from: {
-      opacity: 1,
-    },
-    to: {
-      opacity: 0,
-    },
-    config: {
-      duration: 300,
-    },
-
-    ref: navBar1Ref,
-  });
-
-  const navBar2Ref = useRef();
-  const navBar2 = useSpring({
-    from: {
-      opacity: 0,
-    },
-    to: {
-      opacity: 1,
-    },
-    config: {
-      duration: 300,
-    },
-
-    ref: navBar2Ref,
-  });
+ 
 
   useChain(
     phase === "imo"
@@ -213,7 +219,6 @@ const Landing = ({ isAuthenticated }) => {
           fadeOutRef,
           imoZoomOutRef,
           fadeInAndUpRef,
-          navBar2Ref,
           fadeInAndUpRef2,
           imageGridAnimRef,
         ]
@@ -236,8 +241,7 @@ const Landing = ({ isAuthenticated }) => {
 
   return (
     <Fragment>
-      <Navbar animation={navBar1} stage="1" />
-      {/* <Navbar animation={navBar2} stage="2" /> */}
+      <Navbar light={true} />
       <div className="Landing">
         {phase === "imo" && (
           <PageContent
@@ -250,6 +254,7 @@ const Landing = ({ isAuthenticated }) => {
         <InitialHeading
           letsExpAnim={initialHeading}
           subtitleAnim={subtitleAnim}
+          buttonsAnim={buttonsAnim}
           fadeOut={fadeOut}
         />
         <Backdrop backdropAnim={backdrop} zoomAnim={zoom} />
@@ -266,4 +271,3 @@ const mapStateToProps = (state) => ({
 });
 
 export default connect(mapStateToProps)(Landing);
-

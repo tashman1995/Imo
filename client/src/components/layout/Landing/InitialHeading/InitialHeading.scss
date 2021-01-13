@@ -21,8 +21,9 @@
     @include respond(small) {
       font-size: $font-size-large;
     }
-    @include respond(smaller) {
+    @include respond(smallest) {
       text-align: center;
+      padding: 0 6.8rem;
     }
 
     &--1 {
@@ -30,7 +31,7 @@
 
       &:last-of-type {
         margin-left: 4rem;
-        @include respond(smaller) {
+        @include respond(smallest) {
           margin-left: 0;
         }
       }
@@ -59,6 +60,18 @@
 
     @include respond(smaller) {
       width: 80vw;
+    }
+  }
+
+  &__buttons {
+    display: grid;
+    grid-gap: 3.6rem;
+    grid-template-columns: 1fr 1fr;
+
+    @include respond(smallest) {
+      grid-gap: 2.4rem;
+      grid-template-columns: 1fr;
+      grid-template-rows: min-content min-content;
     }
   }
 }

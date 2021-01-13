@@ -63,7 +63,7 @@ const Posts = ({ getPosts, openShowPostModal, auth, post: { posts } }) => {
   return (
     <Fragment>
       <PopoutImage popoutImage={popoutImage} />
-      <Navbar stage="2" />
+      <Navbar  />
       <Fragment>
         <div className="posts u-grid">
           <PostsHeader

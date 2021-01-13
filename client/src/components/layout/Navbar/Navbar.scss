@@ -39,12 +39,11 @@
     box-shadow: 0px 0px 0px 0px rgba(0, 0, 0, 0.1);
 
     & .nav__link {
-      transition: all .2s ease-out;
+      transition: all 0.2s ease-out;
       border-radius: $border-radius;
 
       &:hover {
-        
-        transform: scale(1.1) translateY(-.5px);
+        transform: scale(1.1) translateY(-0.5px);
       }
     }
   }
@@ -102,6 +101,10 @@
     @include center;
     &:not(:first-child) {
       margin-left: 2.8rem;
+
+      @include respond(normal-small) {
+        margin-left: 0rem;
+      }
     }
     &:first-child {
       margin-left: auto;
@@ -150,6 +153,12 @@
   cursor: pointer;
 
   transition: all 0.2s ease-out;
+
+  &--light {
+    & span {
+      background: $color-white !important;
+    }
+  }
 
   &:hover,
   &:focus {
@@ -233,10 +242,13 @@
   width: 100%;
   background-color: $color-white;
   position: fixed;
-  // height: 24rem;
   top: 0;
   margin-top: 7rem;
   z-index: 9999;
+
+  &--light {
+    background-color: transparent;
+  }
   @include respond(smallest) {
     display: block;
   }
@@ -250,18 +262,20 @@
   }
 
   &__link {
-    padding: 1.2rem;
-    font-size: $font-size-small;
-    background-color: $color-primary-lightest;
-    border-radius: $border-radius;
-    transition: all 0.2s;
-
+    display: flex;
     &:not(:last-child) {
       margin-bottom: 1.2rem;
     }
   }
 
   &__link-text {
+    padding: 1.2rem;
+    font-size: $font-size-small;
+    background-color: $color-primary-lightest;
+    border-radius: $border-radius;
+    transition: all 0.2s;
     color: $color-black;
+    font-size: 2rem;
+    width: 100%;
   }
 }

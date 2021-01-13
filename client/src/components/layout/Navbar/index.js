@@ -9,7 +9,7 @@ import "./Navbar.scss";
 
 const Navbar = ({
   animation,
-  stage,
+  light,
   auth: { isAuthenticated, loading },
   logout,
   noLinks,
@@ -21,7 +21,7 @@ const Navbar = ({
     <ul className="nav__links">
       <li className="nav__link">
         <Link className="nav__link-text" to="/posts">
-          Browse
+          Posts
         </Link>
       </li>
       <li className="nav__link">
@@ -42,10 +42,10 @@ const Navbar = ({
     </ul>
   );
   const authLinksMobile = (
-    <ul className="mobile-nav__links">
+    <ul className={`mobile-nav__links `}>
       <li className="mobile-nav__link">
         <Link className="mobile-nav__link-text" to="/posts">
-          Browse
+          Posts
         </Link>
       </li>
       <li className="mobile-nav__link">
@@ -70,7 +70,7 @@ const Navbar = ({
     <ul className="nav__links">
       <li className="nav__link">
         <Link to="/posts" className="nav__link-text ">
-          Browse
+          Posts
         </Link>
       </li>
       <li className="nav__link">
@@ -94,7 +94,7 @@ const Navbar = ({
     <ul className="mobile-nav__links">
       <li className="mobile-nav__link">
         <Link to="/posts" className="mobile-nav__link-text ">
-          Browse
+          Posts
         </Link>
       </li>
       <li className="mobile-nav__link">
@@ -138,11 +138,8 @@ const Navbar = ({
   const menuElement = useRef();
 
   return (
-    <div  ref={menuElement}>
-      <animated.div
-        style={animation}
-        className={stage === "2" ? "nav" : "nav nav--light"}
-        id="nav">
+    <div ref={menuElement}>
+      <animated.div style={animation} className={`nav ${light && "nav--light"}`} id="nav">
         <Link to="/" className="nav__logo-container">
           <img src="/imgs/logo.svg" alt="" className="nav__logo" />
         </Link>
@@ -156,7 +153,7 @@ const Navbar = ({
                   <div className="nav-icon__container">
                     <button
                       onClick={() => setNavOpen(!navOpen)}
-                      className={`nav-icon ${navOpen ? "open" : ""}`}>
+                      className={`nav-icon ${navOpen ? "open" : ""} ${light && 'nav-icon--light'}`}>
                       <span></span>
                       <span></span>
                       <span></span>
@@ -168,7 +165,7 @@ const Navbar = ({
         </nav>
       </animated.div>
 
-      <nav className={`mobile-nav `}>
+      <nav className={`mobile-nav ${light && "mobile-nav--light"}`}>
         <SlideToggle isVisible={navOpen}>
           {isAuthenticated ? authLinksMobile : guestLinksMobile}
         </SlideToggle>
