@@ -58,12 +58,12 @@ const Landing = ({ isAuthenticated }) => {
     {
       key: 1,
       text: "Login",
-      link: "/login"
+      link: "/login",
     },
     {
       key: 2,
       text: "Sign Up",
-      link: "/register"
+      link: "/register",
     },
   ]);
 
@@ -71,11 +71,9 @@ const Landing = ({ isAuthenticated }) => {
   const buttonsAnim = useTransition(buttons, (button) => button.key, {
     from: {
       opacity: 0,
-   
     },
     enter: {
       opacity: 1,
-   
     },
 
     ref: buttonsAnimRef,
@@ -94,7 +92,6 @@ const Landing = ({ isAuthenticated }) => {
     backdropSliders,
     (backdropSlider) => backdropSlider.key,
     {
-
       from: { height: "100vh" },
       enter: { height: "0" },
       trail: 300,
@@ -125,7 +122,6 @@ const Landing = ({ isAuthenticated }) => {
       enter: {
         transform: "scale(2.6)",
       },
-
 
       config: {
         delay: 1200,
@@ -210,12 +206,9 @@ const Landing = ({ isAuthenticated }) => {
     },
   });
 
- 
-
   useChain(
     phase === "imo"
       ? [
-          navBar1Ref,
           fadeOutRef,
           imoZoomOutRef,
           fadeInAndUpRef,
