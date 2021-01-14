@@ -1,4 +1,4 @@
-import React, {Fragment} from "react";
+import React, { Fragment } from "react";
 import Moment from "react-moment";
 import ProfileTable from "./ProfileTable";
 
@@ -20,20 +20,20 @@ const ProfileExperience = ({ profile: { experience } }) => {
             <div className="profile-table__from-date">
               <p className="paragraph paragraph--bold">From:</p>
               <p className="paragraph ">
-                <Moment format="YYYY/MM">{exp.from}</Moment>
+                <Moment format="MM/YYYY">{exp.from}</Moment>
               </p>
             </div>
             <div className="profile-table__mobile">
               <p className="paragraph">
                 <span className="paragraph--bold">From:&nbsp;</span>{" "}
-                <Moment format="YYYY/MM">{exp.from}</Moment>
+                <Moment format="MM/YYYY">{exp.from}</Moment>
               </p>
               <p className="paragraph">
                 <span className="paragraph--bold">To:&nbsp;</span>{" "}
                 {exp.to === null ? (
                   " Now"
                 ) : (
-                  <Moment format="YYYY/MM">{exp.to}</Moment>
+                  <Moment format="MM/YYYY">{exp.to}</Moment>
                 )}
               </p>
             </div>
@@ -44,7 +44,7 @@ const ProfileExperience = ({ profile: { experience } }) => {
               {exp.to === null ? (
                 " Now"
               ) : (
-                <Moment format="YYYY/MM">{exp.to}</Moment>
+                <Moment format="MM/YYYY">{exp.to}</Moment>
               )}
             </p>
           </td>

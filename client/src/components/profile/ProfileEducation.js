@@ -18,20 +18,20 @@ const ProfileEducation = ({ profile: { education } }) => {
             <div className="profile-table__from-date">
               <p className="paragraph paragraph--bold">From:</p>
               <p className="paragraph ">
-                <Moment format="YYYY/MM">{exp.from}</Moment>
+                <Moment format="MM/YYY">{exp.from}</Moment>
               </p>
             </div>
             <div className="profile-table__mobile">
               <p className="paragraph">
                 <span className="paragraph--bold">From:&nbsp;</span>{" "}
-                <Moment format="YYYY/MM">{exp.from}</Moment>
+                <Moment format="MM/YYYY">{exp.from}</Moment>
               </p>
               <p className="paragraph">
                 <span className="paragraph--bold">To:&nbsp;</span>{" "}
                 {exp.to === null ? (
                   " Now"
                 ) : (
-                  <Moment format="YYYY/MM">{exp.to}</Moment>
+                  <Moment format="MM/YYYY">{exp.to}</Moment>
                 )}
               </p>
             </div>
@@ -42,7 +42,7 @@ const ProfileEducation = ({ profile: { education } }) => {
               {exp.to === null ? (
                 " Now"
               ) : (
-                <Moment format="YYYY/MM">{exp.to}</Moment>
+                <Moment format="MM/YYYY">{exp.to}</Moment>
               )}
             </p>
           </td>
